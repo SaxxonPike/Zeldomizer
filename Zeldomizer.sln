@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeldomizer", "Zeldomizer\Zeldomizer.csproj", "{30395D74-57C4-4188-8FCC-212ED843A983}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeldomizer.Test", "Zeldomizer.Test\Zeldomizer.Test.csproj", "{D6031DF4-A4FF-4508-9AA5-55D0C43ABF26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{30395D74-57C4-4188-8FCC-212ED843A983}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30395D74-57C4-4188-8FCC-212ED843A983}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30395D74-57C4-4188-8FCC-212ED843A983}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6031DF4-A4FF-4508-9AA5-55D0C43ABF26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6031DF4-A4FF-4508-9AA5-55D0C43ABF26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6031DF4-A4FF-4508-9AA5-55D0C43ABF26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6031DF4-A4FF-4508-9AA5-55D0C43ABF26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
