@@ -32,7 +32,7 @@ namespace Zeldomizer.Metal
                 input = data;
             else
                 throw new Exception("Rom is not 128k in size, headered or unheadered.");
-            Array.Copy(input, data, RomSize);
+            Array.Copy(input, _data, RomSize);
         }
 
         public byte this[int index]

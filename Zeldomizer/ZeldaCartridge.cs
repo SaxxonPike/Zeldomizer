@@ -10,13 +10,20 @@ namespace Zeldomizer
 {
     public class ZeldaCartridge
     {
-        public ZeldaCartridge(IRom source, IStringFormatter stringFormatter, IStringConverter stringConverter)
+        public ZeldaCartridge(IRom source)
         {
+            var conversionTable = new ConversionTable();
+            var speechConverter = new SpeechStringConverter(conversionTable);
+            var textConverter = new TextStringConverter(conversionTable);
+            var speechFormatter = new StringFormatter();
+
             MusicPointers = new MusicPointers(source);
-            CharacterText = new CharacterText(source, stringFormatter, stringConverter);
+            CharacterText = new CharacterText(source, speechFormatter, speechConverter);
+            EndingText = new EndingText(source, speechConverter, textConverter);
         }
 
         public CharacterText CharacterText { get; }
         public MusicPointers MusicPointers { get; }
+        public EndingText EndingText { get; }
     }
 }

@@ -44,14 +44,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engine\CharacterText.cs" />
+    <Compile Include="Engine\EndingText.cs" />
+    <Compile Include="Engine\MenuText.cs" />
+    <Compile Include="Metal\ConversionTable.cs" />
+    <Compile Include="Metal\FixedStringData.cs" />
+    <Compile Include="Metal\IConversionTable.cs" />
     <Compile Include="Metal\IRom.cs" />
     <Compile Include="Engine\MusicPointers.cs" />
+    <Compile Include="Metal\TextStringConverter.cs" />
+    <Compile Include="Metal\NullStringFormatter.cs" />
     <Compile Include="Metal\Rom.cs" />
     <Compile Include="Metal\ByteList.cs" />
     <Compile Include="Metal\FixedList.cs" />
     <Compile Include="Metal\IStringConverter.cs" />
     <Compile Include="Metal\IStringFormatter.cs" />
-    <Compile Include="Metal\StringConverter.cs" />
+    <Compile Include="Metal\SpeechStringConverter.cs" />
+    <Compile Include="Metal\StringData.cs" />
     <Compile Include="Metal\StringFormatter.cs" />
     <Compile Include="Metal\StringList.cs" />
     <Compile Include="Metal\WordList.cs" />

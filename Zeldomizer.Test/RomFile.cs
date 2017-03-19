@@ -4,6 +4,9 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer
 {
+    /// <summary>
+    /// Helper class for getting the ROM out of the test resources.
+    /// </summary>
     public static class RomFile
     {
         /// <summary>

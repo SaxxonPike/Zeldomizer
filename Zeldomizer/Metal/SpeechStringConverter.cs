@@ -5,63 +5,28 @@ using System.Text;
 
 namespace Zeldomizer.Metal
 {
-    public class StringConverter : IStringConverter
+    public class SpeechStringConverter : IStringConverter
     {
-        private static readonly Dictionary<int, char> DecodeTable = new Dictionary<int, char>
+        private readonly IConversionTable _conversionTable;
+
+        public SpeechStringConverter(IConversionTable conversionTable)
         {
-            { 0x00, '0' },
-            { 0x01, '1' },
-            { 0x02, '2' },
-            { 0x03, '3' },
-            { 0x04, '4' },
-            { 0x05, '5' },
-            { 0x06, '6' },
-            { 0x07, '7' },
-            { 0x08, '8' },
-            { 0x09, '9' },
-            { 0x0A, 'A' },
-            { 0x0B, 'B' },
-            { 0x0C, 'C' },
-            { 0x0D, 'D' },
-            { 0x0E, 'E' },
-            { 0x0F, 'F' },
-            { 0x10, 'G' },
-            { 0x11, 'H' },
-            { 0x12, 'I' },
-            { 0x13, 'J' },
-            { 0x14, 'K' },
-            { 0x15, 'L' },
-            { 0x16, 'M' },
-            { 0x17, 'N' },
-            { 0x18, 'O' },
-            { 0x19, 'P' },
-            { 0x1A, 'Q' },
-            { 0x1B, 'R' },
-            { 0x1C, 'S' },
-            { 0x1D, 'T' },
-            { 0x1E, 'U' },
-            { 0x1F, 'V' },
-            { 0x20, 'W' },
-            { 0x21, 'X' },
-            { 0x22, 'Y' },
-            { 0x23, 'Z' },
-            { 0x24, ' ' },
-            { 0x28, ',' },
-            { 0x29, '!' },
-            { 0x2A, '\'' },
-            { 0x2B, '&' },
-            { 0x2C, '.' },
-            { 0x2D, '"' },
-            { 0x2E, '?' },
-            { 0x2F, '-' },
-        };
+            _conversionTable = conversionTable;
+        }
 
         private const int FastSpace = 0x25;
-
+        private const int UnknownCharacter = 0x24;
         private const int EndCommand = 0xC0;
 
-        private static readonly Dictionary<char, int> EncodeTable = DecodeTable
-            .ToDictionary(kv => kv.Value, kv => kv.Key);
+        private int Encode(char input)
+        {
+            return _conversionTable.Encode(input) ?? UnknownCharacter;
+        }
+
+        private char Decode(int input)
+        {
+            return _conversionTable.Decode(input) ?? ' ';
+        }
 
         public int GetLength(IRom source, int offset)
         {
@@ -99,9 +64,7 @@ namespace Zeldomizer.Metal
                 var input = source[i];
                 var commandBits = input >> 6;
                 var character = input & 0x3F;
-                var decoded = DecodeTable.ContainsKey(character)
-                    ? DecodeTable[character]
-                    : ' ';
+                var decoded = Decode(character);
 
                 lines[currentLine].Append(decoded);
 
@@ -134,21 +97,22 @@ namespace Zeldomizer.Metal
             // Encode each line of the string
             var rawData = input
                 .Select(s => string.IsNullOrEmpty(s) ? " " : s.ToUpperInvariant())
-                .Select(s => s.Select(c => EncodeTable.ContainsKey(c) ? EncodeTable[c] : EncodeTable[' ']).ToArray())
+                .Select(s => s.Select(Encode).ToArray())
                 .ToArray();
 
             // Interpret the spaces around each line as fast spaces
+            var encodedSpace = Encode(' ');
             foreach (var line in rawData)
             {
                 for (var i = 0; i < line.Length; i++)
                 {
-                    if (line[i] != EncodeTable[' '])
+                    if (line[i] != encodedSpace)
                         break;
                     line[i] = FastSpace;
                 }
                 for (var i = line.Length - 1; i >= 0; i--)
                 {
-                    if (line[i] != EncodeTable[' '])
+                    if (line[i] != encodedSpace)
                         break;
                     line[i] = FastSpace;
                 }
