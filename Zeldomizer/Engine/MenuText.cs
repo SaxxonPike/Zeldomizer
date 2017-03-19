@@ -9,17 +9,29 @@ namespace Zeldomizer.Engine
 {
     public class MenuText
     {
-        private readonly StringData _value1;
+        private readonly FixedStringData _eliminationModeText;
+        private readonly FixedStringData _registerYourNameText;
 
-        public MenuText(IRom source, IStringConverter stringConverter)
+        public MenuText(IRom source, IFixedStringConverter stringConverter)
         {
-            _value1 = new StringData(source, stringConverter, 0x09D2C, 100);
+            _eliminationModeText = new FixedStringData(source, stringConverter, 0x09D48, 17);
+            _registerYourNameText = new FixedStringData(source, stringConverter, 0x9D5E, 18);
         }
 
-        public string Value1
+        public string EliminationModeText
         {
-            get { return _value1.Text; }
-            set { _value1.Text = value; }
+            get { return _eliminationModeText.Text; }
+            set { _eliminationModeText.Text = value; }
         }
+
+        public int EliminationModeTextLength => _eliminationModeText.Length;
+
+        public string RegisterYourNameText
+        {
+            get { return _registerYourNameText.Text; }
+            set { _registerYourNameText.Text = value; }
+        }
+
+        public int RegisterYourNameTextLength => _registerYourNameText.Length;
     }
 }
