@@ -53,5 +53,44 @@ namespace Zeldomizer.Engine
             Subject.RegisterYourNameTextLength.Should().Be(18);
         }
 
+        [Test]
+        public void RegisterText_ReadsCorrectValue()
+        {
+            Subject.RegisterText.Should().Be("REGISTER");
+        }
+
+        [Test]
+        public void RegisterText_WritesCorrectValue()
+        {
+            var value = Random<string>().Substring(0, 5);
+            Subject.RegisterText = value;
+            Subject.RegisterText.Should().Be(value.ToUpperInvariant());
+        }
+
+        [Test]
+        public void RegisterTextLength_HasCorrectValue()
+        {
+            Subject.RegisterTextLength.Should().Be(8);
+        }
+
+        [Test]
+        public void SpecialNameText_ReadsCorrectValue()
+        {
+            Subject.SpecialNameText.Should().Be("ZELDA");
+        }
+
+        [Test]
+        public void SpecialNameText_WritesCorrectValue()
+        {
+            var value = Random<string>().Substring(0, 4);
+            Subject.SpecialNameText = value;
+            Subject.SpecialNameText.Should().Be(value.ToUpperInvariant());
+        }
+
+        [Test]
+        public void SpecialNameTextLength_HasCorrectValue()
+        {
+            Subject.SpecialNameTextLength.Should().Be(5);
+        }
     }
 }

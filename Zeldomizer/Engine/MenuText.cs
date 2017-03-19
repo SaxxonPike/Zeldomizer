@@ -11,11 +11,15 @@ namespace Zeldomizer.Engine
     {
         private readonly FixedStringData _eliminationModeText;
         private readonly FixedStringData _registerYourNameText;
+        private readonly FixedStringData _registerText;
+        private readonly FixedStringData _specialNameText;
 
         public MenuText(IRom source, IFixedStringConverter stringConverter)
         {
             _eliminationModeText = new FixedStringData(source, stringConverter, 0x09D48, 17);
-            _registerYourNameText = new FixedStringData(source, stringConverter, 0x9D5E, 18);
+            _registerYourNameText = new FixedStringData(source, stringConverter, 0x09D5E, 18);
+            _registerText = new FixedStringData(source, stringConverter, 0x09D70, 8);
+            _specialNameText = new FixedStringData(source, stringConverter, 0x09EEB, 5);
         }
 
         public string EliminationModeText
@@ -33,5 +37,21 @@ namespace Zeldomizer.Engine
         }
 
         public int RegisterYourNameTextLength => _registerYourNameText.Length;
+
+        public string RegisterText
+        {
+            get { return _registerText.Text; }
+            set { _registerText.Text = value; }
+        }
+
+        public int RegisterTextLength => _registerText.Length;
+
+        public string SpecialNameText
+        {
+            get { return _specialNameText.Text; }
+            set { _specialNameText.Text = value; }
+        }
+
+        public int SpecialNameTextLength => _specialNameText.Length;
     }
 }
