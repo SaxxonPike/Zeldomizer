@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Zeldomizer.Metal
 {
     public class FixedStringData
     {
         private readonly IRom _source;
-        private readonly IStringConverter _stringConverter;
+        private readonly IFixedStringConverter _fixedStringConverter;
         private readonly int _offset;
         private readonly int _length;
 
-        public FixedStringData(IRom source, IStringConverter stringConverter, int offset, int length)
+        public FixedStringData(IRom source, IFixedStringConverter fixedStringConverter, int offset, int length)
         {
             _source = source;
-            _stringConverter = stringConverter;
+            _fixedStringConverter = fixedStringConverter;
             _offset = offset;
             _length = length;
         }
@@ -25,14 +22,14 @@ namespace Zeldomizer.Metal
         {
             get
             {
-                return _stringConverter.Decode(_source, _offset).Trim();
+                return _fixedStringConverter.Decode(_source, _offset, _length).Trim();
             }
             set
             {
                 // Sanity check.
                 if (value == null)
                     value = string.Empty;
-                var encoded = _stringConverter.Encode(value);
+                var encoded = _fixedStringConverter.Encode(value, _length);
 
                 // Fail if too large.
                 if (encoded.Length > _length)

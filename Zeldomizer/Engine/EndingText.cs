@@ -16,13 +16,13 @@ namespace Zeldomizer.Engine
         private readonly FixedStringData _bottomText3;
 
 
-        public EndingText(IRom source, IStringConverter speechConverter, IStringConverter textConverter)
+        public EndingText(IRom source, IStringConverter speechConverter, IStringConverter textConverter, IFixedStringConverter fixedStringConverter)
         {
             _source = source;
             _topText = new StringData(source, speechConverter, 0xA959, 38);
-            _bottomText1 = new FixedStringData(source, textConverter, 0xAB07, 8);
-            _bottomText2 = new FixedStringData(source, textConverter, 0xAB0F, 24);
-            _bottomText3 = new FixedStringData(source, textConverter, 0xAB27, 20);
+            _bottomText1 = new FixedStringData(source, fixedStringConverter, 0xAB07, 8);
+            _bottomText2 = new FixedStringData(source, fixedStringConverter, 0xAB0F, 24);
+            _bottomText3 = new FixedStringData(source, fixedStringConverter, 0xAB27, 20);
         }
 
         public string TopText

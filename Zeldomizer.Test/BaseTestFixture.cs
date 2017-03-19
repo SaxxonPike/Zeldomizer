@@ -60,6 +60,11 @@ namespace Zeldomizer
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), fileName);
             File.WriteAllBytes(path, data);
         }
+
+        /// <summary>
+        /// Newline string, environment specific.
+        /// </summary>
+        protected string NewLine => Environment.NewLine;
     }
 
     /// <summary>

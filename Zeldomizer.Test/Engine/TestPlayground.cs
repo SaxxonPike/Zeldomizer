@@ -15,8 +15,6 @@ namespace Zeldomizer.Engine
         {
             var cartridge = new ZeldaCartridge(Rom);
 
-            cartridge.EndingText.TopText.Should().Be("test1");
-            cartridge.EndingText.BottomText1.Should().Be("test2");
         }
     }
 }
