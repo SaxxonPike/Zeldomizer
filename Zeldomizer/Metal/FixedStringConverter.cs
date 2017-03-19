@@ -38,10 +38,10 @@ namespace Zeldomizer.Metal
 
         public byte[] Encode(string text, int length)
         {
-            // Limit the string's length, and convert all newlines into spaces.
+            // Convert all newlines into spaces.
             var input = string.Join(" ", (text ?? "")
-                .Substring(0, length)
-                .Split(new []{Environment.NewLine}, StringSplitOptions.None));
+                .Split(new []{Environment.NewLine}, StringSplitOptions.None))
+                .ToUpperInvariant();
 
             // Encode the string.
             var encoded = input

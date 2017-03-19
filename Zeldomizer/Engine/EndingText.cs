@@ -31,11 +31,15 @@ namespace Zeldomizer.Engine
             set { _topText.Text = value; }
         }
 
+        public int TopTextLength => _topText.MaxLength;
+
         public string BottomText1
         {
             get { return _bottomText1.Text; }
             set { _bottomText1.Text = value; }
         }
+
+        public int BottomText1Length => _bottomText1.Length;
 
         public string BottomText2
         {
@@ -43,10 +47,14 @@ namespace Zeldomizer.Engine
             set { _bottomText2.Text = value; }
         }
 
+        public int BottomText2Length => _bottomText2.Length;
+
         public string BottomText3
         {
             get { return _bottomText3.Text; }
             set { _bottomText3.Text = value; }
         }
+
+        public int BottomText3Length => _bottomText3.Length;
     }
 }

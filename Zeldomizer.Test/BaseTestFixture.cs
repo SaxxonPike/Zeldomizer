@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
@@ -11,6 +12,7 @@ namespace Zeldomizer
     /// Base test fixture for testing.
     /// </summary>
     [TestFixture]
+    [ExcludeFromCodeCoverage]
     public abstract class BaseTestFixture
     {
         [SetUp]
@@ -71,6 +73,7 @@ namespace Zeldomizer
     /// Typed base test fixture for testing.
     /// </summary>
     /// <typeparam name="TSubject">Type being tested.</typeparam>
+    [ExcludeFromCodeCoverage]
     public abstract class BaseTestFixture<TSubject> : BaseTestFixture
     {
         [SetUp]
