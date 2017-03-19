@@ -9,7 +9,7 @@ namespace Zeldomizer.Metal
     {
         public int Capacity { get; }
 
-        public FixedList(int capacity)
+        protected FixedList(int capacity)
         {
             Capacity = capacity;
             Count = capacity;

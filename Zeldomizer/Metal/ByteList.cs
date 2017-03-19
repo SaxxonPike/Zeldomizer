@@ -2,10 +2,10 @@
 {
     public class ByteList : FixedList<int>
     {
-        private readonly byte[] _source;
+        private readonly IRom _source;
         private readonly int _offset;
 
-        public ByteList(byte[] source, int offset, int capacity) : base(capacity)
+        public ByteList(IRom source, int offset, int capacity) : base(capacity)
         {
             _source = source;
             _offset = offset;

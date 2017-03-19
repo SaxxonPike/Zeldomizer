@@ -1,53 +1,46 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
-using System.Linq;
+using Zeldomizer.Metal;
 
-namespace Zeldomizer.Test
+namespace Zeldomizer
 {
     public static class RomFile
     {
-        public static byte[] Get()
+        /// <summary>
+        /// Get a resource from the this assembly.
+        /// </summary>
+        /// <param name="name">Name of the resource.</param>
+        /// <returns>Resource data.</returns>
+        private static byte[] GetResource(string name)
         {
             var thisType = typeof(RomFile);
             var thisAssembly = thisType.Assembly;
-            byte[] result;
 
             using (var mem = new MemoryStream())
             {
-                var source = thisAssembly.GetManifestResourceStream($"{thisType.Namespace}.zelda.zip");
+                var source = thisAssembly
+                    .GetManifestResourceStream($"{thisType.Namespace}.{name}");
+                if (source == null)
+                    throw new Exception($"Can't find resource {name}");
                 source.CopyTo(mem);
-                result = mem.ToArray();
+                return mem.ToArray();
             }
-
-            if (result.Length == 0x20000)
-                return result;
-            if (result.Length == 0x20010)
-                return result.Skip(0x10).ToArray();
-            if (result.Length < 2)
-                throw new Exception("Bad ROM file.");
-            if (result[0] == 0x50 && result[1] == 0x4B)
-                return Unzip(result);
-            throw new Exception("Bad ROM file.");
         }
 
-        private static byte[] Unzip(byte[] data)
+        /// <summary>
+        /// Get the test ROM.
+        /// </summary>
+        /// <returns>Test ROM.</returns>
+        public static IRom GetRom()
         {
-            using (var stream = new MemoryStream(data))
-            using (var archive = new ZipArchive(stream))
-            {
-                var entry = archive.Entries.FirstOrDefault(e => e.Length == 0x20000 || e.Length == 0x20010);
-                if (entry != null)
-                {
-                    using (var mem = new MemoryStream())
-                    using (var entryStream = entry.Open())
-                    {
-                        entryStream.CopyTo(mem);
-                        return mem.ToArray();
-                    }
-                }
-            }
-            throw new Exception("Couldn't find appropriately sized file in archive.");
+            var resource = GetResource("zelda.zip");
+            if (resource.Length == 0x20000 || resource.Length == 0x20010)
+                return new Rom(resource);
+            if (resource.Length < 2)
+                throw new Exception("Bad ROM file.");
+            if (resource[0] == 0x50 && resource[1] == 0x4B)
+                return new ZippedRom(resource);
+            throw new Exception("Bad ROM file.");
         }
     }
 }

@@ -1,21 +1,27 @@
-﻿using Zeldomizer.Metal;
+﻿using System;
+using System.Linq;
+using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine
 {
     public class CharacterText : StringList 
     {
-        public CharacterText(byte[] source) : base(source, 0x04000, -0x04000, 0x555, 0x26)
+        private readonly IStringFormatter _stringFormatter;
+
+        public CharacterText(IRom source, IStringFormatter stringFormatter, IStringConverter stringConverter)
+            : base(source, stringConverter, 0x04000, -0x04000, 0x556, 0x26)
         {
+            _stringFormatter = stringFormatter;
         }
 
         protected override string Decode(int index)
         {
-            return base.Decode(index);
+            return _stringFormatter.UnFormat(base.Decode(index));
         }
 
         protected override byte[] Encode(string text)
         {
-            return base.Encode(text);
+            return base.Encode(_stringFormatter.Format(text));
         }
     }
 }

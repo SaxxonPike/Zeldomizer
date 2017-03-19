@@ -44,12 +44,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engine\CharacterText.cs" />
+    <Compile Include="Metal\IRom.cs" />
     <Compile Include="Engine\MusicPointers.cs" />
+    <Compile Include="Metal\Rom.cs" />
     <Compile Include="Metal\ByteList.cs" />
     <Compile Include="Metal\FixedList.cs" />
+    <Compile Include="Metal\IStringConverter.cs" />
+    <Compile Include="Metal\IStringFormatter.cs" />
     <Compile Include="Metal\StringConverter.cs" />
+    <Compile Include="Metal\StringFormatter.cs" />
     <Compile Include="Metal\StringList.cs" />
     <Compile Include="Metal\WordList.cs" />
+    <Compile Include="Metal\ZippedRom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZeldaCartridge.cs" />
   </ItemGroup>

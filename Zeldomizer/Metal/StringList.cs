@@ -1,24 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Zeldomizer.Engine;
 
 namespace Zeldomizer.Metal
 {
     public class StringList : FixedList<string>
     {
-        private readonly byte[] _source;
+        private readonly IRom _source;
         private readonly int _pointerAdjustment;
         private readonly int _maxSize;
-        private readonly StringConverter _stringConverter;
+        private int _currentSize;
+        private readonly IStringConverter _stringConverter;
         private readonly WordList _pointers;
 
-        public StringList(byte[] source, int pointerOffset, int pointerAdjustment, int maxSize, int capacity) : base(capacity)
+        public StringList(IRom source, IStringConverter stringConverter, int pointerOffset, int pointerAdjustment, int maxSize, int capacity) : base(capacity)
         {
             _source = source;
             _pointerAdjustment = pointerAdjustment;
             _maxSize = maxSize;
-            _stringConverter = new StringConverter();
+            _stringConverter = stringConverter;
             _pointers = new WordList(source, pointerOffset, capacity);
+
+            var stringTableStart = _pointers.Min();
+            _currentSize = _pointers.Max(p => _stringConverter.GetLength(source, p + pointerAdjustment) + p - stringTableStart);
         }
 
         protected virtual string Decode(int index)
@@ -33,10 +39,41 @@ namespace Zeldomizer.Metal
 
         public override string this[int index]
         {
-            get { return Decode(index); }
+            get
+            {
+                return Decode(index);
+            }
             set
             {
-                throw new Exception("Can't encode yet.");
+                // Determine if the new value will overflow the table
+                var encoded = Encode(value);
+                var currentLength = _stringConverter.GetLength(_source, _pointers[index] + _pointerAdjustment);
+                var sizeChange = encoded.Length - currentLength;
+                if (sizeChange + _currentSize > _maxSize)
+                    throw new Exception("New string is too large to fit in the table.");
+
+                // If the size has changed, move the following table data accordingly
+                var currentOffset = _pointers[index] + _pointerAdjustment;
+                if (sizeChange != 0)
+                {
+                    var tableStart = _pointers.Min();
+                    var sourceOffset = currentOffset - sizeChange;
+                    var targetOffset = currentOffset;
+                    var length = _maxSize - (_pointers[index] - tableStart) - Math.Abs(sizeChange);
+
+                    _source.Copy(sourceOffset, targetOffset, length);
+
+                    // Adjust pointer table to account for new string offsets
+                    for (var i = index + 1; i < Capacity; i++)
+                    {
+                        _pointers[i] += sizeChange;
+                    }
+
+                    _currentSize += sizeChange;
+                }
+
+                // Insert the new value into the table
+                _source.Write(encoded, currentOffset);
             }
         }
     }
