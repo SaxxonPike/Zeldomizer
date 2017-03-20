@@ -32,9 +32,9 @@ namespace Breadbox.Test.Cpu6502.Opcode
         private void Verify(IEnumerable<AccessEntry> accesses)
         {
             Cpu.ForceOpcodeSync();
-            MemoryMock.ResetCalls();
             foreach (var access in accesses)
             {
+                MemoryMock.ResetCalls();
                 var address = access.Address;
                 Cpu.Clock();
                 switch (access.AccessType)
@@ -68,7 +68,6 @@ namespace Breadbox.Test.Cpu6502.Opcode
                         MemoryMock.Verify(m => m.Read(It.IsAny<int>()), Times.Never);
                         break;
                 }
-                MemoryMock.ResetCalls();
             }
             Cpu.Sync.Should().BeTrue("Sync must occur after opcode finishes.");
         }

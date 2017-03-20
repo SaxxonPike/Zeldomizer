@@ -1,16 +1,10 @@
 ﻿namespace Breadbox
 
-type IReadOnlyMemory =
-    abstract member Read: int -> int
-    abstract member Peek: int -> int
-
 type IMemory =
-    inherit IReadOnlyMemory
+    abstract member Read: int -> int
     abstract member Write: int * int -> unit
+    abstract member Peek: int -> int
     abstract member Poke: int * int -> unit
-
-type IClock =
-    abstract member Clock: unit -> unit
 
 type IReadySignal =
     abstract member ReadRdy: unit -> bool
@@ -21,10 +15,6 @@ type MemoryNull () =
         member this.Write (address, value) = ()
         member this.Peek (address) = 0
         member this.Poke (address, value) = ()
-
-type ClockNull () =
-    interface IClock with
-        member this.Clock () = ()
 
 type ReadySignalNull () =
     interface IReadySignal with

@@ -3,240 +3,6 @@
 // 6502/6510 core.
 // Ported from Bizhawk's C# core.
 
-type private Uop =
-    | Fetch1
-    | Fetch1Real
-    | Fetch2
-    | Fetch3
-    | FetchDummy
-    | Nop
-    | Jsr
-    | IncPc
-    | AbsWriteSta
-    | AbsWriteStx
-    | AbsWriteSty
-    | AbsWriteSax
-    | AbsReadBit
-    | AbsReadLda
-    | AbsReadLdy
-    | AbsReadOra
-    | AbsReadLdx
-    | AbsReadCmp
-    | AbsReadAdc
-    | AbsReadCpx
-    | AbsReadSbc
-    | AbsReadAnd
-    | AbsReadEor
-    | AbsReadCpy
-    | AbsReadNop
-    | AbsReadLax
-    | AbsRmwStage4
-    | AbsRmwStage6
-    | AbsRmwStage5Inc
-    | AbsRmwStage5Dec
-    | AbsRmwStage5Lsr
-    | AbsRmwStage5Rol
-    | AbsRmwStage5Asl
-    | AbsRmwStage5Ror
-    | AbsRmwStage5Slo
-    | AbsRmwStage5Rla
-    | AbsRmwStage5Sre
-    | AbsRmwStage5Rra
-    | AbsRmwStage5Dcp
-    | AbsRmwStage5Isc
-    | JmpAbs
-    | ZpIdxStage3X
-    | ZpIdxStage3Y
-    | ZpIdxRmwStage4
-    | ZpIdxRmwStage6
-    | ZpWriteSta
-    | ZpWriteStx
-    | ZpWriteSty
-    | ZpWriteSax
-    | ZpRmwStage3
-    | ZpRmwStage5
-    | ZpRmwDec
-    | ZpRmwInc
-    | ZpRmwAsl
-    | ZpRmwLsr
-    | ZpRmwRor
-    | ZpRmwRol
-    | ZpRmwSlo
-    | ZpRmwRla
-    | ZpRmwSre
-    | ZpRmwRra
-    | ZpRmwDcp
-    | ZpRmwIsc
-    | ZpReadEor
-    | ZpReadBit
-    | ZpReadOra
-    | ZpReadLda
-    | ZpReadLdy
-    | ZpReadLdx
-    | ZpReadCpx
-    | ZpReadSbc
-    | ZpReadCpy
-    | ZpReadNop
-    | ZpReadAdc
-    | ZpReadAnd
-    | ZpReadCmp
-    | ZpReadLax
-    | IdxIndStage3
-    | IdxIndStage4
-    | IdxIndStage5
-    | IdxIndReadStage6Ora
-    | IdxIndReadStage6Sbc
-    | IdxIndReadStage6Lda
-    | IdxIndReadStage6Eor
-    | IdxIndReadStage6Cmp
-    | IdxIndReadStage6Adc
-    | IdxIndReadStage6And
-    | IdxIndReadStage6Lax
-    | IdxIndWriteStage6Sta
-    | IdxIndWriteStage6Sax
-    | IdxIndRmwStage6
-    | IdxIndRmwStage7Slo
-    | IdxIndRmwStage7Rla
-    | IdxIndRmwStage7Sre
-    | IdxIndRmwStage7Rra
-    | IdxIndRmwStage7Isc
-    | IdxIndRmwStage7Dcp
-    | IdxIndRmwStage8
-    | AbsIdxStage3X
-    | AbsIdxStage3Y
-    | AbsIdxStage4
-    | AbsIdxWriteStage5Sta
-    | AbsIdxWriteStage5Shy
-    | AbsIdxWriteStage5Shx
-    | AbsIdxWriteStage5Tas
-    | AbsIdxReadStage4
-    | AbsIdxReadStage5Lda
-    | AbsIdxReadStage5Cmp
-    | AbsIdxReadStage5Sbc
-    | AbsIdxReadStage5Adc
-    | AbsIdxReadStage5Eor
-    | AbsIdxReadStage5Ldx
-    | AbsIdxReadStage5And
-    | AbsIdxReadStage5Ora
-    | AbsIdxReadStage5Ldy
-    | AbsIdxReadStage5Nop
-    | AbsIdxReadStage5Lax
-    | AbsIdxReadStage5Las
-    | AbsIdxRmwStage5
-    | AbsIdxRmwStage7
-    | AbsIdxRmwStage6Ror
-    | AbsIdxRmwStage6Dec
-    | AbsIdxRmwStage6Inc
-    | AbsIdxRmwStage6Asl
-    | AbsIdxRmwStage6Lsr
-    | AbsIdxRmwStage6Rol
-    | AbsIdxRmwStage6Slo
-    | AbsIdxRmwStage6Rla
-    | AbsIdxRmwStage6Sre
-    | AbsIdxRmwStage6Rra
-    | AbsIdxRmwStage6Dcp
-    | AbsIdxRmwStage6Isc
-    | IncS
-    | PushPcl
-    | PushPch
-    | PushP
-    | PullP
-    | PullPcl
-    | PullPchNoInc
-    | PushA
-    | PullANoInc
-    | PullPNoInc
-    | PushPBrk
-    | PushPNmi
-    | PushPIrq
-    | PushPReset
-    | PushDummy
-    | FetchPclVector
-    | FetchPchVector
-    | ImpAslA
-    | ImpRolA
-    | ImpRorA
-    | ImpLsrA
-    | ImpSec
-    | ImpCli
-    | ImpSei
-    | ImpCld
-    | ImpClc
-    | ImpClv
-    | ImpSed
-    | ImpIny
-    | ImpDey
-    | ImpInx
-    | ImpDex
-    | ImpTsx
-    | ImpTxs
-    | ImpTax
-    | ImpTay
-    | ImpTya
-    | ImpTxa
-    | ImmCmp
-    | ImmAdc
-    | ImmAnd
-    | ImmSbc
-    | ImmOra
-    | ImmEor
-    | ImmCpy
-    | ImmCpx
-    | ImmAnc
-    | ImmAsr
-    | ImmArr
-    | ImmLxa
-    | ImmAxs
-    | ImmLda
-    | ImmLdx
-    | ImmLdy
-    | ImmUnsupported
-    | NzX
-    | NzY
-    | NzA
-    | RelBranchStage2Bne
-    | RelBranchStage2Bpl
-    | RelBranchStage2Bcc
-    | RelBranchStage2Bcs
-    | RelBranchStage2Beq
-    | RelBranchStage2Bmi
-    | RelBranchStage2Bvc
-    | RelBranchStage2Bvs
-    | RelBranchStage3
-    | RelBranchStage4
-    | AbsIndJmpStage4
-    | AbsIndJmpStage5
-    | IndIdxStage3
-    | IndIdxStage4
-    | IndIdxReadStage5
-    | IndIdxWriteStage5
-    | IndIdxWriteStage6Sta
-    | IndIdxWriteStage6Sha
-    | IndIdxReadStage6Lda
-    | IndIdxReadStage6Cmp
-    | IndIdxReadStage6Ora
-    | IndIdxReadStage6Sbc
-    | IndIdxReadStage6Adc
-    | IndIdxReadStage6And
-    | IndIdxReadStage6Eor
-    | IndIdxReadStage6Lax
-    | IndIdxRmwStage5
-    | IndIdxRmwStage6
-    | IndIdxRmwStage7Slo
-    | IndIdxRmwStage7Rla
-    | IndIdxRmwStage7Sre
-    | IndIdxRmwStage7Rra
-    | IndIdxRmwStage7Isc
-    | IndIdxRmwStage7Dcp
-    | IndIdxRmwStage8
-    | End
-    | EndISpecial
-    | EndBranchSpecial
-    | EndSuppressInterrupt
-    | Jam
-    | JamFFFF
-    | JamFFFE
-
 type Mos6502Configuration(lxaConstant:int, hasDecimalMode:bool, memory:IMemory, ready:IReadySignal) =
     member val LxaConstant = lxaConstant
     member val HasDecimalMode = hasDecimalMode
@@ -244,355 +10,6 @@ type Mos6502Configuration(lxaConstant:int, hasDecimalMode:bool, memory:IMemory, 
     member val Ready = ready
 
 type Mos6502(config:Mos6502Configuration) =
-    let jamMicrocodes =
-        [|
-            Uop.Fetch2;
-            Uop.JamFFFF;
-            Uop.JamFFFE;
-            Uop.JamFFFE;
-            Uop.Jam;
-        |]
-    
-    let microCode =
-        [|
-            // 00
-            [| Uop.Fetch2; Uop.PushPch; Uop.PushPcl; Uop.PushPBrk; Uop.FetchPclVector; Uop.FetchPchVector; Uop.EndSuppressInterrupt |];
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndReadStage6Ora; Uop.End |];
-            jamMicrocodes;
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndRmwStage6; Uop.IdxIndRmwStage7Slo; Uop.IdxIndRmwStage8; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadNop; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadOra; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpRmwStage3; Uop.ZpRmwAsl; Uop.ZpRmwStage5; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpRmwStage3; Uop.ZpRmwSlo; Uop.ZpRmwStage5; Uop.End |];
-
-            // 08
-            [| Uop.FetchDummy; Uop.PushP; Uop.End |];
-            [| Uop.ImmOra; Uop.End |];
-            [| Uop.ImpAslA; Uop.End |];
-            [| Uop.ImmAnc; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadNop; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadOra; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsRmwStage4; Uop.AbsRmwStage5Asl; Uop.AbsRmwStage6; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsRmwStage4; Uop.AbsRmwStage5Slo; Uop.AbsRmwStage6; Uop.End |];
-
-            // 10
-            [| Uop.RelBranchStage2Bpl; Uop.End |];
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxReadStage5; Uop.IndIdxReadStage6Ora; Uop.End |];
-            jamMicrocodes;
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxRmwStage5; Uop.IndIdxRmwStage6; Uop.IndIdxRmwStage7Slo; Uop.IndIdxRmwStage8; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadNop; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadOra; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpIdxRmwStage4; Uop.ZpRmwAsl; Uop.ZpIdxRmwStage6; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpIdxRmwStage4; Uop.ZpRmwSlo; Uop.ZpIdxRmwStage6; Uop.End |];
-
-            // 18
-            [| Uop.ImpClc; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Ora; Uop.End |];
-            [| Uop.FetchDummy; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Slo; Uop.AbsIdxRmwStage7; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Nop; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Ora; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Asl; Uop.AbsIdxRmwStage7; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Slo; Uop.AbsIdxRmwStage7; Uop.End |];
-
-            // 20
-            [| Uop.Fetch2; Uop.Nop; Uop.PushPch; Uop.PushPcl; Uop.Jsr; Uop.End |];
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndReadStage6And; Uop.End |];
-            jamMicrocodes;
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndRmwStage6; Uop.IdxIndRmwStage7Rla; Uop.IdxIndRmwStage8; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadBit; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadAnd; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpRmwStage3; Uop.ZpRmwRol; Uop.ZpRmwStage5; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpRmwStage3; Uop.ZpRmwRla; Uop.ZpRmwStage5; Uop.End |];
-
-            // 28
-            [| Uop.FetchDummy;  Uop.IncS; Uop.PullPNoInc; Uop.EndISpecial |];
-            [| Uop.ImmAnd; Uop.End |];
-            [| Uop.ImpRolA; Uop.End |];
-            [| Uop.ImmAnc; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadBit; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadAnd; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsRmwStage4; Uop.AbsRmwStage5Rol; Uop.AbsRmwStage6; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsRmwStage4; Uop.AbsRmwStage5Rla; Uop.AbsRmwStage6; Uop.End |];
-
-            // 30
-            [| Uop.RelBranchStage2Bmi; Uop.End |];
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxReadStage5; Uop.IndIdxReadStage6And; Uop.End |];
-            jamMicrocodes;
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxRmwStage5; Uop.IndIdxRmwStage6; Uop.IndIdxRmwStage7Rla; Uop.IndIdxRmwStage8; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadNop; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadAnd; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpIdxRmwStage4; Uop.ZpRmwRol; Uop.ZpIdxRmwStage6; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpIdxRmwStage4; Uop.ZpRmwRla; Uop.ZpIdxRmwStage6; Uop.End |];
-
-            // 38
-            [| Uop.ImpSec; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5And; Uop.End |];
-            [| Uop.FetchDummy; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Rla; Uop.AbsIdxRmwStage7; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Nop; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5And; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Rol; Uop.AbsIdxRmwStage7; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Rla; Uop.AbsIdxRmwStage7; Uop.End |];
-
-            // 40
-            [| Uop.FetchDummy; Uop.IncS; Uop.PullP; Uop.PullPcl; Uop.PullPchNoInc; Uop.End |];
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndReadStage6Eor; Uop.End |];
-            jamMicrocodes;
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndRmwStage6; Uop.IdxIndRmwStage7Sre; Uop.IdxIndRmwStage8; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadNop; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadEor; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpRmwStage3; Uop.ZpRmwLsr; Uop.ZpRmwStage5; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpRmwStage3; Uop.ZpRmwSre; Uop.ZpRmwStage5; Uop.End |];
-
-            // 48
-            [| Uop.FetchDummy; Uop.PushA; Uop.End |];
-            [| Uop.ImmEor; Uop.End |];
-            [| Uop.ImpLsrA; Uop.End |];
-            [| Uop.ImmAsr; Uop.End |];
-            [| Uop.Fetch2; Uop.JmpAbs; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadEor; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsRmwStage4; Uop.AbsRmwStage5Lsr; Uop.AbsRmwStage6; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsRmwStage4; Uop.AbsRmwStage5Sre; Uop.AbsRmwStage6; Uop.End |];
-
-            // 50
-            [| Uop.RelBranchStage2Bvc; Uop.End |];
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxReadStage5; Uop.IndIdxReadStage6Eor; Uop.End |];
-            jamMicrocodes;
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxRmwStage5; Uop.IndIdxRmwStage6; Uop.IndIdxRmwStage7Sre; Uop.IndIdxRmwStage8; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadNop; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadEor; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpIdxRmwStage4; Uop.ZpRmwLsr; Uop.ZpIdxRmwStage6; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpIdxRmwStage4; Uop.ZpRmwSre; Uop.ZpIdxRmwStage6; Uop.End |];
-
-            // 58
-            [| Uop.ImpCli; Uop.EndISpecial |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Eor; Uop.End |];
-            [| Uop.FetchDummy; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Sre; Uop.AbsIdxRmwStage7; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Nop; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Eor; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Lsr; Uop.AbsIdxRmwStage7; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Sre; Uop.AbsIdxRmwStage7; Uop.End |];
-
-            // 60
-            [| Uop.FetchDummy; Uop.IncS; Uop.PullPcl; Uop.PullPchNoInc; Uop.IncPc; Uop.End |];
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndReadStage6Adc; Uop.End |];
-            jamMicrocodes;
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndRmwStage6; Uop.IdxIndRmwStage7Rra; Uop.IdxIndRmwStage8; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadNop; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadAdc; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpRmwStage3; Uop.ZpRmwRor; Uop.ZpRmwStage5; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpRmwStage3; Uop.ZpRmwRra; Uop.ZpRmwStage5; Uop.End |];
-
-            // 68
-            [| Uop.FetchDummy; Uop.IncS; Uop.PullANoInc; Uop.End |];
-            [| Uop.ImmAdc; Uop.End |];
-            [| Uop.ImpRorA; Uop.End |];
-            [| Uop.ImmArr; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsIndJmpStage4; Uop.AbsIndJmpStage5; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadAdc; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsRmwStage4; Uop.AbsRmwStage5Ror; Uop.AbsRmwStage6; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsRmwStage4; Uop.AbsRmwStage5Rra; Uop.AbsRmwStage6; Uop.End |];
-
-            // 70
-            [| Uop.RelBranchStage2Bvs; Uop.End |];
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxReadStage5; Uop.IndIdxReadStage6Adc; Uop.End |];
-            jamMicrocodes;
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxRmwStage5; Uop.IndIdxRmwStage6; Uop.IndIdxRmwStage7Rra; Uop.IndIdxRmwStage8; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadNop; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadAdc; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpIdxRmwStage4; Uop.ZpRmwRor; Uop.ZpIdxRmwStage6; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpIdxRmwStage4; Uop.ZpRmwRra; Uop.ZpIdxRmwStage6; Uop.End |];
-
-            // 78
-            [| Uop.ImpSei; Uop.EndISpecial |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Adc; Uop.End |];
-            [| Uop.FetchDummy; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Rra; Uop.AbsIdxRmwStage7; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Nop; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Adc; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Ror; Uop.AbsIdxRmwStage7; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Rra; Uop.AbsIdxRmwStage7; Uop.End |];
-
-            // 80
-            [| Uop.ImmUnsupported; Uop.End |];
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndWriteStage6Sta; Uop.End |];
-            [| Uop.ImmUnsupported; Uop.End |];
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndWriteStage6Sax; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpWriteSty; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpWriteSta; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpWriteStx; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpWriteSax; Uop.End |];
-
-            // 88
-            [| Uop.ImpDey; Uop.End |];
-            [| Uop.ImmUnsupported; Uop.End |];
-            [| Uop.ImpTxa; Uop.End |];
-            [| Uop.ImmUnsupported; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsWriteSty; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsWriteSta; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsWriteStx; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsWriteSax; Uop.End |];
-
-            // 90
-            [| Uop.RelBranchStage2Bcc; Uop.End |];
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxWriteStage5; Uop.IndIdxWriteStage6Sta; Uop.End |];
-            jamMicrocodes;
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxWriteStage5; Uop.IndIdxWriteStage6Sha; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpWriteSty; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpWriteSta; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3Y; Uop.ZpWriteStx; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3Y; Uop.ZpWriteSax; Uop.End |];
-
-            // 98
-            [| Uop.ImpTya; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxStage4; Uop.AbsIdxWriteStage5Sta; Uop.End |];
-            [| Uop.ImpTxs; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxStage4; Uop.AbsIdxWriteStage5Tas; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxStage4; Uop.AbsIdxWriteStage5Shy; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxStage4; Uop.AbsIdxWriteStage5Sta; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxStage4; Uop.AbsIdxWriteStage5Shx; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxStage4; Uop.AbsIdxWriteStage5Tas; Uop.End |];
-
-            // A0
-            [| Uop.ImmLdy; Uop.End |];
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndReadStage6Lda; Uop.End |];
-            [| Uop.ImmLdx; Uop.End |];
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndReadStage6Lax; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadLdy; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadLda; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadLdx; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadLax; Uop.End |];
-
-            // A8
-            [| Uop.ImpTay; Uop.End |];
-            [| Uop.ImmLda; Uop.End |];
-            [| Uop.ImpTax; Uop.End |];
-            [| Uop.ImmLxa; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadLdy; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadLda; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadLdx; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadLax; Uop.End |];
-
-            // B0
-            [| Uop.RelBranchStage2Bcs; Uop.End |];
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxReadStage5; Uop.IndIdxReadStage6Lda; Uop.End |];
-            jamMicrocodes;
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxReadStage5; Uop.IndIdxReadStage6Lax; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadLdy; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadLda; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3Y; Uop.ZpReadLdx; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3Y; Uop.ZpReadLax; Uop.End |];
-
-            // B8
-            [| Uop.ImpClv; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Lda; Uop.End |];
-            [| Uop.ImpTsx; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Las; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Ldy; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Lda; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Ldx; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Lax; Uop.End |];
-
-            // C0
-            [| Uop.ImmCpy; Uop.End |];
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndReadStage6Cmp; Uop.End |];
-            [| Uop.ImmUnsupported; Uop.End |];
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndRmwStage6; Uop.IdxIndRmwStage7Dcp; Uop.IdxIndRmwStage8; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadCpy; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadCmp; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpRmwStage3; Uop.ZpRmwDec; Uop.ZpRmwStage5; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpRmwStage3; Uop.ZpRmwDcp; Uop.ZpRmwStage5; Uop.End |];
-
-            // C8
-            [| Uop.ImpIny; Uop.End |];
-            [| Uop.ImmCmp; Uop.End |];
-            [| Uop.ImpDex; Uop.End |];
-            [| Uop.ImmAxs; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadCpy; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadCmp; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsRmwStage4; Uop.AbsRmwStage5Dec; Uop.AbsRmwStage6; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsRmwStage4; Uop.AbsRmwStage5Dcp; Uop.AbsRmwStage6; Uop.End |];
-
-            // D0
-            [| Uop.RelBranchStage2Bne; Uop.End |];
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxReadStage5; Uop.IndIdxReadStage6Cmp; Uop.End |];
-            jamMicrocodes;
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxRmwStage5; Uop.IndIdxRmwStage6; Uop.IndIdxRmwStage7Dcp; Uop.IndIdxRmwStage8; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadNop; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadCmp; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpIdxRmwStage4; Uop.ZpRmwDec; Uop.ZpIdxRmwStage6; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpIdxRmwStage4; Uop.ZpRmwDcp; Uop.ZpIdxRmwStage6; Uop.End |];
-
-            // D8
-            [| Uop.ImpCld; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Cmp; Uop.End |];
-            [| Uop.FetchDummy; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Dcp; Uop.AbsIdxRmwStage7; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Nop; Uop.End|];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Cmp; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Dec; Uop.AbsIdxRmwStage7; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Dcp; Uop.AbsIdxRmwStage7; Uop.End |];
-
-            // E0
-            [| Uop.ImmCpx; Uop.End |];
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndReadStage6Sbc; Uop.End |];
-            [| Uop.ImmUnsupported; Uop.End |];
-            [| Uop.Fetch2; Uop.IdxIndStage3; Uop.IdxIndStage4; Uop.IdxIndStage5; Uop.IdxIndRmwStage6; Uop.IdxIndRmwStage7Isc; Uop.IdxIndRmwStage8; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadCpx; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpReadSbc; Uop.End|];
-            [| Uop.Fetch2; Uop.ZpRmwStage3; Uop.ZpRmwInc; Uop.ZpRmwStage5; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpRmwStage3; Uop.ZpRmwIsc; Uop.ZpRmwStage5; Uop.End |];
-
-            // E8
-            [| Uop.ImpInx; Uop.End |];
-            [| Uop.ImmSbc; Uop.End |];
-            [| Uop.FetchDummy; Uop.End |];
-            [| Uop.ImmSbc; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadCpx; Uop.End|];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsReadSbc; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsRmwStage4; Uop.AbsRmwStage5Inc; Uop.AbsRmwStage6; Uop.End |];
-            [| Uop.Fetch2; Uop.Fetch3; Uop.AbsRmwStage4; Uop.AbsRmwStage5Isc; Uop.AbsRmwStage6; Uop.End |];
-
-            // F0
-            [| Uop.RelBranchStage2Beq; Uop.End |];
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxReadStage5; Uop.IndIdxReadStage6Sbc; Uop.End |];
-            jamMicrocodes;
-            [| Uop.Fetch2; Uop.IndIdxStage3; Uop.IndIdxStage4; Uop.IndIdxRmwStage5; Uop.IndIdxRmwStage6; Uop.IndIdxRmwStage7Isc; Uop.IndIdxRmwStage8; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadNop; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpReadSbc; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpIdxRmwStage4; Uop.ZpRmwInc; Uop.ZpIdxRmwStage6; Uop.End |];
-            [| Uop.Fetch2; Uop.ZpIdxStage3X; Uop.ZpIdxRmwStage4; Uop.ZpRmwIsc; Uop.ZpIdxRmwStage6; Uop.End |];
-
-            // F8
-            [| Uop.ImpSed; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Sbc; Uop.End |];
-            [| Uop.FetchDummy; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3Y;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Isc; Uop.AbsIdxRmwStage7; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Nop; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X; Uop.AbsIdxReadStage4; Uop.AbsIdxReadStage5Sbc; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Inc; Uop.AbsIdxRmwStage7; Uop.End |];
-            [| Uop.Fetch2; Uop.AbsIdxStage3X;  Uop.AbsIdxStage4; Uop.AbsIdxRmwStage5; Uop.AbsIdxRmwStage6Isc; Uop.AbsIdxRmwStage7; Uop.End |];
-
-            // 100 (VOP_Fetch1)
-            [| Uop.Fetch1 |];
-            // 101 (VOP_RelativeStuff)
-            [| Uop.RelBranchStage3; Uop.EndBranchSpecial |];
-            // 102 (VOP_RelativeStuff2)
-            [| Uop.RelBranchStage4; Uop.End |];
-            // 103 (VOP_RelativeStuff3)
-            [| Uop.EndSuppressInterrupt |]
-            // 104 (VOP_NMI)
-            [| Uop.FetchDummy; Uop.FetchDummy; Uop.PushPch; Uop.PushPcl; Uop.PushPNmi; Uop.FetchPclVector; Uop.FetchPchVector; Uop.EndSuppressInterrupt |];
-            // 105 (VOP_IRQ)
-            [| Uop.FetchDummy; Uop.FetchDummy; Uop.PushPch; Uop.PushPcl; Uop.PushPIrq; Uop.FetchPclVector; Uop.FetchPchVector; Uop.EndSuppressInterrupt |];
-            // 106 (VOP_RESET)
-            [| Uop.FetchDummy; Uop.FetchDummy; Uop.FetchDummy; Uop.PushDummy; Uop.PushDummy; Uop.PushPReset; Uop.FetchPclVector; Uop.FetchPchVector; Uop.EndSuppressInterrupt |];
-            // 107 (VOP_Fetch1_NoInterrupt)
-            [| Uop.Fetch1Real |];
-        |]
-
     [<Literal>]
     let vopFetch1 = 0x100
     [<Literal>]
@@ -609,6 +26,8 @@ type Mos6502(config:Mos6502Configuration) =
     let vopReset = 0x106
     [<Literal>]
     let vopFetch1NoInterrupt = 0x107
+    [<Literal>]
+    let vopForceSync = 0x108
 
 
     [<Literal>]
@@ -1507,6 +926,24 @@ type Mos6502(config:Mos6502Configuration) =
 
     let AbsRmwStage6 () = WriteMemory ea aluTemp <| ignore
 
+    let JamAddress address =
+        FetchDiscard address |> ignore; true
+
+    let JamFFFE () =
+        JamAddress 0xFFFE
+
+    let JamFFFF () =
+        JamAddress 0xFFFF
+
+    let FetchDummyOp () =
+        FetchDummy <| ignore
+
+    let NopOp () =
+        ReadMemoryS <| ignore
+
+    let InvalidOp () =
+        FetchDiscard 0xFFFF |> ignore; false
+
     let EndISpecial () =
         opcode <- vopFetch1
         mi <- -1
@@ -1530,258 +967,369 @@ type Mos6502(config:Mos6502Configuration) =
 
     let Jam () = false
 
-    let rec ExecuteOneRetry () =
+    let jamMicrocodes =
+        [|
+            Fetch2;
+            JamFFFF;
+            JamFFFE;
+            JamFFFE;
+            Jam;
+        |]
+    
+    let microCode =
+        [|
+            // 00
+            [| Fetch2; PushPch; PushPcl; PushPBrk; FetchPclVector; FetchPchVector; EndSuppressInterrupt |];
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndReadStage6Ora; End |];
+            jamMicrocodes;
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndRmwStage6; IdxIndRmwStage7Slo; IdxIndRmwStage8; End |];
+            [| Fetch2; ZpReadNop; End |];
+            [| Fetch2; ZpReadOra; End |];
+            [| Fetch2; ZpRmwStage3; ZpRmwAsl; ZpRmwStage5; End |];
+            [| Fetch2; ZpRmwStage3; ZpRmwSlo; ZpRmwStage5; End |];
 
+            // 08
+            [| FetchDummyOp; PushP; End |];
+            [| ImmOra; End |];
+            [| ImpAslA; End |];
+            [| ImmAnc; End |];
+            [| Fetch2; Fetch3; AbsReadNop; End |];
+            [| Fetch2; Fetch3; AbsReadOra; End |];
+            [| Fetch2; Fetch3; AbsRmwStage4; AbsRmwStage5Asl; AbsRmwStage6; End |];
+            [| Fetch2; Fetch3; AbsRmwStage4; AbsRmwStage5Slo; AbsRmwStage6; End |];
 
-        // ----- Execution -----
+            // 10
+            [| RelBranchStage2Bpl; End |];
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxReadStage5; IndIdxReadStage6Ora; End |];
+            jamMicrocodes;
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxRmwStage5; IndIdxRmwStage6; IndIdxRmwStage7Slo; IndIdxRmwStage8; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadNop; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadOra; End |];
+            [| Fetch2; ZpIdxStage3X; ZpIdxRmwStage4; ZpRmwAsl; ZpIdxRmwStage6; End |];
+            [| Fetch2; ZpIdxStage3X; ZpIdxRmwStage4; ZpRmwSlo; ZpIdxRmwStage6; End |];
 
-        
-        if () |>
-            match microCode.[opcode].[mi] with
-                | Uop.Fetch1 -> Fetch1
-                | Uop.Fetch1Real -> Fetch1Real
-                | Uop.Fetch2 -> Fetch2
-                | Uop.Fetch3 -> Fetch3
-                | Uop.FetchDummy -> fun _ -> FetchDummy <| ignore
-                | Uop.PushPch -> PushPch
-                | Uop.PushPcl -> PushPcl
-                | Uop.PushPBrk -> PushPBrk
-                | Uop.PushPIrq -> PushPIrq
-                | Uop.PushPNmi -> PushPNmi
-                | Uop.PushPReset -> PushPReset
-                | Uop.PushDummy -> PushDummy
-                | Uop.FetchPclVector -> FetchPclVector
-                | Uop.FetchPchVector -> FetchPchVector
-                | Uop.ImpIny -> ImpIny
-                | Uop.ImpDey -> ImpDey
-                | Uop.ImpInx -> ImpInx
-                | Uop.ImpDex -> ImpDex
-                | Uop.NzA -> fun _ -> FetchDummy <| NZA
-                | Uop.NzX -> fun _ -> FetchDummy <| NZX
-                | Uop.NzY -> fun _ -> FetchDummy <| NZY
-                | Uop.ImpTsx -> ImpTsx
-                | Uop.ImpTxs -> ImpTxs
-                | Uop.ImpTax -> ImpTax
-                | Uop.ImpTay -> ImpTay
-                | Uop.ImpTya -> ImpTya
-                | Uop.ImpTxa -> ImpTxa
-                | Uop.ImpSei -> ImpSei
-                | Uop.ImpCli -> ImpCli
-                | Uop.ImpSec -> ImpSec
-                | Uop.ImpClc -> ImpClc
-                | Uop.ImpSed -> ImpSed
-                | Uop.ImpCld -> ImpCld
-                | Uop.ImpClv -> ImpClv
-                | Uop.AbsWriteSta -> AbsWriteSta
-                | Uop.AbsWriteStx -> AbsWriteStx
-                | Uop.AbsWriteSty -> AbsWriteSty
-                | Uop.AbsWriteSax -> AbsWriteSax
-                | Uop.ZpWriteSta -> ZpWriteSta
-                | Uop.ZpWriteSty -> ZpWriteSty
-                | Uop.ZpWriteStx -> ZpWriteStx
-                | Uop.ZpWriteSax -> ZpWriteSax
-                | Uop.IndIdxStage3 -> IndIdxStage3
-                | Uop.IndIdxStage4 -> IndIdxStage4
-                | Uop.IndIdxWriteStage5 -> IndIdxWriteStage5
-                | Uop.IndIdxReadStage5 -> IndIdxReadStage5
-                | Uop.IndIdxRmwStage5 -> IndIdxRmwStage5
-                | Uop.IndIdxWriteStage6Sta -> IndIdxWriteStage6Sta
-                | Uop.IndIdxWriteStage6Sha -> IndIdxWriteStage6Sha
-                | Uop.IndIdxReadStage6Lda -> IndIdxReadStage6Lda
-                | Uop.IndIdxReadStage6Cmp -> IndIdxReadStage6Cmp
-                | Uop.IndIdxReadStage6And -> IndIdxReadStage6And
-                | Uop.IndIdxReadStage6Eor -> IndIdxReadStage6Eor
-                | Uop.IndIdxReadStage6Lax -> IndIdxReadStage6Lax
-                | Uop.IndIdxReadStage6Adc -> IndIdxReadStage6Adc
-                | Uop.IndIdxReadStage6Sbc -> IndIdxReadStage6Sbc
-                | Uop.IndIdxReadStage6Ora -> IndIdxReadStage6Ora
-                | Uop.IndIdxRmwStage6 -> IndIdxRmwStage6
-                | Uop.IndIdxRmwStage7Slo -> IndIdxRmwStage7Slo
-                | Uop.IndIdxRmwStage7Sre -> IndIdxRmwStage7Sre
-                | Uop.IndIdxRmwStage7Rra -> IndIdxRmwStage7Rra
-                | Uop.IndIdxRmwStage7Isc -> IndIdxRmwStage7Isc
-                | Uop.IndIdxRmwStage7Dcp -> IndIdxRmwStage7Dcp
-                | Uop.IndIdxRmwStage7Rla -> IndIdxRmwStage7Rla
-                | Uop.IndIdxRmwStage8 -> IndIdxRmwStage8
-                | Uop.RelBranchStage2Bvs -> RelBranchStage2Bvs
-                | Uop.RelBranchStage2Bvc -> RelBranchStage2Bvc
-                | Uop.RelBranchStage2Bmi -> RelBranchStage2Bmi
-                | Uop.RelBranchStage2Bpl -> RelBranchStage2Bpl
-                | Uop.RelBranchStage2Bcs -> RelBranchStage2Bcs
-                | Uop.RelBranchStage2Bcc -> RelBranchStage2Bcc
-                | Uop.RelBranchStage2Beq -> RelBranchStage2Beq
-                | Uop.RelBranchStage2Bne -> RelBranchStage2Bne
-                | Uop.RelBranchStage3 -> RelBranchStage3
-                | Uop.RelBranchStage4 -> RelBranchStage4
-                | Uop.Nop -> fun _ -> ReadMemoryS <| ignore
-                | Uop.IncS -> IncS
-                | Uop.Jsr -> Jsr
-                | Uop.PullP -> PullP
-                | Uop.PullPcl -> PullPcl
-                | Uop.PullPchNoInc -> PullPchNoInc
-                | Uop.AbsReadLda -> AbsReadLda
-                | Uop.AbsReadLdy -> AbsReadLdy
-                | Uop.AbsReadLdx -> AbsReadLdx
-                | Uop.AbsReadBit -> AbsReadBit
-                | Uop.AbsReadLax -> AbsReadLax
-                | Uop.AbsReadAnd -> AbsReadAnd
-                | Uop.AbsReadEor -> AbsReadEor
-                | Uop.AbsReadOra -> AbsReadOra
-                | Uop.AbsReadAdc -> AbsReadAdc
-                | Uop.AbsReadCmp -> AbsReadCmp
-                | Uop.AbsReadCpy -> AbsReadCpy
-                | Uop.AbsReadNop -> AbsReadNop
-                | Uop.AbsReadCpx -> AbsReadCpx
-                | Uop.AbsReadSbc -> AbsReadSbc
-                | Uop.ZpIdxStage3X -> ZpIdxStage3X
-                | Uop.ZpIdxStage3Y -> ZpIdxStage3Y
-                | Uop.ZpIdxRmwStage4 -> ZpIdxRmwStage4
-                | Uop.ZpIdxRmwStage6 -> ZpIdxRmwStage6
-                | Uop.ZpReadEor -> ZpReadEor
-                | Uop.ZpReadBit -> ZpReadBit
-                | Uop.ZpReadLda -> ZpReadLda
-                | Uop.ZpReadLdy -> ZpReadLdy
-                | Uop.ZpReadLdx -> ZpReadLdx
-                | Uop.ZpReadLax -> ZpReadLax
-                | Uop.ZpReadCpy -> ZpReadCpy
-                | Uop.ZpReadCmp -> ZpReadCmp
-                | Uop.ZpReadCpx -> ZpReadCpx
-                | Uop.ZpReadOra -> ZpReadOra
-                | Uop.ZpReadNop -> ZpReadNop
-                | Uop.ZpReadSbc -> ZpReadSbc
-                | Uop.ZpReadAdc -> ZpReadAdc
-                | Uop.ZpReadAnd -> ZpReadAnd
-                | Uop.ImmEor -> ImmEor
-                | Uop.ImmAnc -> ImmAnc
-                | Uop.ImmAsr -> ImmAsr
-                | Uop.ImmAxs -> ImmAxs
-                | Uop.ImmArr -> ImmArr
-                | Uop.ImmLxa -> ImmLxa
-                | Uop.ImmOra -> ImmOra
-                | Uop.ImmCpy -> ImmCpy
-                | Uop.ImmCpx -> ImmCpx
-                | Uop.ImmCmp -> ImmCmp
-                | Uop.ImmSbc -> ImmSbc
-                | Uop.ImmAnd -> ImmAnd
-                | Uop.ImmAdc -> ImmAdc
-                | Uop.ImmLda -> ImmLda
-                | Uop.ImmLdx -> ImmLdx
-                | Uop.ImmLdy -> ImmLdy
-                | Uop.ImmUnsupported -> ImmUnsupported
-                | Uop.IdxIndStage3 -> IdxIndStage3
-                | Uop.IdxIndStage4 -> IdxIndStage4
-                | Uop.IdxIndStage5 -> IdxIndStage5
-                | Uop.IdxIndReadStage6Lda -> IdxIndReadStage6Lda
-                | Uop.IdxIndReadStage6Ora -> IdxIndReadStage6Ora
-                | Uop.IdxIndReadStage6Lax -> IdxIndReadStage6Lax
-                | Uop.IdxIndReadStage6Cmp -> IdxIndReadStage6Cmp
-                | Uop.IdxIndReadStage6Adc -> IdxIndReadStage6Adc
-                | Uop.IdxIndReadStage6And -> IdxIndReadStage6And
-                | Uop.IdxIndReadStage6Eor -> IdxIndReadStage6Eor
-                | Uop.IdxIndReadStage6Sbc -> IdxIndReadStage6Sbc
-                | Uop.IdxIndWriteStage6Sta -> IdxIndWriteStage6Sta
-                | Uop.IdxIndWriteStage6Sax -> IdxIndWriteStage6Sax
-                | Uop.IdxIndRmwStage6 -> IdxIndRmwStage6
-                | Uop.IdxIndRmwStage7Slo -> IdxIndRmwStage7Slo
-                | Uop.IdxIndRmwStage7Isc -> IdxIndRmwStage7Isc
-                | Uop.IdxIndRmwStage7Dcp -> IdxIndRmwStage7Dcp
-                | Uop.IdxIndRmwStage7Sre -> IdxIndRmwStage7Sre
-                | Uop.IdxIndRmwStage7Rra -> IdxIndRmwStage7Rra
-                | Uop.IdxIndRmwStage7Rla -> IdxIndRmwStage7Rla
-                | Uop.IdxIndRmwStage8 -> IdxIndRmwStage8
-                | Uop.PushP -> PushP
-                | Uop.PushA -> PushA
-                | Uop.PullANoInc -> PullANoInc
-                | Uop.PullPNoInc -> PullPNoInc
-                | Uop.ImpAslA -> ImpAslA
-                | Uop.ImpRolA -> ImpRolA
-                | Uop.ImpRorA -> ImpRorA
-                | Uop.ImpLsrA -> ImpLsrA
-                | Uop.JmpAbs -> JmpAbs
-                | Uop.IncPc -> IncPc
-                | Uop.ZpRmwStage3 -> ZpRmwStage3
-                | Uop.ZpRmwStage5 -> ZpRmwStage5
-                | Uop.ZpRmwInc -> ZpRmwInc
-                | Uop.ZpRmwDec -> ZpRmwDec
-                | Uop.ZpRmwAsl -> ZpRmwAsl
-                | Uop.ZpRmwSre -> ZpRmwSre
-                | Uop.ZpRmwRra -> ZpRmwRra
-                | Uop.ZpRmwDcp -> ZpRmwDcp
-                | Uop.ZpRmwLsr -> ZpRmwLsr
-                | Uop.ZpRmwRor -> ZpRmwRor
-                | Uop.ZpRmwRol -> ZpRmwRol
-                | Uop.ZpRmwSlo -> ZpRmwSlo
-                | Uop.ZpRmwIsc -> ZpRmwIsc
-                | Uop.ZpRmwRla -> ZpRmwRla
-                | Uop.AbsIdxStage3X -> AbsIdxStage3X
-                | Uop.AbsIdxStage3Y -> AbsIdxStage3Y
-                | Uop.AbsIdxReadStage4 -> AbsIdxReadStage4
-                | Uop.AbsIdxStage4 -> AbsIdxStage4
-                | Uop.AbsIdxWriteStage5Sta -> AbsIdxWriteStage5Sta
-                | Uop.AbsIdxWriteStage5Shy -> AbsIdxWriteStage5Shy
-                | Uop.AbsIdxWriteStage5Shx -> AbsIdxWriteStage5Shx
-                | Uop.AbsIdxWriteStage5Tas -> AbsIdxWriteStage5Tas
-                | Uop.AbsIdxRmwStage5 -> AbsIdxRmwStage5
-                | Uop.AbsIdxRmwStage7 -> AbsIdxRmwStage7
-                | Uop.AbsIdxRmwStage6Dec -> AbsIdxRmwStage6Dec
-                | Uop.AbsIdxRmwStage6Dcp -> AbsIdxRmwStage6Dcp
-                | Uop.AbsIdxRmwStage6Isc -> AbsIdxRmwStage6Isc
-                | Uop.AbsIdxRmwStage6Inc -> AbsIdxRmwStage6Inc
-                | Uop.AbsIdxRmwStage6Rol -> AbsIdxRmwStage6Rol
-                | Uop.AbsIdxRmwStage6Lsr -> AbsIdxRmwStage6Lsr
-                | Uop.AbsIdxRmwStage6Slo -> AbsIdxRmwStage6Slo
-                | Uop.AbsIdxRmwStage6Sre -> AbsIdxRmwStage6Sre
-                | Uop.AbsIdxRmwStage6Rra -> AbsIdxRmwStage6Rra
-                | Uop.AbsIdxRmwStage6Rla -> AbsIdxRmwStage6Rla
-                | Uop.AbsIdxRmwStage6Asl -> AbsIdxRmwStage6Asl
-                | Uop.AbsIdxRmwStage6Ror -> AbsIdxRmwStage6Ror
-                | Uop.AbsIdxReadStage5Lda -> AbsIdxReadStage5Lda
-                | Uop.AbsIdxReadStage5Ldx -> AbsIdxReadStage5Ldx
-                | Uop.AbsIdxReadStage5Lax -> AbsIdxReadStage5Lax
-                | Uop.AbsIdxReadStage5Ldy -> AbsIdxReadStage5Ldy
-                | Uop.AbsIdxReadStage5Ora -> AbsIdxReadStage5Ora
-                | Uop.AbsIdxReadStage5Nop -> AbsIdxReadStage5Nop
-                | Uop.AbsIdxReadStage5Cmp -> AbsIdxReadStage5Cmp
-                | Uop.AbsIdxReadStage5Sbc -> AbsIdxReadStage5Sbc
-                | Uop.AbsIdxReadStage5Adc -> AbsIdxReadStage5Adc
-                | Uop.AbsIdxReadStage5Eor -> AbsIdxReadStage5Eor
-                | Uop.AbsIdxReadStage5And -> AbsIdxReadStage5And
-                | Uop.AbsIdxReadStage5Las -> AbsIdxReadStage5Las
-                | Uop.AbsIndJmpStage4 -> AbsIndJmpStage4
-                | Uop.AbsIndJmpStage5 -> AbsIndJmpStage5
-                | Uop.AbsRmwStage4 -> AbsRmwStage4
-                | Uop.AbsRmwStage5Inc -> AbsRmwStage5Inc
-                | Uop.AbsRmwStage5Dec -> AbsRmwStage5Dec
-                | Uop.AbsRmwStage5Dcp -> AbsRmwStage5Dcp
-                | Uop.AbsRmwStage5Isc -> AbsRmwStage5Isc
-                | Uop.AbsRmwStage5Asl -> AbsRmwStage5Asl
-                | Uop.AbsRmwStage5Ror -> AbsRmwStage5Ror
-                | Uop.AbsRmwStage5Slo -> AbsRmwStage5Slo
-                | Uop.AbsRmwStage5Rla -> AbsRmwStage5Rla
-                | Uop.AbsRmwStage5Sre -> AbsRmwStage5Sre
-                | Uop.AbsRmwStage5Rra -> AbsRmwStage5Rra
-                | Uop.AbsRmwStage5Rol -> AbsRmwStage5Rol
-                | Uop.AbsRmwStage5Lsr -> AbsRmwStage5Lsr
-                | Uop.AbsRmwStage6 -> AbsRmwStage6
-                | Uop.EndISpecial -> EndISpecial
-                | Uop.EndSuppressInterrupt -> EndSuppressInterrupt
-                | Uop.End -> End
-                | Uop.EndBranchSpecial -> EndBranchSpecial
-                | Uop.JamFFFE -> fun _ -> FetchDiscard 0xFFFE |> ignore; true
-                | Uop.JamFFFF -> fun _ -> FetchDiscard 0xFFFF |> ignore; true
-                | _ -> fun _ -> FetchDiscard 0xFFFF |> ignore; false
-        then
+            // 18
+            [| ImpClc; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxReadStage4; AbsIdxReadStage5Ora; End |];
+            [| FetchDummyOp; End |];
+            [| Fetch2; AbsIdxStage3Y;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Slo; AbsIdxRmwStage7; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Nop; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Ora; End |];
+            [| Fetch2; AbsIdxStage3X;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Asl; AbsIdxRmwStage7; End |];
+            [| Fetch2; AbsIdxStage3X;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Slo; AbsIdxRmwStage7; End |];
+
+            // 20
+            [| Fetch2; NopOp; PushPch; PushPcl; Jsr; End |];
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndReadStage6And; End |];
+            jamMicrocodes;
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndRmwStage6; IdxIndRmwStage7Rla; IdxIndRmwStage8; End |];
+            [| Fetch2; ZpReadBit; End |];
+            [| Fetch2; ZpReadAnd; End |];
+            [| Fetch2; ZpRmwStage3; ZpRmwRol; ZpRmwStage5; End |];
+            [| Fetch2; ZpRmwStage3; ZpRmwRla; ZpRmwStage5; End |];
+
+            // 28
+            [| FetchDummyOp;  IncS; PullPNoInc; EndISpecial |];
+            [| ImmAnd; End |];
+            [| ImpRolA; End |];
+            [| ImmAnc; End |];
+            [| Fetch2; Fetch3; AbsReadBit; End |];
+            [| Fetch2; Fetch3; AbsReadAnd; End |];
+            [| Fetch2; Fetch3; AbsRmwStage4; AbsRmwStage5Rol; AbsRmwStage6; End |];
+            [| Fetch2; Fetch3; AbsRmwStage4; AbsRmwStage5Rla; AbsRmwStage6; End |];
+
+            // 30
+            [| RelBranchStage2Bmi; End |];
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxReadStage5; IndIdxReadStage6And; End |];
+            jamMicrocodes;
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxRmwStage5; IndIdxRmwStage6; IndIdxRmwStage7Rla; IndIdxRmwStage8; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadNop; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadAnd; End |];
+            [| Fetch2; ZpIdxStage3X; ZpIdxRmwStage4; ZpRmwRol; ZpIdxRmwStage6; End |];
+            [| Fetch2; ZpIdxStage3X; ZpIdxRmwStage4; ZpRmwRla; ZpIdxRmwStage6; End |];
+
+            // 38
+            [| ImpSec; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxReadStage4; AbsIdxReadStage5And; End |];
+            [| FetchDummyOp; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Rla; AbsIdxRmwStage7; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Nop; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5And; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Rol; AbsIdxRmwStage7; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Rla; AbsIdxRmwStage7; End |];
+
+            // 40
+            [| FetchDummyOp; IncS; PullP; PullPcl; PullPchNoInc; End |];
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndReadStage6Eor; End |];
+            jamMicrocodes;
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndRmwStage6; IdxIndRmwStage7Sre; IdxIndRmwStage8; End |];
+            [| Fetch2; ZpReadNop; End |];
+            [| Fetch2; ZpReadEor; End |];
+            [| Fetch2; ZpRmwStage3; ZpRmwLsr; ZpRmwStage5; End |];
+            [| Fetch2; ZpRmwStage3; ZpRmwSre; ZpRmwStage5; End |];
+
+            // 48
+            [| FetchDummyOp; PushA; End |];
+            [| ImmEor; End |];
+            [| ImpLsrA; End |];
+            [| ImmAsr; End |];
+            [| Fetch2; JmpAbs; End |];
+            [| Fetch2; Fetch3; AbsReadEor; End |];
+            [| Fetch2; Fetch3; AbsRmwStage4; AbsRmwStage5Lsr; AbsRmwStage6; End |];
+            [| Fetch2; Fetch3; AbsRmwStage4; AbsRmwStage5Sre; AbsRmwStage6; End |];
+
+            // 50
+            [| RelBranchStage2Bvc; End |];
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxReadStage5; IndIdxReadStage6Eor; End |];
+            jamMicrocodes;
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxRmwStage5; IndIdxRmwStage6; IndIdxRmwStage7Sre; IndIdxRmwStage8; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadNop; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadEor; End |];
+            [| Fetch2; ZpIdxStage3X; ZpIdxRmwStage4; ZpRmwLsr; ZpIdxRmwStage6; End |];
+            [| Fetch2; ZpIdxStage3X; ZpIdxRmwStage4; ZpRmwSre; ZpIdxRmwStage6; End |];
+
+            // 58
+            [| ImpCli; EndISpecial |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxReadStage4; AbsIdxReadStage5Eor; End |];
+            [| FetchDummyOp; End |];
+            [| Fetch2; AbsIdxStage3Y;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Sre; AbsIdxRmwStage7; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Nop; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Eor; End |];
+            [| Fetch2; AbsIdxStage3X;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Lsr; AbsIdxRmwStage7; End |];
+            [| Fetch2; AbsIdxStage3X;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Sre; AbsIdxRmwStage7; End |];
+
+            // 60
+            [| FetchDummyOp; IncS; PullPcl; PullPchNoInc; IncPc; End |];
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndReadStage6Adc; End |];
+            jamMicrocodes;
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndRmwStage6; IdxIndRmwStage7Rra; IdxIndRmwStage8; End |];
+            [| Fetch2; ZpReadNop; End |];
+            [| Fetch2; ZpReadAdc; End |];
+            [| Fetch2; ZpRmwStage3; ZpRmwRor; ZpRmwStage5; End |];
+            [| Fetch2; ZpRmwStage3; ZpRmwRra; ZpRmwStage5; End |];
+
+            // 68
+            [| FetchDummyOp; IncS; PullANoInc; End |];
+            [| ImmAdc; End |];
+            [| ImpRorA; End |];
+            [| ImmArr; End |];
+            [| Fetch2; Fetch3; AbsIndJmpStage4; AbsIndJmpStage5; End |];
+            [| Fetch2; Fetch3; AbsReadAdc; End |];
+            [| Fetch2; Fetch3; AbsRmwStage4; AbsRmwStage5Ror; AbsRmwStage6; End |];
+            [| Fetch2; Fetch3; AbsRmwStage4; AbsRmwStage5Rra; AbsRmwStage6; End |];
+
+            // 70
+            [| RelBranchStage2Bvs; End |];
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxReadStage5; IndIdxReadStage6Adc; End |];
+            jamMicrocodes;
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxRmwStage5; IndIdxRmwStage6; IndIdxRmwStage7Rra; IndIdxRmwStage8; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadNop; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadAdc; End |];
+            [| Fetch2; ZpIdxStage3X; ZpIdxRmwStage4; ZpRmwRor; ZpIdxRmwStage6; End |];
+            [| Fetch2; ZpIdxStage3X; ZpIdxRmwStage4; ZpRmwRra; ZpIdxRmwStage6; End |];
+
+            // 78
+            [| ImpSei; EndISpecial |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxReadStage4; AbsIdxReadStage5Adc; End |];
+            [| FetchDummyOp; End |];
+            [| Fetch2; AbsIdxStage3Y;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Rra; AbsIdxRmwStage7; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Nop; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Adc; End |];
+            [| Fetch2; AbsIdxStage3X;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Ror; AbsIdxRmwStage7; End |];
+            [| Fetch2; AbsIdxStage3X;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Rra; AbsIdxRmwStage7; End |];
+
+            // 80
+            [| ImmUnsupported; End |];
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndWriteStage6Sta; End |];
+            [| ImmUnsupported; End |];
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndWriteStage6Sax; End |];
+            [| Fetch2; ZpWriteSty; End |];
+            [| Fetch2; ZpWriteSta; End |];
+            [| Fetch2; ZpWriteStx; End |];
+            [| Fetch2; ZpWriteSax; End |];
+
+            // 88
+            [| ImpDey; End |];
+            [| ImmUnsupported; End |];
+            [| ImpTxa; End |];
+            [| ImmUnsupported; End |];
+            [| Fetch2; Fetch3; AbsWriteSty; End |];
+            [| Fetch2; Fetch3; AbsWriteSta; End |];
+            [| Fetch2; Fetch3; AbsWriteStx; End |];
+            [| Fetch2; Fetch3; AbsWriteSax; End |];
+
+            // 90
+            [| RelBranchStage2Bcc; End |];
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxWriteStage5; IndIdxWriteStage6Sta; End |];
+            jamMicrocodes;
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxWriteStage5; IndIdxWriteStage6Sha; End |];
+            [| Fetch2; ZpIdxStage3X; ZpWriteSty; End |];
+            [| Fetch2; ZpIdxStage3X; ZpWriteSta; End |];
+            [| Fetch2; ZpIdxStage3Y; ZpWriteStx; End |];
+            [| Fetch2; ZpIdxStage3Y; ZpWriteSax; End |];
+
+            // 98
+            [| ImpTya; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxStage4; AbsIdxWriteStage5Sta; End |];
+            [| ImpTxs; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxStage4; AbsIdxWriteStage5Tas; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxStage4; AbsIdxWriteStage5Shy; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxStage4; AbsIdxWriteStage5Sta; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxStage4; AbsIdxWriteStage5Shx; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxStage4; AbsIdxWriteStage5Tas; End |];
+
+            // A0
+            [| ImmLdy; End |];
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndReadStage6Lda; End |];
+            [| ImmLdx; End |];
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndReadStage6Lax; End |];
+            [| Fetch2; ZpReadLdy; End |];
+            [| Fetch2; ZpReadLda; End |];
+            [| Fetch2; ZpReadLdx; End |];
+            [| Fetch2; ZpReadLax; End |];
+
+            // A8
+            [| ImpTay; End |];
+            [| ImmLda; End |];
+            [| ImpTax; End |];
+            [| ImmLxa; End |];
+            [| Fetch2; Fetch3; AbsReadLdy; End |];
+            [| Fetch2; Fetch3; AbsReadLda; End |];
+            [| Fetch2; Fetch3; AbsReadLdx; End |];
+            [| Fetch2; Fetch3; AbsReadLax; End |];
+
+            // B0
+            [| RelBranchStage2Bcs; End |];
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxReadStage5; IndIdxReadStage6Lda; End |];
+            jamMicrocodes;
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxReadStage5; IndIdxReadStage6Lax; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadLdy; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadLda; End |];
+            [| Fetch2; ZpIdxStage3Y; ZpReadLdx; End |];
+            [| Fetch2; ZpIdxStage3Y; ZpReadLax; End |];
+
+            // B8
+            [| ImpClv; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxReadStage4; AbsIdxReadStage5Lda; End |];
+            [| ImpTsx; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxReadStage4; AbsIdxReadStage5Las; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Ldy; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Lda; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxReadStage4; AbsIdxReadStage5Ldx; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxReadStage4; AbsIdxReadStage5Lax; End |];
+
+            // C0
+            [| ImmCpy; End |];
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndReadStage6Cmp; End |];
+            [| ImmUnsupported; End |];
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndRmwStage6; IdxIndRmwStage7Dcp; IdxIndRmwStage8; End |];
+            [| Fetch2; ZpReadCpy; End |];
+            [| Fetch2; ZpReadCmp; End |];
+            [| Fetch2; ZpRmwStage3; ZpRmwDec; ZpRmwStage5; End |];
+            [| Fetch2; ZpRmwStage3; ZpRmwDcp; ZpRmwStage5; End |];
+
+            // C8
+            [| ImpIny; End |];
+            [| ImmCmp; End |];
+            [| ImpDex; End |];
+            [| ImmAxs; End |];
+            [| Fetch2; Fetch3; AbsReadCpy; End |];
+            [| Fetch2; Fetch3; AbsReadCmp; End |];
+            [| Fetch2; Fetch3; AbsRmwStage4; AbsRmwStage5Dec; AbsRmwStage6; End |];
+            [| Fetch2; Fetch3; AbsRmwStage4; AbsRmwStage5Dcp; AbsRmwStage6; End |];
+
+            // D0
+            [| RelBranchStage2Bne; End |];
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxReadStage5; IndIdxReadStage6Cmp; End |];
+            jamMicrocodes;
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxRmwStage5; IndIdxRmwStage6; IndIdxRmwStage7Dcp; IndIdxRmwStage8; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadNop; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadCmp; End |];
+            [| Fetch2; ZpIdxStage3X; ZpIdxRmwStage4; ZpRmwDec; ZpIdxRmwStage6; End |];
+            [| Fetch2; ZpIdxStage3X; ZpIdxRmwStage4; ZpRmwDcp; ZpIdxRmwStage6; End |];
+
+            // D8
+            [| ImpCld; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxReadStage4; AbsIdxReadStage5Cmp; End |];
+            [| FetchDummyOp; End |];
+            [| Fetch2; AbsIdxStage3Y;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Dcp; AbsIdxRmwStage7; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Nop; End|];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Cmp; End |];
+            [| Fetch2; AbsIdxStage3X;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Dec; AbsIdxRmwStage7; End |];
+            [| Fetch2; AbsIdxStage3X;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Dcp; AbsIdxRmwStage7; End |];
+
+            // E0
+            [| ImmCpx; End |];
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndReadStage6Sbc; End |];
+            [| ImmUnsupported; End |];
+            [| Fetch2; IdxIndStage3; IdxIndStage4; IdxIndStage5; IdxIndRmwStage6; IdxIndRmwStage7Isc; IdxIndRmwStage8; End |];
+            [| Fetch2; ZpReadCpx; End |];
+            [| Fetch2; ZpReadSbc; End|];
+            [| Fetch2; ZpRmwStage3; ZpRmwInc; ZpRmwStage5; End |];
+            [| Fetch2; ZpRmwStage3; ZpRmwIsc; ZpRmwStage5; End |];
+
+            // E8
+            [| ImpInx; End |];
+            [| ImmSbc; End |];
+            [| FetchDummyOp; End |];
+            [| ImmSbc; End |];
+            [| Fetch2; Fetch3; AbsReadCpx; End|];
+            [| Fetch2; Fetch3; AbsReadSbc; End |];
+            [| Fetch2; Fetch3; AbsRmwStage4; AbsRmwStage5Inc; AbsRmwStage6; End |];
+            [| Fetch2; Fetch3; AbsRmwStage4; AbsRmwStage5Isc; AbsRmwStage6; End |];
+
+            // F0
+            [| RelBranchStage2Beq; End |];
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxReadStage5; IndIdxReadStage6Sbc; End |];
+            jamMicrocodes;
+            [| Fetch2; IndIdxStage3; IndIdxStage4; IndIdxRmwStage5; IndIdxRmwStage6; IndIdxRmwStage7Isc; IndIdxRmwStage8; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadNop; End |];
+            [| Fetch2; ZpIdxStage3X; ZpReadSbc; End |];
+            [| Fetch2; ZpIdxStage3X; ZpIdxRmwStage4; ZpRmwInc; ZpIdxRmwStage6; End |];
+            [| Fetch2; ZpIdxStage3X; ZpIdxRmwStage4; ZpRmwIsc; ZpIdxRmwStage6; End |];
+
+            // F8
+            [| ImpSed; End |];
+            [| Fetch2; AbsIdxStage3Y; AbsIdxReadStage4; AbsIdxReadStage5Sbc; End |];
+            [| FetchDummyOp; End |];
+            [| Fetch2; AbsIdxStage3Y;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Isc; AbsIdxRmwStage7; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Nop; End |];
+            [| Fetch2; AbsIdxStage3X; AbsIdxReadStage4; AbsIdxReadStage5Sbc; End |];
+            [| Fetch2; AbsIdxStage3X;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Inc; AbsIdxRmwStage7; End |];
+            [| Fetch2; AbsIdxStage3X;  AbsIdxStage4; AbsIdxRmwStage5; AbsIdxRmwStage6Isc; AbsIdxRmwStage7; End |];
+
+            // 100 (VOP_Fetch1)
+            [| Fetch1 |];
+            // 101 (VOP_RelativeStuff)
+            [| RelBranchStage3; EndBranchSpecial |];
+            // 102 (VOP_RelativeStuff2)
+            [| RelBranchStage4; End |];
+            // 103 (VOP_RelativeStuff3)
+            [| EndSuppressInterrupt |]
+            // 104 (VOP_NMI)
+            [| FetchDummyOp; FetchDummyOp; PushPch; PushPcl; PushPNmi; FetchPclVector; FetchPchVector; EndSuppressInterrupt |];
+            // 105 (VOP_IRQ)
+            [| FetchDummyOp; FetchDummyOp; PushPch; PushPcl; PushPIrq; FetchPclVector; FetchPchVector; EndSuppressInterrupt |];
+            // 106 (VOP_RESET)
+            [| FetchDummyOp; FetchDummyOp; FetchDummyOp; PushDummy; PushDummy; PushPReset; FetchPclVector; FetchPchVector; EndSuppressInterrupt |];
+            // 107 (VOP_Fetch1_NoInterrupt)
+            [| Fetch1Real |];
+            // 108 (VOP_ForceSync)
+            [| End |];
+        |]
+
+    let rec ExecuteOneRetryInternal () =
+        if microCode.[opcode].[mi]() then
             mi <- mi + 1
 
         if restart then
             restart <- false
-            ExecuteOneRetry()
+            ExecuteOneRetryInternal()
         else
             totalCycles <- totalCycles + 1UL
 
-
-    // ----- Interface -----
-
+    let ExecuteOneRetry () =
+        ExecuteOneRetryInternal()
 
     member this.Clock () =
         rdy <- readRdy()
@@ -1822,9 +1370,7 @@ type Mos6502(config:Mos6502Configuration) =
     member this.D = d
 
     member this.Sync =
-        match microCode.[opcode].[mi] with
-            | Uop.Fetch1 | Uop.Fetch1Real | Uop.End | Uop.EndBranchSpecial | Uop.EndISpecial | Uop.EndSuppressInterrupt -> true
-            | _ -> false
+        mi >= microCode.[opcode].Length - 1
 
     member this.SetA value = a <- value &&& 0xFF
     member this.SetX value = x <- value &&& 0xFF
@@ -1846,7 +1392,7 @@ type Mos6502(config:Mos6502Configuration) =
         restart <- false
 
     member this.ForceOpcodeSync () =
-        this.SetOpcode vopFetch1
-        
+        opcode <- vopFetch1
+
     member this.TotalCycles = totalCycles
 
