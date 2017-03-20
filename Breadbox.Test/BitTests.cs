@@ -2,13 +2,13 @@
 using Moq;
 using NUnit.Framework;
 
-namespace Breadbox.Test.Cpu6502.Opcode
+namespace Breadbox
 {
     [TestFixture]
     [Parallelizable(ParallelScope.Self)]
-    public class Cpu6502BitTests : Cpu6502OpcodeBaseTestFixture
+    public class BitTests : OpcodeBaseTestFixture
     {
-        public Cpu6502BitTests() : base(0x24)
+        public BitTests() : base(0x24)
         {
         }
 

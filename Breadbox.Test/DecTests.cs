@@ -2,11 +2,11 @@
 using Moq;
 using NUnit.Framework;
 
-namespace Breadbox.Test.Cpu6502.Opcode
+namespace Breadbox
 {
     [TestFixture]
     [Parallelizable(ParallelScope.Self)]
-    public class Cpu6502DecTests : Cpu6502ExecutionBaseTestFixture
+    public class DecTests : ExecutionBaseTestFixture
     {
         [Test]
         public void Dec([Range(0x0, 0xF, 0x5)] int lowOperand, [Range(0x0, 0xF, 0x5)] int highOperand)

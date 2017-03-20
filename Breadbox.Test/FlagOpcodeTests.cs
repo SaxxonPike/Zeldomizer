@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 
-namespace Breadbox.Test.Cpu6502.Opcode
+namespace Breadbox
 {
-    public class Cpu6502FlagOpcodeTests : Cpu6502ExecutionBaseTestFixture
+    public class FlagOpcodeTests : ExecutionBaseTestFixture
     {
         [Test]
         public void Clc([Range(0, 1)] int c)

@@ -2,11 +2,11 @@
 using Moq;
 using NUnit.Framework;
 
-namespace Breadbox.Test.Cpu6502.Opcode
+namespace Breadbox
 {
     [TestFixture]
     [Parallelizable(ParallelScope.Self)]
-    public class Cpu6502BranchTests : Cpu6502ExecutionBaseTestFixture
+    public class BranchTests : ExecutionBaseTestFixture
     {
         protected int CalculateBranch(int pc, int offset, bool taken)
         {

@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 
-namespace Breadbox.Test.Cpu6502.Opcode
+namespace Breadbox
 {
     [TestFixture]
     [Parallelizable(ParallelScope.Self)]
-    public class Cpu6502TransferTests : Cpu6502ExecutionBaseTestFixture
+    public class TransferTests : ExecutionBaseTestFixture
     {
         [Test]
         public void Tax([Random(0x00, 0x7F, 1)] int r0, [Random(0x80, 0xFF, 1)] int r1)

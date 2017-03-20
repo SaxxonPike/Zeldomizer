@@ -2,10 +2,10 @@
 using Moq;
 using NUnit.Framework;
 
-namespace Breadbox.Test.Cpu6502.Opcode
+namespace Breadbox
 {
     [Parallelizable(ParallelScope.Self)]
-    public class Cpu6502BitwiseTests : Cpu6502ExecutionBaseTestFixture
+    public class BitwiseTests : ExecutionBaseTestFixture
     {
         [Test]
         public void And([Range(0x0, 0xF, 0x5)] int lowA, [Range(0x0, 0xF, 0x5)] int highA, [Range(0x0, 0xF, 0x5)] int lowOperand, [Range(0x0, 0xF, 0x5)] int highOperand)

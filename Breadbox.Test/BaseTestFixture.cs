@@ -4,11 +4,11 @@ using Moq;
 using Moq.Language;
 using NUnit.Framework;
 
-namespace Breadbox.Test.Cpu6502
+namespace Breadbox
 {
     [TestFixture]
     [Parallelizable(ParallelScope.Fixtures)]
-    public abstract class Cpu6502BaseTestFixture
+    public abstract class BaseTestFixture
     {
         private Mos6502Configuration _config;
         protected Mock<IMemory> MemoryMock;

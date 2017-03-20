@@ -4,11 +4,11 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 
-namespace Breadbox.Test.Cpu6502.Opcode
+namespace Breadbox
 {
     [TestFixture]
     [Parallelizable(ParallelScope.Self)]
-    public class Cpu6502AddressingTests : Cpu6502ExecutionBaseTestFixture
+    public class AddressingTests : ExecutionBaseTestFixture
     {
         private enum AccessType
         {

@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
-namespace Breadbox.Test.Cpu6502
+namespace Breadbox
 {
     [TestFixture]
-    public class Cpu6502InterruptTests : Cpu6502BaseTestFixture
+    public class InterruptTests : BaseTestFixture
     {
         [Test]
         public void CpuCanRunOneCycle()

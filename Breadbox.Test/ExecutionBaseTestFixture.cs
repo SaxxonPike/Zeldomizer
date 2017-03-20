@@ -1,8 +1,8 @@
 ﻿using Moq;
 
-namespace Breadbox.Test.Cpu6502.Opcode
+namespace Breadbox
 {
-    public abstract class Cpu6502ExecutionBaseTestFixture : Cpu6502BaseTestFixture
+    public abstract class ExecutionBaseTestFixture : BaseTestFixture
     {
         protected override void SetUpMocks()
         {

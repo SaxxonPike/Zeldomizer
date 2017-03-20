@@ -1,12 +1,12 @@
 ﻿using NUnit.Framework;
 
-namespace Breadbox.Test.Cpu6502.Opcode
+namespace Breadbox
 {
-    public abstract class Cpu6502OpcodeBaseTestFixture : Cpu6502ExecutionBaseTestFixture
+    public abstract class OpcodeBaseTestFixture : ExecutionBaseTestFixture
     {
         private readonly int _opcode;
 
-        protected Cpu6502OpcodeBaseTestFixture(int opcode)
+        protected OpcodeBaseTestFixture(int opcode)
         {
             _opcode = opcode;
         }

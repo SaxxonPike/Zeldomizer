@@ -2,11 +2,11 @@
 using Moq;
 using NUnit.Framework;
 
-namespace Breadbox.Test.Cpu6502.Opcode
+namespace Breadbox
 {
     [TestFixture]
     [Parallelizable(ParallelScope.Self)]
-    public class Cpu6502ShiftTests : Cpu6502ExecutionBaseTestFixture
+    public class ShiftTests : ExecutionBaseTestFixture
     {
         [Test]
         public void Asl([Range(0x0, 0xF, 0x5)] int lowOperand, [Range(0x0, 0xF, 0x5)] int highOperand)
