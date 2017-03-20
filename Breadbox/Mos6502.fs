@@ -237,16 +237,11 @@ type private Uop =
     | JamFFFF
     | JamFFFE
 
-type Mos6502Configuration(lxaConstant:int, hasDecimalMode:bool, port:IPort, memory:IMemory, ready:IReadySignal) =
+type Mos6502Configuration(lxaConstant:int, hasDecimalMode:bool, memory:IMemory, ready:IReadySignal) =
     member val LxaConstant = lxaConstant
     member val HasDecimalMode = hasDecimalMode
     member val Memory = memory
     member val Ready = ready
-    member val Port = port
-    member val HasPort =
-        match box port with
-            | null -> false
-            | _ -> true
 
 type Mos6502(config:Mos6502Configuration) =
     let jamMicrocodes =
@@ -668,39 +663,9 @@ type Mos6502(config:Mos6502Configuration) =
     let memoryReadRaw = config.Memory.Read
     let memoryWriteRaw = config.Memory.Write
 
-    let read =
-        if config.HasPort then
-            let readPort =
-                if config.HasPort then
-                    config.Port.ReadPort
-                else
-                    fun _ ->
-                        0xFF
-            fun address ->
-                match address with
-                    | 0x00 ->
-                        memoryReadRaw(address) |> ignore
-                        ioDirection
-                    | 0x01 ->
-                        memoryReadRaw(address) |> ignore
-                        (ioLatch ||| ((~~~ioDirection) &&& readPort())) &&& 0xFF
-                    | _ -> memoryReadRaw(address)
-        else
-            memoryReadRaw
+    let read = memoryReadRaw
 
-    let write =
-        if config.HasPort then
-            fun (address, value) ->
-                match address with
-                    | 0x00 ->
-                        memoryReadRaw(address) |> ignore
-                        ioDirection <- value
-                    | 0x01 ->
-                        memoryReadRaw(address) |> ignore
-                        ioLatch <- value
-                    | _ -> memoryWriteRaw(address, value)
-        else
-            memoryWriteRaw
+    let write = memoryWriteRaw
 
     let SoftReset () =
         i <- true

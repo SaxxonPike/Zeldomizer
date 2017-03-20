@@ -24,7 +24,7 @@ namespace Breadbox.Test.Cpu6502
             var memory = MemoryMock != null ? MemoryMock.Object : new MemoryNull();
             var ready = ReadySignalMock != null ? ReadySignalMock.Object : new ReadySignalNull();
 
-            _config = new Mos6502Configuration(0xFF, true, null, memory, ready);
+            _config = new Mos6502Configuration(0xFF, true, memory, ready);
             Cpu = new Mos6502(_config);
         }
 

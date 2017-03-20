@@ -59,25 +59,5 @@ namespace Breadbox.Test.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] basic_901226_01 {
-            get {
-                object obj = ResourceManager.GetObject("basic_901226_01", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] kernal_901227_03 {
-            get {
-                object obj = ResourceManager.GetObject("kernal_901227_03", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

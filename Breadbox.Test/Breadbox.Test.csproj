@@ -57,7 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cpu6502\Integration\Cpu6502Commodore64KernalTest.cs" />
     <Compile Include="Cpu6502\Opcode\Cpu6502AdcTests.cs" />
     <Compile Include="Cpu6502\Opcode\Cpu6502AddressingTests.cs" />
     <Compile Include="Cpu6502\Opcode\Cpu6502BitwiseTests.cs" />
@@ -73,11 +72,6 @@
     <Compile Include="Cpu6502\Opcode\Cpu6502CompareTests.cs" />
     <Compile Include="Cpu6502\Opcode\Cpu6502OpcodeBaseTestFixture.cs" />
     <Compile Include="Cpu6502\Opcode\Cpu6502SbcTests.cs" />
-    <Compile Include="Mos6567FetchAddressTests.cs" />
-    <Compile Include="Mos6567\Mos6567BaseTestFixture.cs" />
-    <Compile Include="Mos6567\Mos6567RawGraphicsOutputTests.cs" />
-    <Compile Include="Mos6567\Mos6567ShiftGraphicsOutputTests.cs" />
-    <Compile Include="Mos6567\Mos6567ShiftSpriteOutputTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -87,8 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\basic.901226-01.bin" />
-    <None Include="Resources\kernal.901227-03.bin" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Breadbox\Breadbox.fsproj">

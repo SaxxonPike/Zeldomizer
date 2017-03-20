@@ -12,29 +12,8 @@ type IMemory =
 type IClock =
     abstract member Clock: unit -> unit
 
-type ILoRamSignal =
-    abstract member ReadLoRam: unit -> bool
-
-type IHiRamSignal =
-    abstract member ReadHiRam: unit -> bool
-
-type ICharenSignal =
-    abstract member ReadCharen: unit -> bool
-
-type IGameSignal =
-    abstract member ReadGame: unit -> bool
-
-type IExRomSignal =
-    abstract member ReadExRom: unit -> bool
-
 type IReadySignal =
     abstract member ReadRdy: unit -> bool
-
-type IVicBank =
-    abstract member ReadVicBank: unit -> int
-
-type IPort =
-    abstract member ReadPort: unit -> int
 
 type MemoryNull () =
     interface IMemory with

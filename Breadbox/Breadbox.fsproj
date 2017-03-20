@@ -47,11 +47,6 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Interfaces.fs" />
     <Compile Include="Mos6502.fs" />
-    <Compile Include="Mos6567.fs" />
-    <Compile Include="RomChip.fs" />
-    <Compile Include="RamChip.fs" />
-    <Compile Include="System.Commodore64SystemPla.fs" />
-    <Compile Include="System.Commodore64SystemCpuPort.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
