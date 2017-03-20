@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeldomizer", "Zeldomizer\Ze
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeldomizer.Test", "Zeldomizer.Test\Zeldomizer.Test.csproj", "{D6031DF4-A4FF-4508-9AA5-55D0C43ABF26}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Breadbox", "externals\breadbox\BreadboxF\Breadbox.fsproj", "{AA8601C2-2F4E-4720-8868-297745913A14}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Breadbox", "Breadbox\Breadbox.fsproj", "{AA8601C2-2F4E-4720-8868-297745913A14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Breadbox.Test", "externals\breadbox\Breadbox.Test\Breadbox.Test.csproj", "{B4A2FC78-B16A-48A9-AB04-18AE3AE233E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Breadbox.Test", "Breadbox.Test\Breadbox.Test.csproj", "{B4A2FC78-B16A-48A9-AB04-18AE3AE233E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
