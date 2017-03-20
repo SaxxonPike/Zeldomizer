@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Zeldomizer.Metal.Cpu
+﻿namespace Zeldomizer.Metal.Cpu
 {
     public class LocatedInstruction : Instruction
     {

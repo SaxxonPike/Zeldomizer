@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Zeldomizer.Metal
+﻿namespace Zeldomizer.Metal
 {
     public interface IConversionTable
     {

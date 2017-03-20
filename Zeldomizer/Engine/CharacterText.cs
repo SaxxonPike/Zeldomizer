@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Zeldomizer.Metal;
+﻿using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine
 {

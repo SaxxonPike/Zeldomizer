@@ -13,6 +13,7 @@ namespace Zeldomizer
     /// </summary>
     [TestFixture]
     [ExcludeFromCodeCoverage]
+    [Parallelizable(ParallelScope.Fixtures)]
     public abstract class BaseTestFixture
     {
         [SetUp]

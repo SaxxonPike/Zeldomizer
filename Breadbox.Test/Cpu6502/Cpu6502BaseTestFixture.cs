@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using Moq.Language;
@@ -8,7 +7,7 @@ using NUnit.Framework;
 namespace Breadbox.Test.Cpu6502
 {
     [TestFixture]
-    [Parallelizable(ParallelScope.Children)]
+    [Parallelizable(ParallelScope.Fixtures)]
     public abstract class Cpu6502BaseTestFixture
     {
         private Mos6502Configuration _config;

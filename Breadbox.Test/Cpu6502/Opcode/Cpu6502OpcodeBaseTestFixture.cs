@@ -1,5 +1,4 @@
-﻿using Moq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Breadbox.Test.Cpu6502.Opcode
 {

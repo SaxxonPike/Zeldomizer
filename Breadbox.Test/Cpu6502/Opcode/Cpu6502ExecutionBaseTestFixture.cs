@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Moq;
+﻿using Moq;
 
 namespace Breadbox.Test.Cpu6502.Opcode
 {
