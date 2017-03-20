@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblerTests.cs" />
     <Compile Include="BaseTestFixture.cs" />
     <Compile Include="DisassemblerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

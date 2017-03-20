@@ -12,20 +12,44 @@ namespace Disaster
             _disassembler = disassembler;
         }
 
-        public CodeAnalysis Analyze(ICodeBlock codeBlock)
+        public CodeAnalysis Analyze(IEnumerable<ICodeBlock> codeBlocks, IEnumerable<int> addresses)
         {
+            var blocks = codeBlocks.ToArray();
             var instructions = new Dictionary<int, LocatedInstruction>();
-            var traces = new Queue<int>();
+            var traces = new Queue<int>(addresses);
 
-            traces.Enqueue(codeBlock.AnalysisHintAddresses.Any()
-                ? codeBlock.AnalysisHintAddresses.First()
-                : codeBlock.Origin);
+            ICodeBlock GetContainingCodeBlock(int address)
+            {
+                return blocks.FirstOrDefault(block =>
+                {
+                    var offset = block.ConvertMappedAddressToRomOffset(address);
+                    return offset >= block.Offset && offset < block.Offset + block.Length;
+                });
+            }
+
+            int? ReadVector(int address)
+            {
+                var lowByteBlock = GetContainingCodeBlock(address & 0xFFFF);
+                var highByteBlock = GetContainingCodeBlock((address & 0xFF00) | ((address + 1) & 0x00FF));
+                if (lowByteBlock != null && highByteBlock != null)
+                {
+                    return lowByteBlock.Rom[lowByteBlock.ConvertMappedAddressToRomOffset(address)] |
+                           (highByteBlock.Rom[highByteBlock.ConvertMappedAddressToRomOffset(address + 1)] << 8);
+                }
+                return null;
+            }
 
             while (traces.Count > 0)
             {
                 var address = traces.Dequeue();
                 while (!instructions.ContainsKey(address))
                 {
+                    // Find the code block containing the current address.
+                    var codeBlock = GetContainingCodeBlock(address);
+                    if (codeBlock == null)
+                        break;
+
+                    // Read the current instruction.
                     var instruction = _disassembler.Disassemble(codeBlock, address);
                     instructions[address] = instruction;
 
@@ -37,8 +61,7 @@ namespace Disaster
                                            (instruction.Operand >= 0x80
                                                ? (instruction.Operand - 0x100)
                                                : instruction.Operand);
-                        if (branchTarget != address)
-                            traces.Enqueue(branchTarget);
+                        traces.Enqueue(branchTarget);
                     }
 
                     // Jumps move the address pointer.
@@ -46,17 +69,15 @@ namespace Disaster
                     {
                         if (instruction.AddressingMode == AddressingMode.Indirect)
                         {
-                            // If it's indirect, see if the memory location is within the code block.
-                            var vectorAddress = instruction.Operand;
-                            var romOffset = codeBlock.ConvertMappedAddressToRomOffset(vectorAddress);
-                            if (romOffset < codeBlock.Offset || romOffset >= codeBlock.Offset + codeBlock.Length)
-                            {
-                                // The address is outside the range of the code block, fail.
+                            // If it's indirect, try reading the vector.
+                            var vector = ReadVector(instruction.Operand);
+
+                            // If we can't read the vector, end.
+                            if (vector == null)
                                 break;
-                            }
 
                             // Get the target address and go there.
-                            address = codeBlock.Rom[romOffset] | (codeBlock.Rom[romOffset + 1] << 8);
+                            address = vector.Value;
                             continue;
                         }
 
