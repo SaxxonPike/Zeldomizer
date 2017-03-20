@@ -85,7 +85,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\externals\breadbox\BreadboxF\Breadbox.fsproj">
+    <ProjectReference Include="..\Breadbox\Breadbox.fsproj">
       <Project>{aa8601c2-2f4e-4720-8868-297745913a14}</Project>
       <Name>Breadbox</Name>
     </ProjectReference>
