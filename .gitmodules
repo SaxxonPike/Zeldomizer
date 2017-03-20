@@ -1,3 +1,3 @@
 [submodule "externals/breadbox"]
 	path = externals/breadbox
-	url = git://github.com/SaxxonPike/breadbox.git
+	url = https://github.com/SaxxonPike/breadbox.git
