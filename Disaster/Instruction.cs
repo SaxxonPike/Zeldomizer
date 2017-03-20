@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Zeldomizer.Metal.Cpu
+namespace Disaster
 {
     public class Instruction
     {

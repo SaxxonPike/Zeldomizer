@@ -36,7 +36,7 @@ namespace Zeldomizer
         /// <returns>Test ROM.</returns>
         public static IRom GetRom()
         {
-            var resource = GetResource("zelda.zip");
+            var resource = GetResource("TestData.zip");
             if (resource.Length == 0x20000 || resource.Length == 0x20010)
                 return new Rom(resource);
             if (resource.Length < 2)

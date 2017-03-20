@@ -1,6 +1,5 @@
-﻿using NUnit.Framework;
-using Zeldomizer.Metal;
-using Zeldomizer.Metal.Cpu;
+﻿using Disaster;
+using NUnit.Framework;
 
 namespace Zeldomizer.Engine
 {

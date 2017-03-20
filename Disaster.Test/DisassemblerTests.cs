@@ -2,7 +2,7 @@
 using Moq;
 using NUnit.Framework;
 
-namespace Zeldomizer.Metal.Cpu
+namespace Disaster
 {
     public class DisassemblerTests : BaseTestFixture<Disassembler>
     {

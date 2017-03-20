@@ -1,4 +1,4 @@
-﻿namespace Zeldomizer.Metal.Cpu
+﻿namespace Disaster
 {
     public interface IDisassembler
     {

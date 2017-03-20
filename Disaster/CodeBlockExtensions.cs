@@ -1,4 +1,4 @@
-﻿namespace Zeldomizer.Metal
+﻿namespace Disaster
 {
     public static class CodeBlockExtensions
     {

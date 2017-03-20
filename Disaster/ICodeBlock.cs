@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Zeldomizer.Metal
+namespace Disaster
 {
     public interface ICodeBlock
     {

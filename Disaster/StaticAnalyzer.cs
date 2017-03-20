@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Zeldomizer.Metal.Cpu
+namespace Disaster
 {
     public class StaticAnalyzer
     {
