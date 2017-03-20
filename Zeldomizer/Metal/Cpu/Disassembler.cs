@@ -2,13 +2,8 @@
 
 namespace Zeldomizer.Metal.Cpu
 {
-    public class Disassembler
+    public class Disassembler : IDisassembler
     {
-        private readonly IRom _source;
-        private readonly int _offset;
-        private readonly int _length;
-        private readonly int _origin;
-
         private static readonly Dictionary<int, AddressingMode> AddressingModeTable = new Dictionary<int, AddressingMode>
         {
             { 0x00, AddressingMode.Implied },
@@ -529,35 +524,34 @@ namespace Zeldomizer.Metal.Cpu
             { 0xFF, Opcode.Isc }
         };
 
-        public Disassembler(IRom source, int offset, int length, int origin)
+        private static int GetOperand(ICodeBlock codeBlock, int offset)
         {
-            _source = source;
-            _offset = offset;
-            _length = length;
-            _origin = origin;
+            return codeBlock.Rom[offset + 1];
         }
 
-        private int GetOperand(int offset)
+        private static int GetFullOperand(ICodeBlock codeBlock, int offset)
         {
-            return _source[offset + 1];
+            return GetOperand(codeBlock, offset) | (codeBlock.Rom[offset + 2] << 8);
         }
 
-        private int GetFullOperand(int offset)
+        public LocatedInstruction Disassemble(ICodeBlock codeBlock, int address)
         {
-            return GetOperand(offset) | (_source[offset + 2] << 8);
-        }
+            var romOffset = codeBlock.ConvertMappedAddressToRomOffset(address);
+            var input = codeBlock.Rom[romOffset];
+            var result = new LocatedInstruction
+            {
+                AddressingMode = AddressingModeTable[input],
+                Opcode = OpcodeTable[input],
+                Address = address
+            };
 
-        public Instruction Disassemble(int offset)
-        {
-            var input = _source[offset];
-            var result = new Instruction { AddressingMode = AddressingModeTable[input], Opcode = OpcodeTable[input] };
             switch (result.Length)
             {
                 case 2:
-                    result.Operand = GetOperand(offset);
+                    result.Operand = GetOperand(codeBlock, romOffset);
                     break;
                 case 3:
-                    result.Operand = GetFullOperand(offset);
+                    result.Operand = GetFullOperand(codeBlock, romOffset);
                     break;
             }
             return result;

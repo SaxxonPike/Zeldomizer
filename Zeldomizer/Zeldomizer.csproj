@@ -43,19 +43,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\Bank0CodeBlock.cs" />
     <Compile Include="Engine\CharacterText.cs" />
     <Compile Include="Engine\EndingText.cs" />
     <Compile Include="Engine\MenuText.cs" />
     <Compile Include="Metal\CodeBlock.cs" />
+    <Compile Include="Metal\CodeBlockExtensions.cs" />
     <Compile Include="Metal\ConversionTable.cs" />
     <Compile Include="Metal\Cpu\AddressingMode.cs" />
-    <Compile Include="Metal\Cpu\DisassembledInstruction.cs" />
+    <Compile Include="Metal\Cpu\CodeAnalysis.cs" />
+    <Compile Include="Metal\Cpu\IDisassembler.cs" />
+    <Compile Include="Metal\Cpu\LocatedInstruction.cs" />
     <Compile Include="Metal\Cpu\Disassembler.cs" />
     <Compile Include="Metal\Cpu\Instruction.cs" />
     <Compile Include="Metal\Cpu\Opcode.cs" />
+    <Compile Include="Metal\Cpu\StaticAnalyzer.cs" />
     <Compile Include="Metal\FixedStringConverter.cs" />
     <Compile Include="Metal\FixedStringData.cs" />
+    <Compile Include="Metal\ICodeBlock.cs" />
     <Compile Include="Metal\IConversionTable.cs" />
     <Compile Include="Metal\IFixedStringConverter.cs" />
     <Compile Include="Metal\IRom.cs" />

@@ -16,9 +16,9 @@ namespace Zeldomizer.Metal.Cpu
 
         public AddressingMode AddressingMode { get; set; }
 
-        private string OpcodeString => Opcode.ToString().ToUpperInvariant();
-        private int LowOperand => Operand & 0xFF;
-        private int FullOperand => Operand & 0xFFFF;
+        protected string OpcodeString => Opcode.ToString().ToUpperInvariant();
+        protected int LowOperand => Operand & 0xFF;
+        protected int FullOperand => Operand & 0xFFFF;
 
         public int Length
         {
@@ -48,7 +48,7 @@ namespace Zeldomizer.Metal.Cpu
             }
         }
 
-        public string Mnemonic
+        public virtual string Mnemonic
         {
             get
             {
@@ -73,7 +73,7 @@ namespace Zeldomizer.Metal.Cpu
                     case AddressingMode.IndirectZeroPageY:
                         return $"{OpcodeString} (${LowOperand:X2}),Y";
                     case AddressingMode.Relative:
-                        return $"{OpcodeString} ${LowOperand:X2}";
+                        return $"{OpcodeString} {(LowOperand >= 0x80 ? $"-{0x102 - LowOperand}" : $"+{LowOperand + 2}")}";
                     case AddressingMode.ZeroPage:
                         return $"{OpcodeString} ${LowOperand:X2}";
                     case AddressingMode.ZeroPageX:

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Zeldomizer.Metal.Cpu
 {
-    public class DisassembledInstruction : Instruction
+    public class CodeAnalysis
     {
+        public Dictionary<int, LocatedInstruction> Instructions { get; set; }
     }
 }

@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Zeldomizer.Metal
 {
-    public class CodeBlock
+    public class CodeBlock : ICodeBlock
     {
-        public CodeBlock(
-            IRom source, 
-            int offset, 
-            int length, 
-            int codeOffset,
-            IEnumerable<int> staticAnalysisPoints)
-        {
-            
-        }
+        public IEnumerable<int> AnalysisHintAddresses { get; set; }
+        public int Length { get; set; }
+        public int Offset { get; set; }
+        public int Origin { get; set; }
+        public IRom Rom { get; set; }
     }
 }

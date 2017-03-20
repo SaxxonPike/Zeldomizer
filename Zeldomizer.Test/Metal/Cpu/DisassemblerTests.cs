@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 
@@ -11,17 +6,9 @@ namespace Zeldomizer.Metal.Cpu
 {
     public class DisassemblerTests : BaseTestFixture<Disassembler>
     {
-        private Mock<IRom> _rom;
-        private int _offset;
-        private int _origin;
-
         protected override Disassembler GetTestSubject()
         {
-            _rom = new Mock<IRom>();
-            _offset = Random<int>();
-            _origin = Random<int>();
-
-            return new Disassembler(_rom.Object, 0, 3, _origin);
+            return new Disassembler();
         }
 
         [Test]
@@ -74,9 +61,11 @@ namespace Zeldomizer.Metal.Cpu
         [TestCase(0xFA, Opcode.Nop, AddressingMode.Implied)]
         public void Disassemble_ProperlyDisassemblesOneByteOpcodes(int opcode, Opcode expectedOpcode, AddressingMode expectedAddressingMode)
         {
-            _rom.Setup(x => x[0]).Returns((byte)opcode);
+            var rom = new Mock<IRom>();
+            var codeBlock = new CodeBlock {Rom = rom.Object};
+            rom.Setup(x => x[0]).Returns((byte)opcode);
 
-            var result = Subject.Disassemble(0);
+            var result = Subject.Disassemble(codeBlock, 0);
             result.AddressingMode.Should().Be(expectedAddressingMode);
             result.Opcode.Should().Be(expectedOpcode);
             result.Length.Should().Be(1);
@@ -213,10 +202,12 @@ namespace Zeldomizer.Metal.Cpu
         [TestCase(0xF7, Opcode.Isc, AddressingMode.ZeroPageX)]
         public void Disassemble_ProperlyDisassemblesTwoByteOpcodes(int opcode, Opcode expectedOpcode, AddressingMode expectedAddressingMode)
         {
-            _rom.Setup(x => x[0]).Returns((byte)opcode);
-            _rom.Setup(x => x[1]).Returns(0x12);
+            var rom = new Mock<IRom>();
+            var codeBlock = new CodeBlock { Rom = rom.Object };
+            rom.Setup(x => x[0]).Returns((byte)opcode);
+            rom.Setup(x => x[1]).Returns(0x12);
 
-            var result = Subject.Disassemble(0);
+            var result = Subject.Disassemble(codeBlock, 0);
             result.AddressingMode.Should().Be(expectedAddressingMode);
             result.Opcode.Should().Be(expectedOpcode);
             result.Length.Should().Be(2);
@@ -307,11 +298,13 @@ namespace Zeldomizer.Metal.Cpu
         [TestCase(0xFF, Opcode.Isc, AddressingMode.AbsoluteX)]
         public void Disassemble_ProperlyDisassemblesThreeByteOpcodes(int opcode, Opcode expectedOpcode, AddressingMode expectedAddressingMode)
         {
-            _rom.Setup(x => x[0]).Returns((byte)opcode);
-            _rom.Setup(x => x[1]).Returns(0x12);
-            _rom.Setup(x => x[2]).Returns(0x34);
+            var rom = new Mock<IRom>();
+            var codeBlock = new CodeBlock { Rom = rom.Object };
+            rom.Setup(x => x[0]).Returns((byte)opcode);
+            rom.Setup(x => x[1]).Returns(0x12);
+            rom.Setup(x => x[2]).Returns(0x34);
 
-            var result = Subject.Disassemble(0);
+            var result = Subject.Disassemble(codeBlock, 0);
             result.AddressingMode.Should().Be(expectedAddressingMode);
             result.Opcode.Should().Be(expectedOpcode);
             result.Length.Should().Be(3);
