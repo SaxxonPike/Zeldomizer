@@ -11,6 +11,10 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Breadbox", "Breadbox\Breadb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Breadbox.Test", "Breadbox.Test\Breadbox.Test.csproj", "{B4A2FC78-B16A-48A9-AB04-18AE3AE233E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disaster", "Disaster\Disaster.csproj", "{2EE7A459-7EF4-4105-9FD6-4F8EF6689C1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disaster.Test", "Disaster.Test\Disaster.Test.csproj", "{CA8DA970-E0B8-4B51-A262-A6776B01AAAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{B4A2FC78-B16A-48A9-AB04-18AE3AE233E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4A2FC78-B16A-48A9-AB04-18AE3AE233E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4A2FC78-B16A-48A9-AB04-18AE3AE233E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EE7A459-7EF4-4105-9FD6-4F8EF6689C1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EE7A459-7EF4-4105-9FD6-4F8EF6689C1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EE7A459-7EF4-4105-9FD6-4F8EF6689C1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EE7A459-7EF4-4105-9FD6-4F8EF6689C1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA8DA970-E0B8-4B51-A262-A6776B01AAAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA8DA970-E0B8-4B51-A262-A6776B01AAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA8DA970-E0B8-4B51-A262-A6776B01AAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA8DA970-E0B8-4B51-A262-A6776B01AAAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
