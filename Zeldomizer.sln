@@ -21,6 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mimic", "Mimic\Mimic.csproj", "{692E65B7-7960-4BD7-B75A-50993CD90214}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mimic.Test", "Mimic.Test\Mimic.Test.csproj", "{F5319BCA-3579-4E99-BCF9-836F32585F66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{CA8DA970-E0B8-4B51-A262-A6776B01AAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA8DA970-E0B8-4B51-A262-A6776B01AAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA8DA970-E0B8-4B51-A262-A6776B01AAAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{692E65B7-7960-4BD7-B75A-50993CD90214}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{692E65B7-7960-4BD7-B75A-50993CD90214}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{692E65B7-7960-4BD7-B75A-50993CD90214}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{692E65B7-7960-4BD7-B75A-50993CD90214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5319BCA-3579-4E99-BCF9-836F32585F66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5319BCA-3579-4E99-BCF9-836F32585F66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5319BCA-3579-4E99-BCF9-836F32585F66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5319BCA-3579-4E99-BCF9-836F32585F66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
