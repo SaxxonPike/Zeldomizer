@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Mimic.Interfaces;
 
-namespace Mimic
+namespace Mimic.Devices
 {
-    public class Router : IBusDevice
+    public class DeviceRouter : IBusDevice
     {
-        public Router(string name)
+        public DeviceRouter(string name)
         {
             Name = name;
             Devices = new List<IBusDevice>();
@@ -35,7 +34,7 @@ namespace Mimic
             if (Devices.Contains(device))
                 Devices.Remove(device);
 
-            var tracer = new Tracer(device);
+            var tracer = new DeviceTracer(device);
             Tracers[device] = tracer;
             Devices.Insert(0, tracer);
             return tracer;

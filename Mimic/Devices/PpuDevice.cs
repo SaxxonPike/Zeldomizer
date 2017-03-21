@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Mimic.Interfaces;
 
-namespace Mimic
+namespace Mimic.Devices
 {
     /// <summary>
     /// Graphics unit for the Famicom and Nintendo Entertainment System consoles.
     /// </summary>
-    public class Ppu : BusDevice
+    public class PpuDevice : BusDevice
     {
         /// <summary>
         /// System to perform reads from.
@@ -71,7 +67,7 @@ namespace Mimic
         /// </summary>
         /// <param name="name">Name of the device.</param>
         /// <param name="system">System to perform reads from.</param>
-        public Ppu(string name, IBusDevice system) : base(name)
+        public PpuDevice(string name, IBusDevice system) : base(name)
         {
             _system = system;
         }

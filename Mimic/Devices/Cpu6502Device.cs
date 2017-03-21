@@ -1,12 +1,12 @@
-﻿using System;
-using Breadbox;
+﻿using Breadbox;
+using Mimic.Interfaces;
 
-namespace Mimic
+namespace Mimic.Devices
 {
     /// <summary>
     /// A 6502 processor.
     /// </summary>
-    public sealed class Cpu : BusDevice, IMemory, IReadySignal, IIrqSignal, INmiSignal
+    public sealed class Cpu6502Device : BusDevice, IMemory, IReadySignal, IIrqSignal, INmiSignal
     {
         /// <summary>
         /// Device the CPU will use to perform reads and writes.
@@ -23,7 +23,7 @@ namespace Mimic
         /// </summary>
         /// <param name="name">Name of the CPU device.</param>
         /// <param name="busDevice">Device to target with read/write operations.</param>
-        public Cpu(string name, IBusDevice busDevice) : base(name)
+        public Cpu6502Device(string name, IBusDevice busDevice) : base(name)
         {
             _busDevice = busDevice;
             _cpu = new Mos6502(new Mos6502Configuration(0xFF, false, this, this, this, this));

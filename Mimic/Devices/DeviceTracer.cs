@@ -1,12 +1,13 @@
 ﻿using System;
+using Mimic.Interfaces;
 
-namespace Mimic
+namespace Mimic.Devices
 {
-    public class Tracer : ITracer
+    public class DeviceTracer : ITracer
     {
         private readonly IBusDevice _subject;
 
-        public Tracer(IBusDevice subject)
+        public DeviceTracer(IBusDevice subject)
         {
             _subject = subject;
             Enabled = true;

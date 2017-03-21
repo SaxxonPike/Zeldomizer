@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Threading;
-
-namespace Mimic
+﻿namespace Mimic.Interfaces
 {
     public interface IBusDevice
     {

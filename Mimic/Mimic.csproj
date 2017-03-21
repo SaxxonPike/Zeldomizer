@@ -40,18 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusDevice.cs" />
-    <Compile Include="Cpu.cs" />
-    <Compile Include="ITracer.cs" />
-    <Compile Include="Ram.cs" />
-    <Compile Include="NesSystem.cs" />
-    <Compile Include="IBusDevice.cs" />
-    <Compile Include="Mmc1.cs" />
-    <Compile Include="Ppu.cs" />
+    <Compile Include="Devices\BusDevice.cs" />
+    <Compile Include="Devices\Cpu6502Device.cs" />
+    <Compile Include="Interfaces\ITracer.cs" />
+    <Compile Include="Devices\RamDevice.cs" />
+    <Compile Include="Systems\NesSystem.cs" />
+    <Compile Include="Interfaces\IBusDevice.cs" />
+    <Compile Include="Devices\Mmc1CartridgeDevice.cs" />
+    <Compile Include="Devices\PpuDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rom.cs" />
-    <Compile Include="Router.cs" />
-    <Compile Include="Tracer.cs" />
+    <Compile Include="Devices\RomDevice.cs" />
+    <Compile Include="Devices\DeviceRouter.cs" />
+    <Compile Include="Devices\DeviceTracer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Breadbox\Breadbox.fsproj">

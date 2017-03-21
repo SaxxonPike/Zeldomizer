@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Disaster;
 using Mimic;
+using Mimic.Devices;
+using Mimic.Systems;
 using NUnit.Framework;
 
 namespace Zeldomizer.Engine
@@ -12,7 +14,7 @@ namespace Zeldomizer.Engine
         [Explicit]
         public void Test2()
         {
-            var cartridge = new Mmc1("Cartridge", Rom.ExportRaw());
+            var cartridge = new Mmc1CartridgeDevice("Cartridge", Rom.ExportRaw());
             var system = new NesSystem();
             var router = system.Router;
 

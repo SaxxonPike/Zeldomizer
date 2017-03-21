@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Mimic.Interfaces;
 
-namespace Mimic
+namespace Mimic.Devices
 {
-    public sealed class Mmc1 : BusDevice
+    public sealed class Mmc1CartridgeDevice : BusDevice
     {
         private readonly byte[] _romData;
 
@@ -72,10 +72,10 @@ namespace Mimic
         /// </summary>
         /// <param name="name">Name of the device.</param>
         /// <param name="romData">ROM data to pull from.</param>
-        public Mmc1(string name, byte[] romData) : base(name)
+        public Mmc1CartridgeDevice(string name, byte[] romData) : base(name)
         {
             _romData = romData;
-            _ram = new Ram("SaveRam", 0x2000, 0x2000, 0x6000, 0x1FFF);
+            _ram = new RamDevice("SaveRam", 0x2000, 0x2000, 0x6000, 0x1FFF);
             _maxPrgBank = (_romData.Length >> 14) - 1;
         }
 

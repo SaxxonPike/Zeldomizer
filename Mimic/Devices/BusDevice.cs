@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Mimic.Interfaces;
 
-namespace Mimic
+namespace Mimic.Devices
 {
     public class BusDevice : IBusDevice
     {

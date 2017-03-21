@@ -1,8 +1,8 @@
-﻿namespace Mimic
+﻿namespace Mimic.Devices
 {
-    public sealed class Ram : Rom
+    public sealed class RamDevice : RomDevice
     {
-        public Ram(string name, int size, int length, int offset, int mask)
+        public RamDevice(string name, int size, int length, int offset, int mask)
             : base(name, size, length, offset, mask)
         {
         }

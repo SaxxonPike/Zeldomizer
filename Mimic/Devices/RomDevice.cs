@@ -1,13 +1,13 @@
-﻿namespace Mimic
+﻿namespace Mimic.Devices
 {
-    public class Rom : BusDevice
+    public class RomDevice : BusDevice
     {
         protected readonly int Offset;
         protected readonly int Mask;
         protected readonly byte[] Ram;
         protected readonly int UpperBound;
 
-        public Rom(string name, int size, int length, int offset, int mask)
+        public RomDevice(string name, int size, int length, int offset, int mask)
             : base(name)
         {
             Offset = offset;
