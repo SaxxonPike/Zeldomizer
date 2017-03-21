@@ -8,6 +8,8 @@ The Legend of Zelda ROM manipulation library.
   - Emulates a 6502 processor at the cycle level
 - Disaster
   - Assembles and disassembles 6502 code
+- Mimic
+  - Emulates the game's NES cartridge mapper, MMC1
 
 ## Implemented
 
