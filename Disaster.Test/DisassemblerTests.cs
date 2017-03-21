@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using Disaster.Assembly;
+using Disaster.Assembly.Interfaces;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 

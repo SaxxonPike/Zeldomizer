@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Disaster.Assembly.Interfaces;
 
-namespace Disaster
+namespace Disaster.Assembly
 {
     public class Disassembler : IDisassembler
     {

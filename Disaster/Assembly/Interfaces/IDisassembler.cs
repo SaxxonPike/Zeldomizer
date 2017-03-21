@@ -1,4 +1,4 @@
-﻿namespace Disaster
+﻿namespace Disaster.Assembly.Interfaces
 {
     public interface IDisassembler
     {

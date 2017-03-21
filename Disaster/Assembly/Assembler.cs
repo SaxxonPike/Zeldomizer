@@ -1,4 +1,6 @@
-﻿namespace Disaster
+﻿using Disaster.Assembly.Interfaces;
+
+namespace Disaster.Assembly
 {
     public class Assembler : IAssembler
     {

@@ -1,4 +1,4 @@
-﻿namespace Disaster
+﻿namespace Disaster.Assembly
 {
     public class LocatedInstruction : Instruction
     {

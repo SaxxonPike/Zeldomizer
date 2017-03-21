@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Disaster
+namespace Disaster.Assembly
 {
     public class Instruction
     {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Disaster.Assembly;
 
-namespace Disaster
+namespace Disaster.Analysis
 {
     public class CodeAnalysis
     {

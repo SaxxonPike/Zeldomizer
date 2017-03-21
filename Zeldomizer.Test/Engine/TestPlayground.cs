@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Disaster;
+using Disaster.Analysis;
+using Disaster.Assembly;
+using Disaster.Assembly.Interfaces;
 using Mimic;
 using Mimic.Devices;
 using Mimic.Systems;

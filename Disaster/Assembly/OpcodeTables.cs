@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Disaster
+namespace Disaster.Assembly
 {
     internal static class OpcodeTables
     {

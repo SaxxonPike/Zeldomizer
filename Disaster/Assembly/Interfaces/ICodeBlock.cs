@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Disaster
+﻿namespace Disaster.Assembly.Interfaces
 {
     public interface ICodeBlock
     {

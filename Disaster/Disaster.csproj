@@ -43,22 +43,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddressingMode.cs" />
-    <Compile Include="Assembler.cs" />
-    <Compile Include="CodeAnalysis.cs" />
-    <Compile Include="CodeBlock.cs" />
-    <Compile Include="CodeBlockExtensions.cs" />
-    <Compile Include="Disassembler.cs" />
-    <Compile Include="IAssembler.cs" />
-    <Compile Include="ICodeBlock.cs" />
-    <Compile Include="IDisassembler.cs" />
-    <Compile Include="Instruction.cs" />
-    <Compile Include="IRom.cs" />
-    <Compile Include="LocatedInstruction.cs" />
-    <Compile Include="Opcode.cs" />
-    <Compile Include="OpcodeTables.cs" />
+    <Compile Include="Assembly\AddressingMode.cs" />
+    <Compile Include="Assembly\Assembler.cs" />
+    <Compile Include="Analysis\CodeAnalysis.cs" />
+    <Compile Include="Assembly\CodeBlock.cs" />
+    <Compile Include="Assembly\CodeBlockExtensions.cs" />
+    <Compile Include="Assembly\Disassembler.cs" />
+    <Compile Include="Assembly\Interfaces\IAssembler.cs" />
+    <Compile Include="Assembly\Interfaces\ICodeBlock.cs" />
+    <Compile Include="Assembly\Interfaces\IDisassembler.cs" />
+    <Compile Include="Assembly\Instruction.cs" />
+    <Compile Include="Assembly\Interfaces\IRom.cs" />
+    <Compile Include="Assembly\LocatedInstruction.cs" />
+    <Compile Include="Assembly\Opcode.cs" />
+    <Compile Include="Assembly\OpcodeTables.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StaticAnalyzer.cs" />
+    <Compile Include="Analysis\StaticAnalyzer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

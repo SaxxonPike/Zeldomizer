@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Disaster.Assembly;
+using Disaster.Assembly.Interfaces;
 
-namespace Disaster
+namespace Disaster.Analysis
 {
     public class StaticAnalyzer
     {
