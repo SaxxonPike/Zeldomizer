@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Breadbox;
-
-namespace Mimic
+﻿namespace Mimic
 {
     public class NesSystem
     {
@@ -13,12 +6,11 @@ namespace Mimic
 
         public NesSystem()
         {
-            Router = new Router();
-            _cpu = new Cpu(Router);
+            Router = new Router("Router");
+            _cpu = new Cpu("Cpu", Router);
 
-            Router.Install(new Ram(0x800, 0x2000, 0x0000, 0x7FF));
-            Router.Install(new Ram(0x2000, 0x2000, 0x6000, 0x1FFF));
-            Router.Install(new Ppu(Router));
+            Router.Install(new Ram("Ram", 0x800, 0x2000, 0x0000, 0x7FF));
+            Router.Install(new Ppu("Ppu", Router));
             Router.Install(_cpu);
 
             Reset();

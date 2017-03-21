@@ -12,7 +12,7 @@ namespace Zeldomizer.Engine
         [Explicit]
         public void Test2()
         {
-            var cartridge = new Mmc1(Rom.ExportRaw());
+            var cartridge = new Mmc1("Cartridge", Rom.ExportRaw());
             var system = new NesSystem();
             var router = system.Router;
 
@@ -21,9 +21,12 @@ namespace Zeldomizer.Engine
             router.OnCpuRead = (a, d) => Console.WriteLine($"READ   ${a:X4} -> ${d:X2}");
             router.OnCpuWrite = (a, d) => Console.WriteLine($"WRITE  ${a:X4} <- ${d:X2}");
             router.OnPpuRead = (a, d) => Console.WriteLine($"PPU    ${a:X4} -> ${d:X2}");
+            router.EnableTracing = false;
+            system.Clock(1000000);
             router.EnableTracing = true;
+            system.Clock(1000);
 
-            system.Clock(100);
+            WriteToDesktop(router.DumpAddressible(), "mem.bin");
         }
 
         [Test]

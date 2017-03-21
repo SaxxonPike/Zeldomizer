@@ -2,8 +2,8 @@
 {
     public sealed class Ram : Rom
     {
-        public Ram(int size, int length, int offset, int mask)
-            : base(size, length, offset, mask)
+        public Ram(string name, int size, int length, int offset, int mask)
+            : base(name, size, length, offset, mask)
         {
         }
 

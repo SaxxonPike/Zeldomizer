@@ -56,6 +56,7 @@ type Mos6502(config:Mos6502Configuration) =
     let mutable irq = false
     let mutable nmi = false
     let mutable rdy = false
+    let mutable lastNmi = false
 
     let mutable pc = 0
     let mutable a = 0
@@ -948,6 +949,13 @@ type Mos6502(config:Mos6502Configuration) =
     let InvalidOp () =
         FetchDiscard 0xFFFF |> ignore; false
 
+    let LatchInterrupts () =
+        let thisNmi = readNmi()
+        irq <- irq || readIrq()
+        nmi <- nmi || ((not lastNmi) && thisNmi)
+        interruptPending <- nmi || irq
+        lastNmi <- thisNmi
+
     let EndISpecial () =
         opcode <- vopFetch1
         mi <- -1
@@ -1332,11 +1340,9 @@ type Mos6502(config:Mos6502Configuration) =
         else
             totalCycles <- totalCycles + 1UL
 
-
     let LatchFlags () =
         rdy <- readRdy()
-        irq <- readIrq()
-        nmi <- readNmi()
+        LatchInterrupts()
 
     let ExecuteOneRetry () =
         LatchFlags()

@@ -6,27 +6,28 @@ using System.Threading.Tasks;
 
 namespace Mimic
 {
-    public class Router : IBus
+    public class Router : IBusDevice
     {
-        public Router()
+        public Router(string name)
         {
-            Devices = new List<IBus>();
-            Tracers = new Dictionary<IBus, ITracer>();
+            Name = name;
+            Devices = new List<IBusDevice>();
+            Tracers = new Dictionary<IBusDevice, ITracer>();
         }
 
-        public void Install(IBus device)
+        public void Install(IBusDevice device)
         {
             if (!Tracers.ContainsKey(device) && !Devices.Contains(device))
                 Devices.Insert(0, device);
         }
 
-        public void Install(IEnumerable<IBus> devices)
+        public void Install(IEnumerable<IBusDevice> devices)
         {
             foreach (var device in devices)
                 Install(device);
         }
 
-        public ITracer InstallTraced(IBus device)
+        public ITracer InstallTraced(IBusDevice device)
         {
             if (Tracers.ContainsKey(device))
                 return Tracers[device];
@@ -40,10 +41,10 @@ namespace Mimic
             return tracer;
         }
 
-        public IEnumerable<ITracer> InstallTraced(IEnumerable<IBus> devices) =>
+        public IEnumerable<ITracer> InstallTraced(IEnumerable<IBusDevice> devices) =>
             devices.Select(InstallTraced);
 
-        public void Uninstall(IBus device)
+        public void Uninstall(IBusDevice device)
         {
             if (Tracers.ContainsKey(device))
             {
@@ -62,9 +63,9 @@ namespace Mimic
         public Action<int, int> OnPpuRead { get; set; }
         public bool EnableTracing { get; set; }
 
-        protected List<IBus> Devices { get; }
+        protected List<IBusDevice> Devices { get; }
 
-        protected Dictionary<IBus, ITracer> Tracers { get; }
+        protected Dictionary<IBusDevice, ITracer> Tracers { get; }
 
         public int CpuRead(int address)
         {
@@ -158,5 +159,15 @@ namespace Mimic
 
         public bool Nmi => Devices
             .Any(device => device.AssertsNmi && device.Nmi);
+
+        public byte[] DumpAddressible()
+        {
+            return Enumerable
+                .Range(0, 0x10000)
+                .Select(i => unchecked((byte) CpuPeek(i)))
+                .ToArray();
+        }
+
+        public string Name { get; }
     }
 }

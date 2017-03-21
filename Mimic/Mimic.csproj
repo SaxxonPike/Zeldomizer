@@ -40,12 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bus.cs" />
+    <Compile Include="BusDevice.cs" />
     <Compile Include="Cpu.cs" />
     <Compile Include="ITracer.cs" />
     <Compile Include="Ram.cs" />
     <Compile Include="NesSystem.cs" />
-    <Compile Include="IBus.cs" />
+    <Compile Include="IBusDevice.cs" />
     <Compile Include="Mmc1.cs" />
     <Compile Include="Ppu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

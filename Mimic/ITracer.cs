@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mimic
 {
-    public interface ITracer : IBus
+    public interface ITracer : IBusDevice
     {
         bool Enabled { get; set; }
         Action<int, int> OnCpuRead { get; set; }

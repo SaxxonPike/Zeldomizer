@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace Mimic
 {
-    public class Bus : IBus
+    public class BusDevice : IBusDevice
     {
+        public BusDevice(string name)
+        {
+            Name = name;
+        }
+
         public virtual int CpuRead(int address) => 0xFF;
         public virtual void CpuWrite(int address, int value) { }
         public virtual int CpuPeek(int address) => 0xFF;
@@ -25,5 +30,6 @@ namespace Mimic
         public virtual bool AssertsNmi => false;
         public virtual bool Irq => false;
         public virtual bool Nmi => false;
+        public virtual string Name { get; }
     }
 }

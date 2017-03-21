@@ -2,11 +2,11 @@
 
 namespace Mimic
 {
-    public class Tracer : IBus, ITracer
+    public class Tracer : ITracer
     {
-        private readonly IBus _subject;
+        private readonly IBusDevice _subject;
 
-        public Tracer(IBus subject)
+        public Tracer(IBusDevice subject)
         {
             _subject = subject;
             Enabled = true;
@@ -56,5 +56,6 @@ namespace Mimic
         public bool AssertsNmi => _subject.AssertsNmi;
         public bool Irq => _subject.Irq;
         public bool Nmi => _subject.Nmi;
+        public string Name => _subject.Name;
     }
 }
