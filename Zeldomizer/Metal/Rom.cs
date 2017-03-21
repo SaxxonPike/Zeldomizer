@@ -79,5 +79,10 @@ namespace Zeldomizer.Metal
                 return mem.ToArray();
             }
         }
+
+        public byte[] ExportRaw()
+        {
+            return _data.ToArray();
+        }
     }
 }

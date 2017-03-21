@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Breadbox, Version=1.0.6287.37501, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Breadbox\bin\Release\Breadbox.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
@@ -76,6 +80,10 @@
     <ProjectReference Include="..\Disaster\Disaster.csproj">
       <Project>{2ee7a459-7ef4-4105-9fd6-4f8ef6689c1e}</Project>
       <Name>Disaster</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mimic\Mimic.csproj">
+      <Project>{692E65B7-7960-4BD7-B75A-50993CD90214}</Project>
+      <Name>Mimic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zeldomizer\Zeldomizer.csproj">
       <Project>{30395D74-57C4-4188-8FCC-212ED843A983}</Project>

@@ -1,11 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Disaster;
+using Mimic;
 using NUnit.Framework;
 
 namespace Zeldomizer.Engine
 {
     public class TestPlayground : BaseTestFixture
     {
+        [Test]
+        [Explicit]
+        public void Test2()
+        {
+            var cartridge = new Mmc1(Rom.ExportRaw());
+            var tracer = new Tracer(a => Console.WriteLine($"READ   ${a:X4}"), (a, d) => Console.WriteLine($"WRITE  ${a:X4} <- ${d:X2}"));
+            var system = new NesSystem(new IBus[]{ tracer, cartridge });
+
+            tracer.Enabled = false;
+            system.Clock(10000000);
+            tracer.Enabled = true;
+        }
+
         [Test]
         [Explicit]
         public void Test1()
