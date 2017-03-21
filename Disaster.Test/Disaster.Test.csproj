@@ -61,9 +61,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblerTests.cs" />
+    <Compile Include="Assembly\AssemblerTests.cs" />
     <Compile Include="BaseTestFixture.cs" />
-    <Compile Include="DisassemblerTests.cs" />
+    <Compile Include="Assembly\DisassemblerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +74,9 @@
       <Project>{2ee7a459-7ef4-4105-9fd6-4f8ef6689c1e}</Project>
       <Name>Disaster</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Analysis\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

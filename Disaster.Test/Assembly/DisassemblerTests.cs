@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Disaster.Assembly;
-using Disaster.Assembly.Interfaces;
+﻿using Disaster.Assembly.Interfaces;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 
-namespace Disaster
+namespace Disaster.Assembly
 {
-    public class AssemblerTests : BaseTestFixture<Assembler>
+    public class DisassemblerTests : BaseTestFixture<Disassembler>
     {
-        protected override Assembler GetTestSubject()
+        protected override Disassembler GetTestSubject()
         {
-            return new Assembler();
+            return new Disassembler();
         }
 
         [Test]
@@ -22,41 +17,59 @@ namespace Disaster
         [TestCase(0x02, Opcode.Kil, AddressingMode.Implied)]
         [TestCase(0x08, Opcode.Php, AddressingMode.Implied)]
         [TestCase(0x0A, Opcode.Asl, AddressingMode.Accumulator)]
+        [TestCase(0x12, Opcode.Kil, AddressingMode.Implied)]
         [TestCase(0x18, Opcode.Clc, AddressingMode.Implied)]
+        [TestCase(0x1A, Opcode.Nop, AddressingMode.Implied)]
+        [TestCase(0x22, Opcode.Kil, AddressingMode.Implied)]
         [TestCase(0x28, Opcode.Plp, AddressingMode.Implied)]
         [TestCase(0x2A, Opcode.Rol, AddressingMode.Accumulator)]
+        [TestCase(0x32, Opcode.Kil, AddressingMode.Implied)]
         [TestCase(0x38, Opcode.Sec, AddressingMode.Implied)]
+        [TestCase(0x3A, Opcode.Nop, AddressingMode.Implied)]
         [TestCase(0x40, Opcode.Rti, AddressingMode.Implied)]
+        [TestCase(0x42, Opcode.Kil, AddressingMode.Implied)]
         [TestCase(0x48, Opcode.Pha, AddressingMode.Implied)]
         [TestCase(0x4A, Opcode.Lsr, AddressingMode.Accumulator)]
+        [TestCase(0x52, Opcode.Kil, AddressingMode.Implied)]
         [TestCase(0x58, Opcode.Cli, AddressingMode.Implied)]
+        [TestCase(0x5A, Opcode.Nop, AddressingMode.Implied)]
         [TestCase(0x60, Opcode.Rts, AddressingMode.Implied)]
+        [TestCase(0x62, Opcode.Kil, AddressingMode.Implied)]
         [TestCase(0x68, Opcode.Pla, AddressingMode.Implied)]
         [TestCase(0x6A, Opcode.Ror, AddressingMode.Accumulator)]
+        [TestCase(0x72, Opcode.Kil, AddressingMode.Implied)]
         [TestCase(0x78, Opcode.Sei, AddressingMode.Implied)]
+        [TestCase(0x7A, Opcode.Nop, AddressingMode.Implied)]
         [TestCase(0x88, Opcode.Dey, AddressingMode.Implied)]
         [TestCase(0x8A, Opcode.Txa, AddressingMode.Implied)]
+        [TestCase(0x92, Opcode.Kil, AddressingMode.Implied)]
         [TestCase(0x98, Opcode.Tya, AddressingMode.Implied)]
         [TestCase(0x9A, Opcode.Txs, AddressingMode.Implied)]
         [TestCase(0xA8, Opcode.Tay, AddressingMode.Implied)]
         [TestCase(0xAA, Opcode.Tax, AddressingMode.Implied)]
+        [TestCase(0xB2, Opcode.Kil, AddressingMode.Implied)]
         [TestCase(0xB8, Opcode.Clv, AddressingMode.Implied)]
         [TestCase(0xBA, Opcode.Tsx, AddressingMode.Implied)]
         [TestCase(0xC8, Opcode.Iny, AddressingMode.Implied)]
         [TestCase(0xCA, Opcode.Dex, AddressingMode.Implied)]
+        [TestCase(0xD2, Opcode.Kil, AddressingMode.Implied)]
         [TestCase(0xD8, Opcode.Cld, AddressingMode.Implied)]
+        [TestCase(0xDA, Opcode.Nop, AddressingMode.Implied)]
         [TestCase(0xE8, Opcode.Inx, AddressingMode.Implied)]
         [TestCase(0xEA, Opcode.Nop, AddressingMode.Implied)]
+        [TestCase(0xF2, Opcode.Kil, AddressingMode.Implied)]
         [TestCase(0xF8, Opcode.Sed, AddressingMode.Implied)]
-        public void Assemble_ProperlyAssemblesOneByteOpcodes(byte expectedOpcode, Opcode opcode, AddressingMode addressingMode)
+        [TestCase(0xFA, Opcode.Nop, AddressingMode.Implied)]
+        public void Disassemble_ProperlyDisassemblesOneByteOpcodes(int opcode, Opcode expectedOpcode, AddressingMode expectedAddressingMode)
         {
             var rom = new Mock<IRom>();
-            var codeBlock = new CodeBlock { Rom = rom.Object };
-            Subject.Assemble(new Instruction { AddressingMode = addressingMode, Opcode = opcode }, codeBlock, 0);
+            var codeBlock = new CodeBlock {Rom = rom.Object};
+            rom.Setup(x => x[0]).Returns((byte)opcode);
 
-            rom.VerifySet(x => x[0] = expectedOpcode, Times.Once);
-            rom.VerifySet(x => x[1] = It.IsAny<byte>(), Times.Never);
-            rom.VerifySet(x => x[2] = It.IsAny<byte>(), Times.Never);
+            var result = Subject.Disassemble(codeBlock, 0);
+            result.AddressingMode.Should().Be(expectedAddressingMode);
+            result.Opcode.Should().Be(expectedOpcode);
+            result.Length.Should().Be(1);
         }
 
         [Test]
@@ -82,14 +95,17 @@ namespace Disaster
         [TestCase(0x26, Opcode.Rol, AddressingMode.ZeroPage)]
         [TestCase(0x27, Opcode.Rla, AddressingMode.ZeroPage)]
         [TestCase(0x29, Opcode.And, AddressingMode.Immediate)]
+        [TestCase(0x2B, Opcode.Anc, AddressingMode.Immediate)]
         [TestCase(0x30, Opcode.Bmi, AddressingMode.Relative)]
         [TestCase(0x31, Opcode.And, AddressingMode.IndirectZeroPageY)]
         [TestCase(0x33, Opcode.Rla, AddressingMode.IndirectZeroPageY)]
+        [TestCase(0x34, Opcode.Nop, AddressingMode.ZeroPageX)]
         [TestCase(0x35, Opcode.And, AddressingMode.ZeroPageX)]
         [TestCase(0x36, Opcode.Rol, AddressingMode.ZeroPageX)]
         [TestCase(0x37, Opcode.Rla, AddressingMode.ZeroPageX)]
         [TestCase(0x41, Opcode.Eor, AddressingMode.IndirectZeroPageX)]
         [TestCase(0x43, Opcode.Sre, AddressingMode.IndirectZeroPageX)]
+        [TestCase(0x44, Opcode.Nop, AddressingMode.ZeroPage)]
         [TestCase(0x45, Opcode.Eor, AddressingMode.ZeroPage)]
         [TestCase(0x46, Opcode.Lsr, AddressingMode.ZeroPage)]
         [TestCase(0x47, Opcode.Sre, AddressingMode.ZeroPage)]
@@ -98,11 +114,13 @@ namespace Disaster
         [TestCase(0x50, Opcode.Bvc, AddressingMode.Relative)]
         [TestCase(0x51, Opcode.Eor, AddressingMode.IndirectZeroPageY)]
         [TestCase(0x53, Opcode.Sre, AddressingMode.IndirectZeroPageY)]
+        [TestCase(0x54, Opcode.Nop, AddressingMode.ZeroPageX)]
         [TestCase(0x55, Opcode.Eor, AddressingMode.ZeroPageX)]
         [TestCase(0x56, Opcode.Lsr, AddressingMode.ZeroPageX)]
         [TestCase(0x57, Opcode.Sre, AddressingMode.ZeroPageX)]
         [TestCase(0x61, Opcode.Adc, AddressingMode.IndirectZeroPageX)]
         [TestCase(0x63, Opcode.Rra, AddressingMode.IndirectZeroPageX)]
+        [TestCase(0x64, Opcode.Nop, AddressingMode.ZeroPage)]
         [TestCase(0x65, Opcode.Adc, AddressingMode.ZeroPage)]
         [TestCase(0x66, Opcode.Ror, AddressingMode.ZeroPage)]
         [TestCase(0x67, Opcode.Rra, AddressingMode.ZeroPage)]
@@ -111,16 +129,19 @@ namespace Disaster
         [TestCase(0x70, Opcode.Bvs, AddressingMode.Relative)]
         [TestCase(0x71, Opcode.Adc, AddressingMode.IndirectZeroPageY)]
         [TestCase(0x73, Opcode.Rra, AddressingMode.IndirectZeroPageY)]
+        [TestCase(0x74, Opcode.Nop, AddressingMode.ZeroPageX)]
         [TestCase(0x75, Opcode.Adc, AddressingMode.ZeroPageX)]
         [TestCase(0x76, Opcode.Ror, AddressingMode.ZeroPageX)]
         [TestCase(0x77, Opcode.Rra, AddressingMode.ZeroPageX)]
         [TestCase(0x80, Opcode.Nop, AddressingMode.Immediate)]
         [TestCase(0x81, Opcode.Sta, AddressingMode.IndirectZeroPageX)]
+        [TestCase(0x82, Opcode.Nop, AddressingMode.Immediate)]
         [TestCase(0x83, Opcode.Sax, AddressingMode.IndirectZeroPageX)]
         [TestCase(0x84, Opcode.Sty, AddressingMode.ZeroPage)]
         [TestCase(0x85, Opcode.Sta, AddressingMode.ZeroPage)]
         [TestCase(0x86, Opcode.Stx, AddressingMode.ZeroPage)]
         [TestCase(0x87, Opcode.Sax, AddressingMode.ZeroPage)]
+        [TestCase(0x89, Opcode.Nop, AddressingMode.Immediate)]
         [TestCase(0x8B, Opcode.Xaa, AddressingMode.Immediate)]
         [TestCase(0x90, Opcode.Bcc, AddressingMode.Relative)]
         [TestCase(0x91, Opcode.Sta, AddressingMode.IndirectZeroPageY)]
@@ -148,6 +169,7 @@ namespace Disaster
         [TestCase(0xB7, Opcode.Lax, AddressingMode.ZeroPageY)]
         [TestCase(0xC0, Opcode.Cpy, AddressingMode.Immediate)]
         [TestCase(0xC1, Opcode.Cmp, AddressingMode.IndirectZeroPageX)]
+        [TestCase(0xC2, Opcode.Nop, AddressingMode.Immediate)]
         [TestCase(0xC3, Opcode.Dcp, AddressingMode.IndirectZeroPageX)]
         [TestCase(0xC4, Opcode.Cpy, AddressingMode.ZeroPage)]
         [TestCase(0xC5, Opcode.Cmp, AddressingMode.ZeroPage)]
@@ -158,33 +180,39 @@ namespace Disaster
         [TestCase(0xD0, Opcode.Bne, AddressingMode.Relative)]
         [TestCase(0xD1, Opcode.Cmp, AddressingMode.IndirectZeroPageY)]
         [TestCase(0xD3, Opcode.Dcp, AddressingMode.IndirectZeroPageY)]
+        [TestCase(0xD4, Opcode.Nop, AddressingMode.ZeroPageX)]
         [TestCase(0xD5, Opcode.Cmp, AddressingMode.ZeroPageX)]
         [TestCase(0xD6, Opcode.Dec, AddressingMode.ZeroPageX)]
         [TestCase(0xD7, Opcode.Dcp, AddressingMode.ZeroPageX)]
         [TestCase(0xE0, Opcode.Cpx, AddressingMode.Immediate)]
         [TestCase(0xE1, Opcode.Sbc, AddressingMode.IndirectZeroPageX)]
+        [TestCase(0xE2, Opcode.Nop, AddressingMode.Immediate)]
         [TestCase(0xE3, Opcode.Isc, AddressingMode.IndirectZeroPageX)]
         [TestCase(0xE4, Opcode.Cpx, AddressingMode.ZeroPage)]
         [TestCase(0xE5, Opcode.Sbc, AddressingMode.ZeroPage)]
         [TestCase(0xE6, Opcode.Inc, AddressingMode.ZeroPage)]
         [TestCase(0xE7, Opcode.Isc, AddressingMode.ZeroPage)]
         [TestCase(0xE9, Opcode.Sbc, AddressingMode.Immediate)]
+        [TestCase(0xEB, Opcode.Sbc, AddressingMode.Immediate)]
         [TestCase(0xF0, Opcode.Beq, AddressingMode.Relative)]
         [TestCase(0xF1, Opcode.Sbc, AddressingMode.IndirectZeroPageY)]
         [TestCase(0xF3, Opcode.Isc, AddressingMode.IndirectZeroPageY)]
+        [TestCase(0xF4, Opcode.Nop, AddressingMode.ZeroPageX)]
         [TestCase(0xF5, Opcode.Sbc, AddressingMode.ZeroPageX)]
         [TestCase(0xF6, Opcode.Inc, AddressingMode.ZeroPageX)]
         [TestCase(0xF7, Opcode.Isc, AddressingMode.ZeroPageX)]
-        public void Assemble_ProperlyAssemblesTwoByteOpcodes(byte expectedOpcode, Opcode opcode, AddressingMode addressingMode)
+        public void Disassemble_ProperlyDisassemblesTwoByteOpcodes(int opcode, Opcode expectedOpcode, AddressingMode expectedAddressingMode)
         {
             var rom = new Mock<IRom>();
             var codeBlock = new CodeBlock { Rom = rom.Object };
-            var operand = Random<byte>();
-            Subject.Assemble(new Instruction { AddressingMode = addressingMode, Opcode = opcode, Operand = operand }, codeBlock, 0);
+            rom.Setup(x => x[0]).Returns((byte)opcode);
+            rom.Setup(x => x[1]).Returns(0x12);
 
-            rom.VerifySet(x => x[0] = expectedOpcode, Times.Once);
-            rom.VerifySet(x => x[1] = operand, Times.Once);
-            rom.VerifySet(x => x[2] = It.IsAny<byte>(), Times.Never);
+            var result = Subject.Disassemble(codeBlock, 0);
+            result.AddressingMode.Should().Be(expectedAddressingMode);
+            result.Opcode.Should().Be(expectedOpcode);
+            result.Length.Should().Be(2);
+            result.Operand.Should().Be(0x12);
         }
 
         [Test]
@@ -205,6 +233,7 @@ namespace Disaster
         [TestCase(0x2F, Opcode.Rla, AddressingMode.Absolute)]
         [TestCase(0x39, Opcode.And, AddressingMode.AbsoluteY)]
         [TestCase(0x3B, Opcode.Rla, AddressingMode.AbsoluteY)]
+        [TestCase(0x3C, Opcode.Nop, AddressingMode.AbsoluteX)]
         [TestCase(0x3D, Opcode.And, AddressingMode.AbsoluteX)]
         [TestCase(0x3E, Opcode.Rol, AddressingMode.AbsoluteX)]
         [TestCase(0x3F, Opcode.Rla, AddressingMode.AbsoluteX)]
@@ -214,6 +243,7 @@ namespace Disaster
         [TestCase(0x4F, Opcode.Sre, AddressingMode.Absolute)]
         [TestCase(0x59, Opcode.Eor, AddressingMode.AbsoluteY)]
         [TestCase(0x5B, Opcode.Sre, AddressingMode.AbsoluteY)]
+        [TestCase(0x5C, Opcode.Nop, AddressingMode.AbsoluteX)]
         [TestCase(0x5D, Opcode.Eor, AddressingMode.AbsoluteX)]
         [TestCase(0x5E, Opcode.Lsr, AddressingMode.AbsoluteX)]
         [TestCase(0x5F, Opcode.Sre, AddressingMode.AbsoluteX)]
@@ -223,6 +253,7 @@ namespace Disaster
         [TestCase(0x6F, Opcode.Rra, AddressingMode.Absolute)]
         [TestCase(0x79, Opcode.Adc, AddressingMode.AbsoluteY)]
         [TestCase(0x7B, Opcode.Rra, AddressingMode.AbsoluteY)]
+        [TestCase(0x7C, Opcode.Nop, AddressingMode.AbsoluteX)]
         [TestCase(0x7D, Opcode.Adc, AddressingMode.AbsoluteX)]
         [TestCase(0x7E, Opcode.Ror, AddressingMode.AbsoluteX)]
         [TestCase(0x7F, Opcode.Rra, AddressingMode.AbsoluteX)]
@@ -252,6 +283,7 @@ namespace Disaster
         [TestCase(0xCF, Opcode.Dcp, AddressingMode.Absolute)]
         [TestCase(0xD9, Opcode.Cmp, AddressingMode.AbsoluteY)]
         [TestCase(0xDB, Opcode.Dcp, AddressingMode.AbsoluteY)]
+        [TestCase(0xDC, Opcode.Nop, AddressingMode.AbsoluteX)]
         [TestCase(0xDD, Opcode.Cmp, AddressingMode.AbsoluteX)]
         [TestCase(0xDE, Opcode.Dec, AddressingMode.AbsoluteX)]
         [TestCase(0xDF, Opcode.Dcp, AddressingMode.AbsoluteX)]
@@ -261,20 +293,23 @@ namespace Disaster
         [TestCase(0xEF, Opcode.Isc, AddressingMode.Absolute)]
         [TestCase(0xF9, Opcode.Sbc, AddressingMode.AbsoluteY)]
         [TestCase(0xFB, Opcode.Isc, AddressingMode.AbsoluteY)]
+        [TestCase(0xFC, Opcode.Nop, AddressingMode.AbsoluteX)]
         [TestCase(0xFD, Opcode.Sbc, AddressingMode.AbsoluteX)]
         [TestCase(0xFE, Opcode.Inc, AddressingMode.AbsoluteX)]
         [TestCase(0xFF, Opcode.Isc, AddressingMode.AbsoluteX)]
-        public void Assemble_ProperlyAssemblesThreeByteOpcodes(byte expectedOpcode, Opcode opcode, AddressingMode addressingMode)
+        public void Disassemble_ProperlyDisassemblesThreeByteOpcodes(int opcode, Opcode expectedOpcode, AddressingMode expectedAddressingMode)
         {
             var rom = new Mock<IRom>();
             var codeBlock = new CodeBlock { Rom = rom.Object };
-            var operandLo = Random<byte>();
-            var operandHi = Random<byte>();
-            Subject.Assemble(new Instruction { AddressingMode = addressingMode, Opcode = opcode, Operand = operandLo | (operandHi << 8)}, codeBlock, 0);
+            rom.Setup(x => x[0]).Returns((byte)opcode);
+            rom.Setup(x => x[1]).Returns(0x12);
+            rom.Setup(x => x[2]).Returns(0x34);
 
-            rom.VerifySet(x => x[0] = expectedOpcode, Times.Once);
-            rom.VerifySet(x => x[1] = operandLo, Times.Once);
-            rom.VerifySet(x => x[2] = operandHi, Times.Once);
+            var result = Subject.Disassemble(codeBlock, 0);
+            result.AddressingMode.Should().Be(expectedAddressingMode);
+            result.Opcode.Should().Be(expectedOpcode);
+            result.Length.Should().Be(3);
+            result.Operand.Should().Be(0x3412);
         }
 
     }
