@@ -1,62 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mimic
+﻿namespace Mimic
 {
-    public class Rom : IBus
+    public class Rom : Bus
     {
-        private readonly int _offset;
-        private readonly int _mask;
-        private readonly byte[] _ram;
-        private readonly int _upperBound;
+        protected readonly int Offset;
+        protected readonly int Mask;
+        protected readonly byte[] Ram;
+        protected readonly int UpperBound;
 
-        public Rom(int capacity, int offset, int mask)
+        public Rom(int size, int length, int offset, int mask)
         {
-            _offset = offset;
-            _mask = mask;
-            _ram = new byte[capacity];
-            _upperBound = offset + capacity;
+            Offset = offset;
+            Mask = mask;
+            Ram = new byte[size];
+            UpperBound = offset + length;
         }
 
-        public int CpuRead(int address)
-        {
-            return _ram[address & _mask];
-        }
-
-        public void CpuWrite(int address, int value)
-        {
-            // Do nothing.
-        }
-
-        public int CpuPeek(int address) => CpuRead(address);
-
-        public void CpuPoke(int address, int value) => CpuPoke(address, value);
-
-        public int PpuRead(int address) => CpuRead(address);
-
-        public int PpuPeek(int address) => CpuRead(address);
-
-        public bool Rdy => true;
-
-        public bool CpuAssertsRead(int address)
-        {
-            return address >= _offset && address < _upperBound;
-        }
-
-        public bool PpuAssertsRead(int address) => CpuAssertsRead(address);
-
-        public bool AssertsRdy => false;
-
-        public bool CpuAssertsWrite(int address)
-        {
-            return false;
-        }
-
-        public void Reset()
-        {
-        }
+        public override int CpuRead(int address) => Ram[address & Mask];
+        public override int CpuPeek(int address) => CpuRead(address);
+        public override int PpuRead(int address) => CpuRead(address);
+        public override int PpuPeek(int address) => CpuRead(address);
+        public override bool AssertsCpuRead(int address) => address >= Offset && address < UpperBound;
+        public override bool AssertsPpuRead(int address) => AssertsCpuRead(address);
     }
 }

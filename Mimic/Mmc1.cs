@@ -2,7 +2,7 @@
 
 namespace Mimic
 {
-    public class Mmc1 : IBus
+    public sealed class Mmc1 : Bus
     {
         private readonly byte[] _romData;
 
@@ -26,12 +26,12 @@ namespace Mimic
             _maxPrgBank = (_romData.Length >> 14) - 1;
         }
 
-        private int GetPrgOffset(int address, int prgBank)
+        private static int GetPrgOffset(int address, int prgBank)
         {
             return (address & 0x3FFF) | (prgBank << 14);
         }
 
-        public int CpuRead(int address)
+        public override int CpuRead(int address)
         {
             switch (address & 0xE000)
             {
@@ -47,7 +47,7 @@ namespace Mimic
             return 0xFF;
         }
 
-        public void CpuWrite(int address, int value)
+        public override void CpuWrite(int address, int value)
         {
             if ((address & 0xE000) == 0x6000)
             {
@@ -77,8 +77,6 @@ namespace Mimic
 
         private void WriteRegister(int address, int data)
         {
-            Console.WriteLine($"SSR    ${address:X4} <- ${data:X2}");
-
             // todo
             switch (address & 0xE000)
             {
@@ -100,7 +98,7 @@ namespace Mimic
             }
         }
 
-        public int CpuPeek(int address)
+        public override int CpuPeek(int address)
         {
             switch (address & 0xE000)
             {
@@ -116,7 +114,7 @@ namespace Mimic
             return 0xFF;
         }
 
-        public void CpuPoke(int address, int value)
+        public override void CpuPoke(int address, int value)
         {
             switch (address & 0xE000)
             {
@@ -132,21 +130,7 @@ namespace Mimic
             }
         }
 
-        public int PpuRead(int address)
-        {
-            // todo
-            return 0xFF;
-        }
-
-        public int PpuPeek(int address)
-        {
-            // todo
-            return 0xFF;
-        }
-
-        public bool Rdy => true;
-
-        public bool CpuAssertsRead(int address)
+        public override bool AssertsCpuRead(int address)
         {
             switch (address & 0xE000)
             {
@@ -162,7 +146,7 @@ namespace Mimic
             }
         }
 
-        public bool CpuAssertsWrite(int address)
+        public override bool AssertsCpuWrite(int address)
         {
             switch (address & 0xE000)
             {
@@ -177,14 +161,7 @@ namespace Mimic
             }
         }
 
-        public bool PpuAssertsRead(int address)
-        {
-            return true;
-        }
-
-        public bool AssertsRdy => false;
-
-        public void Reset()
+        public override void Reset()
         {
             _ssr = SsrResetValue;
             _mirror = 0;

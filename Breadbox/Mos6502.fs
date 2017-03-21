@@ -86,13 +86,13 @@ type Mos6502(config:Mos6502Configuration) =
 
     let write = memoryWriteRaw
 
-    let SoftReset () =
+    let SoftResetInternal () =
         i <- true
         iFlagPending <- true
         mi <- 0
         opcode <- vopReset
 
-    let HardReset () =
+    let HardResetInternal () =
         a <- 0x00
         x <- 0x00
         y <- 0x00
@@ -102,7 +102,7 @@ type Mos6502(config:Mos6502Configuration) =
         d <- false
         z <- false
         c <- false
-        SoftReset()
+        SoftResetInternal()
 
     let GetP () =
         0x20 |||
@@ -1395,4 +1395,8 @@ type Mos6502(config:Mos6502Configuration) =
         opcode <- vopFetch1
 
     member this.TotalCycles = totalCycles
+
+    member this.SoftReset () = SoftResetInternal()
+
+    member this.HardReset () = HardResetInternal()
 

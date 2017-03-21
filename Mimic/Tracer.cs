@@ -1,72 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mimic
 {
-    public class Tracer : IBus
+    public class Tracer : IBus, ITracer
     {
-        private readonly Action<int> _onRead;
-        private readonly Action<int, int> _onWrite;
+        private readonly IBus _subject;
 
-        public Tracer(Action<int> onRead, Action<int, int> onWrite)
+        public Tracer(IBus subject)
         {
-            _onRead = onRead;
-            _onWrite = onWrite;
+            _subject = subject;
             Enabled = true;
         }
 
         public bool Enabled { get; set; }
 
+        public Action<int, int> OnCpuRead { get; set; }
+        public Action<int, int> OnCpuWrite { get; set; }
+        public Action<int, int> OnPpuRead { get; set; }
+
         public int CpuRead(int address)
         {
-            return 0xFF;
+            var value = _subject.CpuRead(address);
+            if (Enabled)
+                OnCpuRead?.Invoke(address, value);
+            return value;
         }
 
         public void CpuWrite(int address, int value)
         {
+            _subject.CpuWrite(address, value);
             if (Enabled)
-                _onWrite(address, value);
+                OnCpuWrite?.Invoke(address, value);
         }
 
-        public int CpuPeek(int address)
-        {
-            return 0xFF;
-        }
-
-        public void CpuPoke(int address, int value)
-        {
-        }
+        public int CpuPeek(int address) => _subject.CpuPeek(address);
+        public void CpuPoke(int address, int value) => _subject.CpuPoke(address, value);
 
         public int PpuRead(int address)
         {
-            return 0xFF;
-        }
-
-        public int PpuPeek(int address)
-        {
-            return 0xFF;
-        }
-
-        public bool Rdy => true;
-
-        public bool CpuAssertsRead(int address)
-        {
+            var value = _subject.PpuRead(address);
             if (Enabled)
-                _onRead(address);
-            return false;
+                OnPpuRead?.Invoke(address, value);
+            return value;
         }
 
-        public bool CpuAssertsWrite(int address) => true;
-
-        public bool PpuAssertsRead(int address) => false;
-
-        public bool AssertsRdy => false;
-
-        public void Reset()
-        {
-        }
+        public int PpuPeek(int address) => _subject.PpuPeek(address);
+        public bool Rdy => _subject.Rdy;
+        public bool AssertsCpuRead(int address) => _subject.AssertsCpuRead(address);
+        public bool AssertsCpuWrite(int address) => _subject.AssertsCpuWrite(address);
+        public bool AssertsPpuRead(int address) => _subject.AssertsPpuRead(address);
+        public bool AssertsRdy => _subject.AssertsRdy;
+        public void Reset() => _subject.Reset();
+        public void Clock() => _subject.Clock();
+        public bool AssertsIrq => _subject.AssertsIrq;
+        public bool AssertsNmi => _subject.AssertsNmi;
+        public bool Irq => _subject.Irq;
+        public bool Nmi => _subject.Nmi;
     }
 }

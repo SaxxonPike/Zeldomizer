@@ -12,10 +12,15 @@ namespace Mimic
         int PpuRead(int address);
         int PpuPeek(int address);
         bool Rdy { get; }
-        bool CpuAssertsRead(int address);
-        bool CpuAssertsWrite(int address);
-        bool PpuAssertsRead(int address);
+        bool AssertsCpuRead(int address);
+        bool AssertsCpuWrite(int address);
+        bool AssertsPpuRead(int address);
         bool AssertsRdy { get; }
         void Reset();
+        void Clock();
+        bool AssertsIrq { get; }
+        bool AssertsNmi { get; }
+        bool Irq { get; }
+        bool Nmi { get; }
     }
 }

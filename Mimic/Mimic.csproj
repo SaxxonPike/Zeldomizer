@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bus.cs" />
+    <Compile Include="Cpu.cs" />
+    <Compile Include="ITracer.cs" />
     <Compile Include="Ram.cs" />
     <Compile Include="NesSystem.cs" />
     <Compile Include="IBus.cs" />
@@ -47,6 +50,7 @@
     <Compile Include="Ppu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rom.cs" />
+    <Compile Include="Router.cs" />
     <Compile Include="Tracer.cs" />
   </ItemGroup>
   <ItemGroup>
