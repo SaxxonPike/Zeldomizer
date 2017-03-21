@@ -5,9 +5,15 @@ type IMemory =
     abstract member Write: int * int -> unit
     abstract member Peek: int -> int
     abstract member Poke: int * int -> unit
-
+    
 type IReadySignal =
     abstract member ReadRdy: unit -> bool
+
+type IIrqSignal =
+    abstract member ReadIrq: unit -> bool
+
+type INmiSignal =
+    abstract member ReadNmi: unit -> bool
 
 type MemoryNull () =
     interface IMemory with
@@ -19,6 +25,14 @@ type MemoryNull () =
 type ReadySignalNull () =
     interface IReadySignal with
         member this.ReadRdy () = true
+
+type IrqSignalNull () =
+    interface IIrqSignal with
+        member this.ReadIrq () = false
+
+type NmiSignalNull () =
+    interface INmiSignal with
+        member this.ReadNmi () = false
 
 type MemoryTrace (memory:IMemory, onRead:System.Action<int>, onWrite:System.Action<int,int>) =
     interface IMemory with

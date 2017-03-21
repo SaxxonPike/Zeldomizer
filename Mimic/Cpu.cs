@@ -3,7 +3,7 @@ using Breadbox;
 
 namespace Mimic
 {
-    public sealed class Cpu : Bus, IMemory, IReadySignal
+    public sealed class Cpu : Bus, IMemory, IReadySignal, IIrqSignal, INmiSignal
     {
         private readonly IBus _bus;
         private readonly Mos6502 _cpu;
@@ -11,7 +11,7 @@ namespace Mimic
         public Cpu(IBus bus)
         {
             _bus = bus;
-            _cpu = new Mos6502(new Mos6502Configuration(0xFF, false, this, this));
+            _cpu = new Mos6502(new Mos6502Configuration(0xFF, false, this, this, this, this));
         }
 
         int IMemory.Read(int address) => _bus.CpuRead(address);
@@ -21,8 +21,16 @@ namespace Mimic
         bool IReadySignal.ReadRdy() => _bus.Rdy;
 
         public override void Reset() => _cpu.SoftReset();
-        public override void Clock() => _cpu.Clock();
+
+        public override void Clock()
+        {
+            _cpu.Clock();
+        }
+
         public int CpuPc => _cpu.PC;
         public ulong TotalCycles => _cpu.TotalCycles;
+
+        bool IIrqSignal.ReadIrq() => _bus.Irq;
+        bool INmiSignal.ReadNmi() => _bus.Nmi;
     }
 }

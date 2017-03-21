@@ -13,6 +13,8 @@ namespace Breadbox
         private Mos6502Configuration _config;
         protected Mock<IMemory> MemoryMock;
         protected Mock<IReadySignal> ReadySignalMock;
+        protected Mock<IIrqSignal> IrqSignalMock;
+        protected Mock<INmiSignal> NmiSignalMock;
         protected Mos6502 Cpu { get; private set; }
 
         [SetUp]
@@ -22,8 +24,10 @@ namespace Breadbox
 
             var memory = MemoryMock != null ? MemoryMock.Object : new MemoryNull();
             var ready = ReadySignalMock != null ? ReadySignalMock.Object : new ReadySignalNull();
+            var irq = IrqSignalMock != null ? IrqSignalMock.Object : new IrqSignalNull();
+            var nmi = NmiSignalMock != null ? NmiSignalMock.Object : new NmiSignalNull();
 
-            _config = new Mos6502Configuration(0xFF, true, memory, ready);
+            _config = new Mos6502Configuration(0xFF, true, memory, ready, irq, nmi);
             Cpu = new Mos6502(_config);
         }
 

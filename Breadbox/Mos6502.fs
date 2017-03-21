@@ -3,11 +3,13 @@
 // 6502/6510 core.
 // Ported from Bizhawk's C# core.
 
-type Mos6502Configuration(lxaConstant:int, hasDecimalMode:bool, memory:IMemory, ready:IReadySignal) =
+type Mos6502Configuration(lxaConstant:int, hasDecimalMode:bool, memory:IMemory, ready:IReadySignal, irq:IIrqSignal, nmi:INmiSignal) =
     member val LxaConstant = lxaConstant
     member val HasDecimalMode = hasDecimalMode
     member val Memory = memory
     member val Ready = ready
+    member val Irq = irq
+    member val Nmi = nmi
 
 type Mos6502(config:Mos6502Configuration) =
     [<Literal>]
@@ -79,6 +81,8 @@ type Mos6502(config:Mos6502Configuration) =
     let lxaConstant = config.LxaConstant
     let hasDecimalMode = config.HasDecimalMode
     let readRdy = config.Ready.ReadRdy
+    let readIrq = config.Irq.ReadIrq
+    let readNmi = config.Nmi.ReadNmi
     let memoryReadRaw = config.Memory.Read
     let memoryWriteRaw = config.Memory.Write
 
@@ -1328,22 +1332,26 @@ type Mos6502(config:Mos6502Configuration) =
         else
             totalCycles <- totalCycles + 1UL
 
+
+    let LatchFlags () =
+        rdy <- readRdy()
+        irq <- readIrq()
+        nmi <- readNmi()
+
     let ExecuteOneRetry () =
+        LatchFlags()
         ExecuteOneRetryInternal()
 
     member this.Clock () =
-        rdy <- readRdy()
         ExecuteOneRetry()
 
     member this.ClockMultiple count =
-        rdy <- readRdy()
         let mutable remaining = count
         while remaining > 0 do
             ExecuteOneRetry()
             remaining <- remaining - 1
 
     member this.ClockToAddress address =
-        rdy <- readRdy()
         while not (pc = address) do
             ExecuteOneRetry()
 
