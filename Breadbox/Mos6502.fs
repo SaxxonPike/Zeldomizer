@@ -949,13 +949,6 @@ type Mos6502(config:Mos6502Configuration) =
     let InvalidOp () =
         FetchDiscard 0xFFFF |> ignore; false
 
-    let LatchInterrupts () =
-        let thisNmi = readNmi()
-        irq <- irq || readIrq()
-        nmi <- nmi || ((not lastNmi) && thisNmi)
-        interruptPending <- nmi || irq
-        lastNmi <- thisNmi
-
     let EndISpecial () =
         opcode <- vopFetch1
         mi <- -1
@@ -1340,12 +1333,13 @@ type Mos6502(config:Mos6502Configuration) =
         else
             totalCycles <- totalCycles + 1UL
 
-    let LatchFlags () =
-        rdy <- readRdy()
-        LatchInterrupts()
-
     let ExecuteOneRetry () =
-        LatchFlags()
+        let thisNmi = readNmi()
+        rdy <- readRdy()
+        irq <- irq || readIrq()
+        nmi <- nmi || ((not lastNmi) && thisNmi)
+        interruptPending <- nmi || irq
+        lastNmi <- thisNmi
         ExecuteOneRetryInternal()
 
     member this.Clock () =
