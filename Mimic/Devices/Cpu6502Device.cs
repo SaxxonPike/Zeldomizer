@@ -1,4 +1,5 @@
-﻿using Breadbox;
+﻿using System;
+using Breadbox;
 using Mimic.Interfaces;
 
 namespace Mimic.Devices
@@ -17,6 +18,8 @@ namespace Mimic.Devices
         /// Breadbox 6502 core.
         /// </summary>
         private readonly Mos6502 _cpu;
+        private readonly Action<int, int> _busWrite;
+        private readonly Func<int, int> _busRead;
 
         /// <summary>
         /// Create a CPU device using the specified device as a read/write target.
@@ -27,10 +30,12 @@ namespace Mimic.Devices
         {
             _busDevice = busDevice;
             _cpu = new Mos6502(new Mos6502Configuration(0xFF, false, this, this, this, this));
+            _busWrite = busDevice.CpuWrite;
+            _busRead = busDevice.CpuRead;
         }
 
-        int IMemory.Read(int address) => _busDevice.CpuRead(address);
-        void IMemory.Write(int address, int value) => _busDevice.CpuWrite(address, value);
+        int IMemory.Read(int address) => _busRead(address);
+        void IMemory.Write(int address, int value) => _busWrite(address, value);
         int IMemory.Peek(int address) => _busDevice.CpuPeek(address);
         void IMemory.Poke(int address, int value) => _busDevice.CpuPoke(address, value);
         bool IReadySignal.ReadRdy() => _busDevice.Rdy;

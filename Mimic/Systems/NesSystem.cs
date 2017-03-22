@@ -12,6 +12,8 @@ namespace Mimic.Systems
             _cpu6502Device = new Cpu6502Device("Cpu", Router);
 
             Router.Install(new RamDevice("Ram", 0x800, 0x2000, 0x0000, 0x7FF));
+            Router.Install(new GamepadsDevice("Gamepads"));
+            Router.Install(new ApuDevice("Apu"));
             Router.Install(new PpuDevice("Ppu", Router));
             Router.Install(_cpu6502Device);
 

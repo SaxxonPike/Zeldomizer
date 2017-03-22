@@ -9,6 +9,6 @@
 
         public override void CpuWrite(int address, int value) => Ram[address & Mask] = unchecked((byte) value);
         public override void CpuPoke(int address, int value) => CpuWrite(address, value);
-        public override bool AssertsCpuWrite(int address) => AssertsCpuRead(address);
+        public override bool CpuWriteChipSelect(int address) => CpuReadChipSelect(address);
     }
 }

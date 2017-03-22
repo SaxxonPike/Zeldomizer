@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mimic.Interfaces;
 
 namespace Mimic.Devices
 {
-    public class DeviceTracer : ITracer
+    public sealed class DeviceTracer : ITracer
     {
         private readonly IBusDevice _subject;
 
@@ -47,9 +48,9 @@ namespace Mimic.Devices
 
         public int PpuPeek(int address) => _subject.PpuPeek(address);
         public bool Rdy => _subject.Rdy;
-        public bool AssertsCpuRead(int address) => _subject.AssertsCpuRead(address);
-        public bool AssertsCpuWrite(int address) => _subject.AssertsCpuWrite(address);
-        public bool AssertsPpuRead(int address) => _subject.AssertsPpuRead(address);
+        public bool CpuReadChipSelect(int address) => _subject.CpuReadChipSelect(address);
+        public bool CpuWriteChipSelect(int address) => _subject.CpuWriteChipSelect(address);
+        public bool PpuReadChipSelect(int address) => _subject.PpuReadChipSelect(address);
         public bool AssertsRdy => _subject.AssertsRdy;
         public void Reset() => _subject.Reset();
         public void Clock() => _subject.Clock();

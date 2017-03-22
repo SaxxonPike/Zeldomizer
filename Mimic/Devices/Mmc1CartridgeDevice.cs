@@ -250,7 +250,7 @@ namespace Mimic.Devices
         /// Returns true if the given address is valid for reading from this device.
         /// </summary>
         /// <param name="address">Address to check.</param>
-        public override bool AssertsCpuRead(int address)
+        public override bool CpuReadChipSelect(int address)
         {
             switch (address & 0xE000)
             {
@@ -272,7 +272,7 @@ namespace Mimic.Devices
         /// Returns true if the given address is valid for writing to this device.
         /// </summary>
         /// <param name="address">Address to check.</param>
-        public override bool AssertsCpuWrite(int address)
+        public override bool CpuWriteChipSelect(int address)
         {
             switch (address & 0xE000)
             {

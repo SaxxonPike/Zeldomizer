@@ -1,4 +1,5 @@
-﻿using Mimic.Interfaces;
+﻿using System.Collections.Generic;
+using Mimic.Interfaces;
 
 namespace Mimic.Devices
 {
@@ -16,9 +17,9 @@ namespace Mimic.Devices
         public virtual int PpuRead(int address) => 0xFF;
         public virtual int PpuPeek(int address) => 0xFF;
         public virtual bool Rdy => true;
-        public virtual bool AssertsCpuRead(int address) => false;
-        public virtual bool AssertsCpuWrite(int address) => false;
-        public virtual bool AssertsPpuRead(int address) => false;
+        public virtual bool CpuReadChipSelect(int address) => false;
+        public virtual bool CpuWriteChipSelect(int address) => false;
+        public virtual bool PpuReadChipSelect(int address) => false;
         public virtual bool AssertsRdy => false;
         public virtual void Reset() { }
         public virtual void Clock() { }

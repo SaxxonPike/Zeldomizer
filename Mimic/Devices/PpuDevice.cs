@@ -5,7 +5,7 @@ namespace Mimic.Devices
     /// <summary>
     /// Graphics unit for the Famicom and Nintendo Entertainment System consoles.
     /// </summary>
-    public class PpuDevice : BusDevice
+    public sealed class PpuDevice : BusDevice
     {
         /// <summary>
         /// System to perform reads from.
@@ -104,13 +104,13 @@ namespace Mimic.Devices
         /// If true, the specified address is valid when reading from the PPU.
         /// </summary>
         /// <param name="address">Address to check.</param>
-        public override bool AssertsCpuRead(int address) => address == 0x4014 || (address & 0xE000) == 0x2000;
+        public override bool CpuReadChipSelect(int address) => address == 0x4014 || (address & 0xE000) == 0x2000;
 
         /// <summary>
         /// If true, the specified address is valid when writing to the PPU.
         /// </summary>
         /// <param name="address">Address to check.</param>
-        public override bool AssertsCpuWrite(int address) => AssertsCpuRead(address);
+        public override bool CpuWriteChipSelect(int address) => CpuReadChipSelect(address);
 
         /// <summary>
         /// Retrieve data for the CPU.

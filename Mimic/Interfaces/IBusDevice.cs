@@ -1,4 +1,6 @@
-﻿namespace Mimic.Interfaces
+﻿using System.Collections.Generic;
+
+namespace Mimic.Interfaces
 {
     public interface IBusDevice
     {
@@ -50,20 +52,20 @@
         /// device at the specified address.
         /// </summary>
         /// <param name="address">Address to check.</param>
-        bool AssertsCpuRead(int address);
+        bool CpuReadChipSelect(int address);
 
         /// <summary>
         /// Determine if the address is valid when writing to this device on the CPU bus.
         /// </summary>
         /// <param name="address">Address to check.</param>
-        bool AssertsCpuWrite(int address);
+        bool CpuWriteChipSelect(int address);
 
         /// <summary>
         /// Determine if the PPU data bus is asserted when reading from this
         /// device at the specified address.
         /// </summary>
         /// <param name="address">Address to check.</param>
-        bool AssertsPpuRead(int address);
+        bool PpuReadChipSelect(int address);
 
         /// <summary>
         /// Determine if the device can control the Ready line.

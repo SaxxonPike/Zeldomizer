@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Devices\ApuDevice.cs" />
     <Compile Include="Devices\BusDevice.cs" />
     <Compile Include="Devices\Cpu6502Device.cs" />
+    <Compile Include="Devices\GamepadsDevice.cs" />
     <Compile Include="Interfaces\ITracer.cs" />
     <Compile Include="Devices\RamDevice.cs" />
     <Compile Include="Systems\NesSystem.cs" />

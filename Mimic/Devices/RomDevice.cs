@@ -20,7 +20,7 @@
         public override int CpuPeek(int address) => CpuRead(address);
         public override int PpuRead(int address) => CpuRead(address);
         public override int PpuPeek(int address) => CpuRead(address);
-        public override bool AssertsCpuRead(int address) => address >= Offset && address < UpperBound;
-        public override bool AssertsPpuRead(int address) => AssertsCpuRead(address);
+        public override bool CpuReadChipSelect(int address) => address >= Offset && address < UpperBound;
+        public override bool PpuReadChipSelect(int address) => CpuReadChipSelect(address);
     }
 }

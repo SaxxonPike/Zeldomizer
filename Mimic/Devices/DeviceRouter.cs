@@ -5,7 +5,7 @@ using Mimic.Interfaces;
 
 namespace Mimic.Devices
 {
-    public class DeviceRouter : IBusDevice
+    public sealed class DeviceRouter : IBusDevice
     {
         public DeviceRouter(string name)
         {
@@ -62,16 +62,17 @@ namespace Mimic.Devices
         public Action<int, int> OnPpuRead { get; set; }
         public bool EnableTracing { get; set; }
 
-        protected List<IBusDevice> Devices { get; }
+        private List<IBusDevice> Devices { get; }
 
-        protected Dictionary<IBusDevice, ITracer> Tracers { get; }
+        private Dictionary<IBusDevice, ITracer> Tracers { get; }
 
         public int CpuRead(int address)
         {
-            var result = Devices.Aggregate(0xFF,
-                (value, device) => device.AssertsCpuRead(address)
-                    ? device.CpuRead(address) & value
-                    : value);
+            var result = 0xFF;
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var device in Devices)
+                if (device.CpuReadChipSelect(address))
+                    result &= device.CpuRead(address);
             if (EnableTracing)
                 OnCpuRead?.Invoke(address, result);
             return result;
@@ -80,7 +81,7 @@ namespace Mimic.Devices
         public void CpuWrite(int address, int value)
         {
             foreach (var device in Devices)
-                if (device.AssertsCpuWrite(address))
+                if (device.CpuWriteChipSelect(address))
                     device.CpuWrite(address, value);
             if (EnableTracing)
                 OnCpuWrite?.Invoke(address, value);
@@ -88,25 +89,28 @@ namespace Mimic.Devices
 
         public int CpuPeek(int address)
         {
-            return Devices.Aggregate(0xFF,
-                (value, device) => device.AssertsCpuRead(address)
-                    ? device.CpuPeek(address) & value
-                    : value);
+            var result = 0xFF;
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var device in Devices)
+                if (device.CpuReadChipSelect(address))
+                    result &= device.CpuPeek(address);
+            return result;
         }
 
         public void CpuPoke(int address, int value)
         {
             foreach (var device in Devices)
-                if (device.AssertsCpuWrite(address))
+                if (device.CpuWriteChipSelect(address))
                     device.CpuPoke(address, value);
         }
 
         public int PpuRead(int address)
         {
-            var result = Devices.Aggregate(0xFF,
-                (value, device) => device.AssertsPpuRead(address)
-                    ? device.PpuRead(address) & value
-                    : value);
+            var result = 0xFF;
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var device in Devices)
+                if (device.CpuReadChipSelect(address))
+                    result &= device.PpuRead(address);
             if (EnableTracing)
                 OnPpuRead?.Invoke(address, result);
             return result;
@@ -114,26 +118,65 @@ namespace Mimic.Devices
 
         public int PpuPeek(int address)
         {
-            return Devices.Aggregate(0xFF,
-                (value, device) => device.AssertsPpuRead(address)
-                    ? device.PpuPeek(address) & value
-                    : value);
+            var result = 0xFF;
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var device in Devices)
+                if (device.CpuReadChipSelect(address))
+                    result &= device.PpuPeek(address);
+            return result;
         }
 
-        public bool Rdy => Devices
-            .All(device => !device.AssertsRdy || device.Rdy);
+        public bool Rdy
+        {
+            get
+            {
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (var device in Devices)
+                    if (device.AssertsRdy && !device.Rdy)
+                        return false;
+                return true;
+            }
+        }
 
-        public bool AssertsCpuRead(int address) => Devices
-            .Any(device => device.AssertsCpuRead(address));
+        public bool CpuReadChipSelect(int address)
+        {
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var device in Devices)
+                if (device.CpuReadChipSelect(address))
+                    return true;
+            return false;
+        }
 
-        public bool AssertsCpuWrite(int address) => Devices
-            .Any(device => device.AssertsCpuWrite(address));
+        public bool CpuWriteChipSelect(int address)
+        {
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var device in Devices)
+                if (device.CpuWriteChipSelect(address))
+                    return true;
+            return false;
+        }
 
-        public bool AssertsPpuRead(int address) => Devices
-            .Any(device => device.AssertsPpuRead(address));
+        public bool PpuReadChipSelect(int address)
+        {
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var device in Devices)
+                if (device.PpuReadChipSelect(address))
+                    return true;
+            return false;
+        }
 
-        public bool AssertsRdy => Devices
-            .Any(device => device.AssertsRdy);
+        public bool AssertsRdy
+        {
+            get
+            {
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (var device in Devices)
+                    if (device.AssertsRdy)
+                        return true;
+                return false;
+            }
+        }
+
 
         public void Reset()
         {
@@ -147,17 +190,56 @@ namespace Mimic.Devices
                 device.Clock();
         }
 
-        public bool AssertsIrq => Devices
-            .Any(device => device.AssertsIrq);
+        public bool AssertsIrq
+        {
+            get
+            {
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (var device in Devices)
+                    if (device.AssertsIrq)
+                        return true;
+                return false;
+            }
+        }
 
-        public bool AssertsNmi => Devices
-            .Any(device => device.AssertsNmi);
+        public bool AssertsNmi
+        {
+            get
+            {
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (var device in Devices)
+                    if (device.AssertsNmi)
+                        return true;
+                return false;
+            }
+        }
 
-        public bool Irq => Devices
-            .Any(device => device.AssertsIrq && device.Irq);
 
-        public bool Nmi => Devices
-            .Any(device => device.AssertsNmi && device.Nmi);
+        public bool Irq
+        {
+            get
+            {
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (var device in Devices)
+                    if (device.AssertsIrq && device.Irq)
+                        return true;
+                return false;
+            }
+        }
+
+
+        public bool Nmi
+        {
+            get
+            {
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (var device in Devices)
+                    if (device.AssertsNmi && device.Nmi)
+                        return true;
+                return false;
+            }
+        }
+
 
         public byte[] DumpAddressible()
         {
