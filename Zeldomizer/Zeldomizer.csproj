@@ -44,7 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engine\Graphics\Interfaces\ISprite.cs" />
-    <Compile Include="Engine\Graphics\LinkSprites.cs" />
+    <Compile Include="Engine\Graphics\ItemSpriteList.cs" />
+    <Compile Include="Engine\Graphics\LinkSpriteList.cs" />
+    <Compile Include="Engine\Graphics\SpriteList.cs" />
     <Compile Include="Engine\Graphics\Sprite.cs" />
     <Compile Include="Engine\Graphics\CompoundSprite.cs" />
     <Compile Include="Engine\Text\CharacterText.cs" />
