@@ -76,7 +76,7 @@ namespace Zeldomizer.Metal
 
         private IEnumerable<Color> GetColors()
         {
-            for (var i = 0; i < rawColorValues.Length * 3; i += 3)
+            for (var i = 0; i < rawColorValues.Length; i += 3)
                 yield return Color.FromArgb(
                     rawColorValues[i],
                     rawColorValues[i + 1],
