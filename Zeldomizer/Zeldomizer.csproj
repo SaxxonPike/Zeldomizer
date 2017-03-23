@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -59,6 +60,7 @@
     <Compile Include="Metal\IFixedStringConverter.cs" />
     <Compile Include="Metal\IRom.cs" />
     <Compile Include="Engine\Music\MusicPointers.cs" />
+    <Compile Include="Metal\Palette.cs" />
     <Compile Include="Metal\TextStringConverter.cs" />
     <Compile Include="Metal\NullStringFormatter.cs" />
     <Compile Include="Metal\Rom.cs" />
