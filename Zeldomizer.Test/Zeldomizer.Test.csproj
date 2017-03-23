@@ -62,9 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTestFixture.cs" />
-    <Compile Include="Engine\EndingTextTests.cs" />
-    <Compile Include="Engine\MenuTextTests.cs" />
-    <Compile Include="Engine\TestPlayground.cs" />
+    <Compile Include="Engine\Text\EndingTextTests.cs" />
+    <Compile Include="Engine\Text\MenuTextTests.cs" />
+    <Compile Include="TestPlayground.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RomFile.cs" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace Zeldomizer.Engine
+﻿namespace Zeldomizer
 {
     public class TestPlayground : BaseTestFixture
     {
