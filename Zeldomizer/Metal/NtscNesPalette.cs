@@ -4,9 +4,9 @@ using System.Drawing;
 
 namespace Zeldomizer.Metal
 {
-    public class Palette : IEnumerable<Color>
+    public class NtscNesPalette : IEnumerable<Color>
     {
-        private readonly int[] rawColorValues =
+        private readonly int[] _rawColorValues =
         {
             0x7C, 0x7C, 0x7C,
             0x00, 0x00, 0xFC,
@@ -74,16 +74,23 @@ namespace Zeldomizer.Metal
             0x00, 0x00, 0x00
         };
 
+        private Color GetColor(int index)
+        {
+            var i = (index & 0x3F) * 3;
+            return Color.FromArgb(
+                _rawColorValues[i],
+                _rawColorValues[i + 1],
+                _rawColorValues[i + 2]);
+        }
+
         private IEnumerable<Color> GetColors()
         {
-            for (var i = 0; i < rawColorValues.Length; i += 3)
-                yield return Color.FromArgb(
-                    rawColorValues[i],
-                    rawColorValues[i + 1],
-                    rawColorValues[i + 2]);
+            for (var i = 0; i < 64; i++)
+                yield return GetColor(i);
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         public IEnumerator<Color> GetEnumerator() => GetColors().GetEnumerator();
+        public Color this[int index] => GetColor(index);
     }
 }
