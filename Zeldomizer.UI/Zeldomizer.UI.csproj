@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -53,63 +54,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\FileSelectionTextBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\FileSelectionTextBox.Designer.cs">
-      <DependentUpon>FileSelectionTextBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PixelPictureBox.cs">
+    <Compile Include="Browser\BrowserControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\RomSelectionPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\RomSelectionPanel.Designer.cs">
-      <DependentUpon>RomSelectionPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SpriteEditControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\SpriteEditControl.Designer.cs">
-      <DependentUpon>SpriteEditControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SpriteEditFrameControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\SpriteEditFrameControl.Designer.cs">
-      <DependentUpon>SpriteEditFrameControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Core\Context.cs" />
-    <Compile Include="Core\FileDialogFactory.cs" />
-    <Compile Include="Core\FormFactory.cs" />
-    <Compile Include="Core\IContext.cs" />
-    <Compile Include="Core\IFileDialogFactory.cs" />
-    <Compile Include="Core\IFormFactory.cs" />
-    <Compile Include="Forms\MasterForm.cs">
+    <Compile Include="Browser\BrowserUi.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MasterForm.Designer.cs">
-      <DependentUpon>MasterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Controls\FileSelectionTextBox.resx">
-      <DependentUpon>FileSelectionTextBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\RomSelectionPanel.resx">
-      <DependentUpon>RomSelectionPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SpriteEditControl.resx">
-      <DependentUpon>SpriteEditControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SpriteEditFrameControl.resx">
-      <DependentUpon>SpriteEditFrameControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MasterForm.resx">
-      <DependentUpon>MasterForm.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="Browser\Router.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -118,6 +72,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -129,15 +84,24 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Bootstrap.zip" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Disaster\Disaster.csproj">
+      <Project>{2EE7A459-7EF4-4105-9FD6-4F8EF6689C1E}</Project>
+      <Name>Disaster</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Zeldomizer\Zeldomizer.csproj">
       <Project>{30395D74-57C4-4188-8FCC-212ED843A983}</Project>
       <Name>Zeldomizer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\index.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

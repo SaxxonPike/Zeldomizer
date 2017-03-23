@@ -2,8 +2,7 @@
 using System.Reflection;
 using System.Windows.Forms;
 using Autofac;
-using Zeldomizer.UI.Core;
-using Zeldomizer.UI.Forms;
+using Zeldomizer.UI.Browser;
 
 namespace Zeldomizer.UI
 {
@@ -19,8 +18,8 @@ namespace Zeldomizer.UI
             Application.SetCompatibleTextRenderingDefault(false);
 
             var container = CreateIocContainer();
-            var formFactory = container.Resolve<FormFactory>();
-            Application.Run(formFactory.GetForm<MasterForm>());
+            var browserForm = container.Resolve<BrowserUi>();
+            Application.Run(browserForm);
         }
 
         private static IContainer CreateIocContainer()
@@ -32,18 +31,6 @@ namespace Zeldomizer.UI
             // ReSharper disable once AccessToModifiedClosure
             builder.Register(c => result)
                 .As<IContainer>()
-                .SingleInstance();
-
-            builder.RegisterType<Context>()
-                .As<IContext>()
-                .SingleInstance();
-
-            builder.RegisterType<FileDialogFactory>()
-                .As<IFileDialogFactory>()
-                .SingleInstance();
-
-            builder.RegisterType<FormFactory>()
-                .As<IFormFactory>()
                 .SingleInstance();
 
             builder.RegisterAssemblyTypes(assembly)
