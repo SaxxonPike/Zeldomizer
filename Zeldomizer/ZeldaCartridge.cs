@@ -1,4 +1,6 @@
 ﻿using Zeldomizer.Engine;
+using Zeldomizer.Engine.Music;
+using Zeldomizer.Engine.Text;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using Zeldomizer.Engine.Text;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine

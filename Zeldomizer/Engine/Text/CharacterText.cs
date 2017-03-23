@@ -1,6 +1,6 @@
 ﻿using Zeldomizer.Metal;
 
-namespace Zeldomizer.Engine
+namespace Zeldomizer.Engine.Text
 {
     public class CharacterText : StringList 
     {

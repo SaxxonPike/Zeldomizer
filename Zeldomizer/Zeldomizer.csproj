@@ -43,16 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\CharacterText.cs" />
-    <Compile Include="Engine\EndingText.cs" />
-    <Compile Include="Engine\MenuText.cs" />
+    <Compile Include="Engine\Text\CharacterText.cs" />
+    <Compile Include="Engine\Text\EndingText.cs" />
+    <Compile Include="Engine\Text\MenuText.cs" />
     <Compile Include="Metal\ConversionTable.cs" />
     <Compile Include="Metal\FixedStringConverter.cs" />
     <Compile Include="Metal\FixedStringData.cs" />
     <Compile Include="Metal\IConversionTable.cs" />
     <Compile Include="Metal\IFixedStringConverter.cs" />
     <Compile Include="Metal\IRom.cs" />
-    <Compile Include="Engine\MusicPointers.cs" />
+    <Compile Include="Engine\Music\MusicPointers.cs" />
     <Compile Include="Metal\TextStringConverter.cs" />
     <Compile Include="Metal\NullStringFormatter.cs" />
     <Compile Include="Metal\Rom.cs" />
