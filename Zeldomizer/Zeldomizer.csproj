@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\Graphics\Interfaces\ISprite.cs" />
+    <Compile Include="Engine\Graphics\LinkSprites.cs" />
+    <Compile Include="Engine\Graphics\Sprite.cs" />
+    <Compile Include="Engine\Graphics\CompoundSprite.cs" />
     <Compile Include="Engine\Text\CharacterText.cs" />
     <Compile Include="Engine\Text\EndingText.cs" />
     <Compile Include="Engine\Text\MenuText.cs" />
