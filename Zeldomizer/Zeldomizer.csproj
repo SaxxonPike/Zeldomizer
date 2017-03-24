@@ -44,6 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\Dungeons\Dungeon.cs" />
+    <Compile Include="Engine\Dungeons\DungeonList.cs" />
+    <Compile Include="Engine\Dungeons\DungeonRoomMacro.cs" />
+    <Compile Include="Engine\Dungeons\DungeonRoomMacroList.cs" />
     <Compile Include="Engine\Graphics\Interfaces\ISprite.cs" />
     <Compile Include="Engine\Graphics\ItemSpriteList.cs" />
     <Compile Include="Engine\Graphics\LinkSpriteList.cs" />

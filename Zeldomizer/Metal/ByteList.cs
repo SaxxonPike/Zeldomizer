@@ -1,4 +1,6 @@
-﻿namespace Zeldomizer.Metal
+﻿using System.Linq;
+
+namespace Zeldomizer.Metal
 {
     public class ByteList : FixedList<int>
     {
@@ -15,6 +17,11 @@
         {
             get { return _source[index + _offset]; }
             set { _source[index + _offset] = unchecked((byte)value); }
+        }
+
+        public override string ToString()
+        {
+            return string.Join(" ", this.Select(i => $"{i:x2}"));
         }
     }
 }
