@@ -9,7 +9,8 @@ namespace Zeldomizer
         public void Test1()
         {
             var cart = new ZeldaCartridge(Rom);
-            var macros = cart.Dungeons.Macros.ToArray();
+            var rooms = cart.Dungeons.Rooms.ToArray();
         }
+
     }
 }

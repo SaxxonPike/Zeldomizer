@@ -4,7 +4,7 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Graphics
 {
-    public class ItemSpriteList : SpriteList
+    public class ItemSpriteList : SpriteListBase
     {
         public ItemSpriteList(IRom rom) : base(rom, 0x807F)
         {

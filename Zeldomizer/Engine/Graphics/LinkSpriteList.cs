@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Graphics
 {
-    public class LinkSpriteList : SpriteList
+    public class LinkSpriteList : SpriteListBase
     {
         public LinkSpriteList(IRom rom) : base(rom, 0x807F)
         {

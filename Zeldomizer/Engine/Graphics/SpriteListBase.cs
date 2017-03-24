@@ -4,12 +4,12 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Graphics
 {
-    public abstract class SpriteList : IEnumerable<ISprite>
+    public abstract class SpriteListBase : IEnumerable<ISprite>
     {
         private readonly IRom _rom;
         private readonly int _listOffset;
 
-        protected SpriteList(IRom rom, int offset)
+        protected SpriteListBase(IRom rom, int offset)
         {
             _rom = rom;
             _listOffset = offset;
