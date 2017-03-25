@@ -35,7 +35,6 @@ namespace Zeldomizer.Engine.Dungeons
                     yield return kind;
                     if (--tilesLeft <= 0)
                     {
-                        Console.WriteLine("end macro");
                         yield break;
                     }
                 }
