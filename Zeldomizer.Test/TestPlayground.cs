@@ -13,19 +13,19 @@ namespace Zeldomizer
         {
             var cart = new ZeldaCartridge(Rom);
             var rooms = cart.Dungeons.Rooms.ToArray();
-            var compiler = new DungeonRoomCompiler();
+            var compiler = new DungeonCompiler();
 
             var output = compiler.Compile(rooms);
-            //Rom.Write(output.Columns.Select(s => unchecked((byte)s)).ToArray(), 0);
-            //var rawColumn = new DungeonColumnLibrary(Rom, 0, 130);
-            //var columnOut = rawColumn.ToArray().Select(dc => dc.ToArray());
+            Rom.Write(output.Columns.Select(s => unchecked((byte)s)).ToArray(), 0);
+            var rawColumn = new DungeonColumnLibrary(Rom, 0, output.ColumnOffsets.Count());
+            var columnOut = rawColumn.ToArray().Select(dc => dc.ToArray());
 
-            //foreach (var column in columnOut)
-            //{
-            //    foreach (var tile in column)
-            //        Console.Write($"{tile:X1}");
-            //    Console.WriteLine();
-            //}
+            foreach (var column in columnOut)
+            {
+                foreach (var tile in column)
+                    Console.Write($"{tile:X1}");
+                Console.WriteLine();
+            }
         }
 
         private static char GetMapChar(int input)

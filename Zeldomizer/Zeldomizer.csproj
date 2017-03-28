@@ -53,8 +53,8 @@
     <Compile Include="Engine\Dungeons\DungeonColumnLibraryList.cs" />
     <Compile Include="Engine\Dungeons\DungeonList.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoom.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoomCompiler.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoomCompilerOutput.cs" />
+    <Compile Include="Engine\Dungeons\DungeonCompiler.cs" />
+    <Compile Include="Engine\Dungeons\CompiledDungeons.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutMapper.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayout.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutList.cs" />
