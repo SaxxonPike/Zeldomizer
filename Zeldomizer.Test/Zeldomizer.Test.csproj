@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="BaseTestFixture.cs" />
     <Compile Include="Engine\Dungeons\DungeonColumnMacroLibraryListTests.cs" />
+    <Compile Include="Engine\Dungeons\DungeonCompilerTests.cs" />
     <Compile Include="Engine\Graphics\CompoundSpriteTests.cs" />
     <Compile Include="Engine\Graphics\SpriteTests.cs" />
     <Compile Include="Engine\Text\EndingTextTests.cs" />

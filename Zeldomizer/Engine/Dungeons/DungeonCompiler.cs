@@ -16,6 +16,8 @@ namespace Zeldomizer.Engine.Dungeons
     {
         /// <summary>
         /// Compile dungeon room data to the format used internally.
+        /// Outer enumerable is for dungeon rooms, and the inner enumerable is for tile data
+        /// belonging to those rooms. Rooms are 12x7 in size.
         /// </summary>
         public CompiledDungeons Compile(IEnumerable<IEnumerable<int>> data)
         {

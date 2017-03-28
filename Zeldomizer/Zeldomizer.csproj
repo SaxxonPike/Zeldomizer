@@ -81,6 +81,7 @@
     <Compile Include="Metal\IRom.cs" />
     <Compile Include="Engine\Music\MusicPointers.cs" />
     <Compile Include="Metal\NtscNesPalette.cs" />
+    <Compile Include="Metal\RomExtensions.cs" />
     <Compile Include="Metal\TextStringConverter.cs" />
     <Compile Include="Metal\NullStringFormatter.cs" />
     <Compile Include="Metal\Rom.cs" />

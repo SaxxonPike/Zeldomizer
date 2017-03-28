@@ -20,13 +20,15 @@ namespace Zeldomizer
         public void _InitializeRom()
         {
             Fixture = new Fixture();
-            Rom = RomFile.GetRom();
+            _rom = null;
         }
+
+        private IRom _rom;
 
         /// <summary>
         /// Zelda ROM file.
         /// </summary>
-        protected IRom Rom { get; private set; }
+        protected IRom Rom => _rom ?? (_rom = RomFile.GetRom());
 
         /// <summary>
         /// AutoFixture factory.
