@@ -58,35 +58,34 @@ namespace Zeldomizer.Engine.Dungeons
 
         public DungeonRoomCompilerOutput Compile(IEnumerable<IEnumerable<int>> data)
         {
-            var dungeons = data.ToArray();
+            var dungeons = data.Select(d => d.ToArray()).ToArray();
             var dungeonColumns = dungeons
                 .SelectMany(d => Enumerable.Range(0, 12)
                     .Select(x => Enumerable.Range(0, 7)
-                        .Select(y => d.ElementAt(x + y * 12)).ToArray()))
+                        .Select(y => d[x + y * 12])))
                         .ToArray();
             var compressedColumns = CompressColumns(dungeonColumns)
                 .ToArray();
             var uniqueColumns = compressedColumns
                 .GroupBy(g => g.MapToIndex)
                 .Select(g => g.OrderBy(s => s.Index).First().Sequence)
-                .Distinct()
-                .ToArray();
+                .Distinct();
             var outputColumns = uniqueColumns
-                .SelectMany(c => c)
-                .ToArray();
-            var encodedColumns = EncodeColumn(outputColumns).ToArray();
+                .SelectMany(c => c);
+            var encodedColumns = EncodeColumn(outputColumns);
             var encodedIndices = compressedColumns.Select(c => c.MapToIndex).Distinct().OrderBy(c => c).ToList();
             var columnMap = compressedColumns.ToDictionary(c => c.Index, c => encodedIndices.IndexOf(c.MapToIndex));
 
             return new DungeonRoomCompilerOutput
             {
-                Columns = encodedColumns,
+                Columns = encodedColumns.ToArray(),
                 Rooms = dungeonColumns.Select((e, i) => columnMap[i]).ToArray()
             };
         }
 
         private static IEnumerable<ColumnCompressionInfo> CompressColumns(IEnumerable<IEnumerable<int>> columns)
         {
+            var matchResult = new List<ColumnMatchResult>();
             var modified = true;
             var columnInfo = columns.Select((e, i) => new ColumnCompressionInfo
             {
@@ -105,13 +104,14 @@ namespace Zeldomizer.Engine.Dungeons
                 {
                     foreach (var otherColumn in columnInfo.Except(new[] { column }))
                     {
-                        if (!ReferenceEquals(column.Sequence, otherColumn.Sequence) && column.Sequence.SequenceEqual(otherColumn.Sequence))
-                        {
-                            column.MapToIndex = otherColumn.Index;
-                            column.Sequence = otherColumn.Sequence;
-                            column.Offset = otherColumn.Offset;
-                            modified = true;
-                        }
+                        if (ReferenceEquals(column.Sequence, otherColumn.Sequence) ||
+                            !column.Sequence.SequenceEqual(otherColumn.Sequence))
+                            continue;
+
+                        column.MapToIndex = otherColumn.Index;
+                        column.Sequence = otherColumn.Sequence;
+                        column.Offset = otherColumn.Offset;
+                        modified = true;
                     }
                 }
             }
@@ -126,7 +126,7 @@ namespace Zeldomizer.Engine.Dungeons
                 foreach (var column in columnInfo)
                 {
                     var columnTiles = column.GetTiles();
-                    var matchResult = new List<ColumnMatchResult>();
+                    matchResult.Clear();
 
                     foreach (var sequence in columnInfo.Select(ci => ci.Sequence).Distinct())
                     {
@@ -174,68 +174,68 @@ namespace Zeldomizer.Engine.Dungeons
                         for (var k = 1; k < columnTiles.Length; k++)
                         {
                             var preMatch = columnTiles.Skip(k).ToArray();
-                            if (preMatch.SequenceEqual(sequence.Take(preMatch.Length), ColumnItemComparer.Instance))
+                            if (!preMatch.SequenceEqual(sequence.Take(preMatch.Length), ColumnItemComparer.Instance))
+                                continue;
+
+                            matchResult.Add(new ColumnMatchResult
                             {
-                                matchResult.Add(new ColumnMatchResult
+                                Operation = () =>
                                 {
-                                    Operation = () =>
+                                    var insertLength = columnTiles.Length - preMatch.Length;
+                                    foreach (var otherColumn in columnInfo.Where(ci => ReferenceEquals(ci.Sequence, sequence)))
+                                        otherColumn.Offset += insertLength;
+
+                                    sequence.InsertRange(0, columnTiles.Take(insertLength));
+
+                                    var sourceSequence = column.Sequence;
+                                    var sourceOffset = column.Offset;
+                                    foreach (var targetColumn in columnInfo)
                                     {
-                                        var insertLength = columnTiles.Length - preMatch.Length;
-                                        foreach (var otherColumn in columnInfo.Where(ci => ReferenceEquals(ci.Sequence, sequence)))
-                                            otherColumn.Offset += insertLength;
+                                        if (!ReferenceEquals(targetColumn.Sequence, sourceSequence) ||
+                                            targetColumn.Offset != sourceOffset)
+                                            continue;
+                                        column.Sequence = sequence;
+                                        column.Offset = 0;
+                                        modified = true;
+                                    }
+                                },
+                                Score = preMatch.Length
+                            });
 
-                                        sequence.InsertRange(0, columnTiles.Take(insertLength));
-
-                                        var sourceSequence = column.Sequence;
-                                        var sourceOffset = column.Offset;
-                                        foreach (var targetColumn in columnInfo)
-                                        {
-                                            if (!ReferenceEquals(targetColumn.Sequence, sourceSequence) ||
-                                                targetColumn.Offset != sourceOffset)
-                                                continue;
-                                            column.Sequence = sequence;
-                                            column.Offset = 0;
-                                            modified = true;
-                                        }
-                                    },
-                                    Score = preMatch.Length
-                                });
-
-                                // If we find one, we already have the best score for this sequence
-                                break;
-                            }
+                            // If we find one, we already have the best score for this sequence
+                            break;
                         }
 
                         // Search for partial matches on post-pattern boundaries
                         for (var k = Math.Min(columnTiles.Length - 1, sequence.Count - 1); k > 0; k--)
                         {
                             var postMatch = columnTiles.Skip(sequence.Count - k).ToArray();
-                            if (postMatch.SequenceEqual(sequence.Take(postMatch.Length), ColumnItemComparer.Instance))
-                            {
-                                matchResult.Add(new ColumnMatchResult
-                                {
-                                    Operation = () =>
-                                    {
-                                        var targetOffset = sequence.Count;
-                                        sequence.AddRange(columnTiles.Skip(postMatch.Length));
-                                        var sourceSequence = column.Sequence;
-                                        var sourceOffset = column.Offset;
-                                        foreach (var targetColumn in columnInfo)
-                                        {
-                                            if (!ReferenceEquals(targetColumn.Sequence, sourceSequence) ||
-                                                targetColumn.Offset != sourceOffset)
-                                                continue;
-                                            column.Sequence = sequence;
-                                            column.Offset = targetOffset;
-                                            modified = true;
-                                        }
-                                    },
-                                    Score = postMatch.Length
-                                });
+                            if (!postMatch.SequenceEqual(sequence.Take(postMatch.Length), ColumnItemComparer.Instance))
+                                continue;
 
-                                // If we find one, we already have the best score for this sequence
-                                break;
-                            }
+                            matchResult.Add(new ColumnMatchResult
+                            {
+                                Operation = () =>
+                                {
+                                    var targetOffset = sequence.Count;
+                                    sequence.AddRange(columnTiles.Skip(postMatch.Length));
+                                    var sourceSequence = column.Sequence;
+                                    var sourceOffset = column.Offset;
+                                    foreach (var targetColumn in columnInfo)
+                                    {
+                                        if (!ReferenceEquals(targetColumn.Sequence, sourceSequence) ||
+                                            targetColumn.Offset != sourceOffset)
+                                            continue;
+                                        column.Sequence = sequence;
+                                        column.Offset = targetOffset;
+                                        modified = true;
+                                    }
+                                },
+                                Score = postMatch.Length
+                            });
+
+                            // If we find one, we already have the best score for this sequence
+                            break;
                         }
                     }
 
