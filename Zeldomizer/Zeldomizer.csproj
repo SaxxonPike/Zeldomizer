@@ -53,8 +53,10 @@
     <Compile Include="Engine\Dungeons\DungeonRoomLayout.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutList.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomMapper.cs" />
+    <Compile Include="Engine\Overworld\OverworldColumnList.cs" />
     <Compile Include="Metal\BankPointerTable.cs" />
     <Compile Include="Metal\IPointerTable.cs" />
+    <Compile Include="Metal\OverlappingSourceReader.cs" />
     <Compile Include="Metal\Source.cs" />
     <Compile Include="Metal\WordPointerTable.cs" />
     <Compile Include="Metal\SourceBlock.cs" />
@@ -109,5 +111,6 @@
       <Name>Disaster</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
