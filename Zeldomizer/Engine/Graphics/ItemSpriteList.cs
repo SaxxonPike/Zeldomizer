@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Zeldomizer.Engine.Graphics.Interfaces;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Graphics

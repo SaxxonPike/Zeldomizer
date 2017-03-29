@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Dungeons
 {
@@ -9,7 +10,7 @@ namespace Zeldomizer.Engine.Dungeons
     {
         protected override DungeonColumnLibraryList GetTestSubject()
         {
-            return new DungeonColumnLibraryList(Rom, 0x16704, 0xC000, 10);
+            return new DungeonColumnLibraryList(new RomBlock(Rom, 0x16704), 0xC000, 10);
         }
 
         [Test]

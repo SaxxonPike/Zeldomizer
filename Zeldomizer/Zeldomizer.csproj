@@ -53,6 +53,8 @@
     <Compile Include="Engine\Dungeons\DungeonRoomLayout.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutList.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomMapper.cs" />
+    <Compile Include="Metal\RomBlock.cs" />
+    <Compile Include="Metal\RomBlockType.cs" />
     <Compile Include="Engine\Graphics\DungeonSpriteDefinitions.cs" />
     <Compile Include="Engine\Graphics\DungeonSpriteList.cs" />
     <Compile Include="Engine\Graphics\Interfaces\ISprite.cs" />
@@ -65,6 +67,8 @@
     <Compile Include="Engine\Text\CharacterText.cs" />
     <Compile Include="Engine\Text\EndingText.cs" />
     <Compile Include="Engine\Text\MenuText.cs" />
+    <Compile Include="Metal\IExportable.cs" />
+    <Compile Include="Metal\IRawExportable.cs" />
     <Compile Include="Metal\TextConversionTable.cs" />
     <Compile Include="Metal\DirectBitmap.cs" />
     <Compile Include="Metal\FixedStringConverter.cs" />

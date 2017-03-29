@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Zeldomizer.Metal
 {
-    public class Rom : IRom
+    public class Rom : IRom, IExportable
     {
         private readonly byte[] _data;
 
@@ -84,5 +84,9 @@ namespace Zeldomizer.Metal
         {
             return _data.ToArray();
         }
+
+        public int Offset => 0;
+        public int Length => RomSize;
+        public RomBlockType Type => RomBlockType.Container;
     }
 }

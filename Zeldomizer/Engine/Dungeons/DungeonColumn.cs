@@ -8,12 +8,10 @@ namespace Zeldomizer.Engine.Dungeons
     public class DungeonColumn : IEnumerable<int>
     {
         private readonly IRom _rom;
-        private readonly int _offset;
 
-        public DungeonColumn(IRom rom, int offset)
+        public DungeonColumn(IRom rom)
         {
             _rom = rom;
-            _offset = offset;
         }
 
         public int this[int index] =>
@@ -21,7 +19,7 @@ namespace Zeldomizer.Engine.Dungeons
 
         private IEnumerable<int> GetBlocks()
         {
-            var i = _offset;
+            var i = 0;
             var tilesLeft = 7;
 
             while (true)

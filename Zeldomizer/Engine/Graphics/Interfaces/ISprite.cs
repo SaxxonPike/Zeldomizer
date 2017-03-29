@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Zeldomizer.Engine.Graphics
+namespace Zeldomizer.Engine.Graphics.Interfaces
 {
     public interface ISprite : IEnumerable<int>
     {

@@ -18,7 +18,7 @@ namespace Zeldomizer.Metal
             _pointerAdjustment = pointerAdjustment;
             _maxSize = maxSize;
             _stringConverter = stringConverter;
-            _pointers = new WordList(source, pointerOffset, capacity);
+            _pointers = new WordList(new RomBlock(source, pointerOffset), capacity);
 
             var stringTableStart = _pointers.Min();
             _currentSize = _pointers.Max(p => _stringConverter.GetLength(source, p + pointerAdjustment) + p - stringTableStart);

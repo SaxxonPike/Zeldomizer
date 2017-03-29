@@ -8,18 +8,16 @@ namespace Zeldomizer.Engine.Dungeons
     public class DungeonRoomLayoutList : IEnumerable<DungeonRoomLayout>
     {
         private readonly IRom _rom;
-        private readonly int _offset;
         private readonly int _count;
 
-        public DungeonRoomLayoutList(IRom rom, int offset, int count)
+        public DungeonRoomLayoutList(IRom rom, int count)
         {
             _rom = rom;
-            _offset = offset;
             _count = count;
         }
 
         public DungeonRoomLayout this[int index] => 
-            new DungeonRoomLayout(_rom, _offset + index * 12);
+            new DungeonRoomLayout(new RomBlock(_rom, index * 12));
 
         public IEnumerator<DungeonRoomLayout> GetEnumerator()
         {

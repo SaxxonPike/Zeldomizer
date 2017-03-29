@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Zeldomizer.Engine.Graphics.Interfaces;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Graphics

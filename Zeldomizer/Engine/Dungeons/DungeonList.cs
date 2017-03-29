@@ -7,14 +7,14 @@ namespace Zeldomizer.Engine.Dungeons
 {
     public class DungeonList : IEnumerable<Dungeon>
     {
-        private DungeonColumnLibraryList _columns;
-        private DungeonRoomLayoutList _roomList;
+        private readonly DungeonColumnLibraryList _columns;
+        private readonly DungeonRoomLayoutList _roomList;
         private DungeonRoomMapper _roomMapper;
 
         public DungeonList(IRom rom)
         {
-            _columns = new DungeonColumnLibraryList(rom, 0x16704, 0xC000, 10);
-            _roomList = new DungeonRoomLayoutList(rom, 0x160DE, 42);
+            _columns = new DungeonColumnLibraryList(new RomBlock(rom, 0x16704), 0xC000, 10);
+            _roomList = new DungeonRoomLayoutList(new RomBlock(rom, 0x160DE), 42);
             _roomMapper = new DungeonRoomMapper(_roomList, _columns);
         }
 

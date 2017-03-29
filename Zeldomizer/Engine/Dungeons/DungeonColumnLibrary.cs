@@ -32,7 +32,7 @@ namespace Zeldomizer.Engine.Dungeons
                 var bit7 = input.Bit(7);
                 if (bit7)
                 {
-                    yield return new DungeonColumn(_rom, i);
+                    yield return new DungeonColumn(new RomBlock(_rom, i));
                     macrosRemaining--;
                 }
                 i++;

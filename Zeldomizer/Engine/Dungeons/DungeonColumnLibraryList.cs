@@ -13,11 +13,11 @@ namespace Zeldomizer.Engine.Dungeons
         // ReSharper disable once CollectionNeverUpdated.Local
         private readonly WordList _libraryOffsetList;
 
-        public DungeonColumnLibraryList(IRom rom, int offset, int offsetAdjust, int count)
+        public DungeonColumnLibraryList(IRom rom, int offsetAdjust, int count)
         {
             _rom = rom;
             _offsetAdjust = offsetAdjust;
-            _libraryOffsetList = new WordList(_rom, offset, count);
+            _libraryOffsetList = new WordList(_rom, count);
         }
 
         public DungeonColumnLibrary this[int index] =>
