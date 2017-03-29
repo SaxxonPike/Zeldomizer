@@ -10,7 +10,7 @@ namespace Zeldomizer.Engine.Text
         {
             var conversionTable = new TextConversionTable();
             var stringConverter = new FixedStringConverter(conversionTable);
-            return new MenuText(Rom, stringConverter);
+            return new MenuText(Source, stringConverter);
         }
 
         [Test]

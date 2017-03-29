@@ -4,9 +4,9 @@ namespace Zeldomizer.Metal
 {
     public class ByteList : FixedList<int>
     {
-        private readonly IRom _source;
+        private readonly ISource _source;
 
-        public ByteList(IRom source, int capacity) : base(capacity)
+        public ByteList(ISource source, int capacity) : base(capacity)
         {
             _source = source;
         }

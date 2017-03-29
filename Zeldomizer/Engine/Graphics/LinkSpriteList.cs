@@ -6,7 +6,7 @@ namespace Zeldomizer.Engine.Graphics
 {
     public class LinkSpriteList : SpriteListBase
     {
-        public LinkSpriteList(IRom rom) : base(rom, 0x807F)
+        public LinkSpriteList(ISource source) : base(source, 0x807F)
         {
         }
 

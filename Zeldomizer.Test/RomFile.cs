@@ -34,15 +34,15 @@ namespace Zeldomizer
         /// Get the test ROM.
         /// </summary>
         /// <returns>Test ROM.</returns>
-        public static IRom GetRom()
+        public static ISource GetRom()
         {
             var resource = GetResource("TestData.zip");
             if (resource.Length == 0x20000 || resource.Length == 0x20010)
-                return new Rom(resource);
+                return new Source(resource);
             if (resource.Length < 2)
                 throw new Exception("Bad ROM file.");
             if (resource[0] == 0x50 && resource[1] == 0x4B)
-                return new ZippedRom(resource);
+                return new ZippedSource(resource);
             throw new Exception("Bad ROM file.");
         }
     }

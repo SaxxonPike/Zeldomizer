@@ -7,7 +7,7 @@ namespace Zeldomizer
 {
     public class ZeldaCartridge
     {
-        public ZeldaCartridge(IRom source)
+        public ZeldaCartridge(ISource source)
         {
             var conversionTable = new TextConversionTable();
             var speechConverter = new SpeechStringConverter(conversionTable);

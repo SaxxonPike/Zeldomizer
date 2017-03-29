@@ -13,7 +13,7 @@ namespace Zeldomizer.Metal
             _textConversionTable = textConversionTable;
         }
 
-        public string Decode(IRom source, int offset, int length)
+        public string Decode(ISource source, int offset, int length)
         {
             var output = new StringBuilder();
 

@@ -6,7 +6,7 @@ namespace Zeldomizer.Engine.Text
     {
         private readonly IStringFormatter _stringFormatter;
 
-        public CharacterText(IRom source, IStringFormatter stringFormatter, IStringConverter stringConverter)
+        public CharacterText(ISource source, IStringFormatter stringFormatter, IStringConverter stringConverter)
             : base(source, stringConverter, 0x04000, -0x04000, 0x556, 0x26)
         {
             _stringFormatter = stringFormatter;

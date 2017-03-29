@@ -5,9 +5,9 @@ namespace Zeldomizer.Metal
 {
     public static class RomExtensions
     {
-        public static void Write(this IRom rom, IEnumerable<int> source, int destination)
+        public static void Write(this ISource source, IEnumerable<int> data, int destination)
         {
-            rom.Write(source.Select(d => unchecked((byte)d)).ToArray(), destination);
+            source.Write(data.Select(d => unchecked((byte)d)).ToArray(), destination);
         }
     }
 }

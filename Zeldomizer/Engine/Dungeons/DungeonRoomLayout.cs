@@ -4,7 +4,7 @@ namespace Zeldomizer.Engine.Dungeons
 {
     public class DungeonRoomLayout : ByteList
     {
-        public DungeonRoomLayout(IRom source) : base(source, 12)
+        public DungeonRoomLayout(ISource source) : base(source, 12)
         {
         }
     }

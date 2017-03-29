@@ -12,7 +12,7 @@ namespace Zeldomizer.Engine.Graphics
         private readonly Sprite[] _sprites;
         private readonly int _total;
 
-        public CompoundSprite(IRom rom, int horizontal, int vertical, int offset)
+        public CompoundSprite(ISource source, int horizontal, int vertical, int offset)
         {
             _vertical = vertical;
             Width = horizontal * 8;
@@ -20,7 +20,7 @@ namespace Zeldomizer.Engine.Graphics
             _total = Width * Height;
             _sprites = Enumerable
                 .Range(0, horizontal * vertical)
-                .Select(i => new Sprite(rom, offset + i * 16))
+                .Select(i => new Sprite(source, offset + i * 16))
                 .ToArray();
         }
 

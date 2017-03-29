@@ -1,14 +1,14 @@
 ﻿namespace Zeldomizer.Metal
 {
-    public class RomBlock : IRom
+    public class SourceBlock : ISource
     {
-        public RomBlock(IRom parent, int offset)
+        public SourceBlock(ISource parent, int offset)
         {
             Parent = parent;
             Offset = offset;
         }
 
-        public IRom Parent { get; }
+        public ISource Parent { get; }
         public int Offset { get; }
         public int Length { get; set; }
         public RomBlockType Type { get; set; }

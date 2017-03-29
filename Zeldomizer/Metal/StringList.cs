@@ -5,20 +5,20 @@ namespace Zeldomizer.Metal
 {
     public class StringList : FixedList<string>
     {
-        private readonly IRom _source;
+        private readonly ISource _source;
         private readonly int _pointerAdjustment;
         private readonly int _maxSize;
         private int _currentSize;
         private readonly IStringConverter _stringConverter;
         private readonly WordList _pointers;
 
-        public StringList(IRom source, IStringConverter stringConverter, int pointerOffset, int pointerAdjustment, int maxSize, int capacity) : base(capacity)
+        public StringList(ISource source, IStringConverter stringConverter, int pointerOffset, int pointerAdjustment, int maxSize, int capacity) : base(capacity)
         {
             _source = source;
             _pointerAdjustment = pointerAdjustment;
             _maxSize = maxSize;
             _stringConverter = stringConverter;
-            _pointers = new WordList(new RomBlock(source, pointerOffset), capacity);
+            _pointers = new WordList(new SourceBlock(source, pointerOffset), capacity);
 
             var stringTableStart = _pointers.Min();
             _currentSize = _pointers.Max(p => _stringConverter.GetLength(source, p + pointerAdjustment) + p - stringTableStart);

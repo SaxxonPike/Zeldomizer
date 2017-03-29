@@ -4,11 +4,11 @@ namespace Zeldomizer.Metal
 {
     public class StringData
     {
-        private readonly IRom _source;
+        private readonly ISource _source;
         private readonly IStringConverter _stringConverter;
         private readonly int _offset;
 
-        public StringData(IRom source, IStringConverter stringConverter, int offset, int maxLength)
+        public StringData(ISource source, IStringConverter stringConverter, int offset, int maxLength)
         {
             _source = source;
             _stringConverter = stringConverter;

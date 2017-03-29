@@ -7,11 +7,11 @@ namespace Zeldomizer.Engine.Dungeons
 {
     public class DungeonColumn : IEnumerable<int>
     {
-        private readonly IRom _rom;
+        private readonly ISource _source;
 
-        public DungeonColumn(IRom rom)
+        public DungeonColumn(ISource source)
         {
-            _rom = rom;
+            _source = source;
         }
 
         public int this[int index] =>
@@ -24,7 +24,7 @@ namespace Zeldomizer.Engine.Dungeons
 
             while (true)
             {
-                var input = _rom[i++];
+                var input = _source[i++];
                 var count = input.Bits(6, 4) + 1;
                 var kind = input.Bits(2, 0);
                 for (var j = 0; j < count; j++)

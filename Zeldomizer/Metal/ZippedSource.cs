@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Zeldomizer.Metal
 {
-    public class ZippedRom : Rom
+    public class ZippedSource : Source
     {
-        public ZippedRom(byte[] zipBytes)
+        public ZippedSource(byte[] zipBytes)
         {
             using (var zipStream = new MemoryStream(zipBytes))
             using (var archive = new ZipArchive(zipStream, ZipArchiveMode.Read, true))

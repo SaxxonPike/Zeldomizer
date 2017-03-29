@@ -9,7 +9,7 @@ namespace Zeldomizer.Engine.Text
         private readonly FixedStringData _registerText;
         private readonly FixedStringData _specialNameText;
 
-        public MenuText(IRom source, IFixedStringConverter stringConverter)
+        public MenuText(ISource source, IFixedStringConverter stringConverter)
         {
             _eliminationModeText = new FixedStringData(source, stringConverter, 0x09D48, 17);
             _registerYourNameText = new FixedStringData(source, stringConverter, 0x09D5E, 18);

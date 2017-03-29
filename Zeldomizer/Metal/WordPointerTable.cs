@@ -6,24 +6,24 @@ namespace Zeldomizer.Metal
 {
     public class WordPointerTable : IPointerTable
     {
-        private readonly IRom _targetRom;
+        private readonly ISource _targetSource;
 
         // ReSharper disable once CollectionNeverUpdated.Local
         private readonly WordList _table;
 
-        public WordPointerTable(IRom pointerTableRom, IRom targetRom, int count)
+        public WordPointerTable(ISource pointerTableSource, ISource targetSource, int count)
         {
             Count = count;
-            _targetRom = targetRom;
-            _table = new WordList(pointerTableRom, count);
+            _targetSource = targetSource;
+            _table = new WordList(pointerTableSource, count);
         }
 
         public int Count { get; }
 
-        public IRom this[int index] =>
-            new RomBlock(_targetRom, _table[index]);
+        public ISource this[int index] =>
+            new SourceBlock(_targetSource, _table[index]);
 
-        public IEnumerator<IRom> GetEnumerator()
+        public IEnumerator<ISource> GetEnumerator()
         {
             return Enumerable
                 .Range(0, Count)

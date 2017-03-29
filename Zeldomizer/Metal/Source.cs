@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Zeldomizer.Metal
 {
-    public class Rom : IRom, IExportable
+    public class Source : ISource, IExportable
     {
         private readonly byte[] _data;
 
@@ -12,12 +12,12 @@ namespace Zeldomizer.Metal
         private const int HeaderSize = 0x10;
         protected const int HeaderedRomSize = RomSize + HeaderSize;
 
-        public Rom()
+        public Source()
         {
             _data = new byte[RomSize];
         }
 
-        public Rom(byte[] data) : this()
+        public Source(byte[] data) : this()
         {
             LoadRom(data);
         }

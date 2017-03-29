@@ -11,13 +11,13 @@ namespace Zeldomizer
         [Test]
         public void Test2()
         {
-            var cart = new ZeldaCartridge(Rom);
+            var cart = new ZeldaCartridge(Source);
             var rooms = cart.Dungeons.Rooms.ToArray();
             var compiler = new DungeonCompiler();
 
             var output = compiler.Compile(rooms);
-            Rom.Write(output.Columns.Select(s => unchecked((byte)s)).ToArray(), 0);
-            var rawColumn = new DungeonColumnLibrary(Rom, output.ColumnOffsets.Count());
+            Source.Write(output.Columns.Select(s => unchecked((byte)s)).ToArray(), 0);
+            var rawColumn = new DungeonColumnLibrary(Source, output.ColumnOffsets.Count());
             var columnOut = rawColumn.ToArray().Select(dc => dc.ToArray());
 
             foreach (var column in columnOut)
@@ -75,7 +75,7 @@ namespace Zeldomizer
         [Test]
         public void Test1()
         {
-            var cart = new ZeldaCartridge(Rom);
+            var cart = new ZeldaCartridge(Source);
             var rooms = cart.Dungeons.Rooms.ToArray();
             var roomNr = 0;
 

@@ -5,11 +5,11 @@ namespace Zeldomizer.Metal
 {
     public class FixedStringData
     {
-        private readonly IRom _source;
+        private readonly ISource _source;
         private readonly IFixedStringConverter _fixedStringConverter;
         private readonly int _offset;
 
-        public FixedStringData(IRom source, IFixedStringConverter fixedStringConverter, int offset, int length)
+        public FixedStringData(ISource source, IFixedStringConverter fixedStringConverter, int offset, int length)
         {
             _source = source;
             _fixedStringConverter = fixedStringConverter;

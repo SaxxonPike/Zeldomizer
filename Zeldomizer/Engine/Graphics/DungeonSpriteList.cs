@@ -7,11 +7,11 @@ namespace Zeldomizer.Engine.Graphics
 {
     public class DungeonSpriteList : IEnumerable<ISprite>
     {
-        private readonly IRom _rom;
+        private readonly ISource _source;
 
-        public DungeonSpriteList(IRom rom)
+        public DungeonSpriteList(ISource source)
         {
-            _rom = rom;
+            _source = source;
         }
 
         public IEnumerator<ISprite> GetEnumerator()

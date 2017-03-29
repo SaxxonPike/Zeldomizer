@@ -4,14 +4,14 @@ namespace Zeldomizer.Engine.Text
 {
     public class EndingText
     {
-        private readonly IRom _source;
+        private readonly ISource _source;
         private readonly StringData _topText;
         private readonly FixedStringData _bottomText1;
         private readonly FixedStringData _bottomText2;
         private readonly FixedStringData _bottomText3;
 
 
-        public EndingText(IRom source, IStringConverter speechConverter, IStringConverter textConverter, IFixedStringConverter fixedStringConverter)
+        public EndingText(ISource source, IStringConverter speechConverter, IStringConverter textConverter, IFixedStringConverter fixedStringConverter)
         {
             _source = source;
             _topText = new StringData(source, speechConverter, 0xA959, 38);

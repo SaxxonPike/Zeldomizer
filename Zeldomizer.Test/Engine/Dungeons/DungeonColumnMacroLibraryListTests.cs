@@ -10,7 +10,7 @@ namespace Zeldomizer.Engine.Dungeons
     {
         protected override DungeonColumnLibraryList GetTestSubject()
         {
-            var columnPointerTable = new WordPointerTable(new RomBlock(Rom, 0x16704), new RomBlock(Rom, 0xC000), 10);
+            var columnPointerTable = new WordPointerTable(new SourceBlock(Source, 0x16704), new SourceBlock(Source, 0xC000), 10);
             return new DungeonColumnLibraryList(columnPointerTable);
         }
 

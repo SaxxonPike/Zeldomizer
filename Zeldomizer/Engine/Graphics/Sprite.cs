@@ -8,12 +8,12 @@ namespace Zeldomizer.Engine.Graphics
 {
     public class Sprite : ISprite
     {
-        private readonly IRom _rom;
+        private readonly ISource _source;
         private readonly int _offset;
 
-        public Sprite(IRom rom, int offset)
+        public Sprite(ISource source, int offset)
         {
-            _rom = rom;
+            _source = source;
             _offset = offset;
         }
 
@@ -36,23 +36,23 @@ namespace Zeldomizer.Engine.Graphics
             {
                 var offset = GetOffset(index);
                 var bit = GetBit(index);
-                return ((_rom[offset] & bit) != 0 ? 1 : 0) |
-                    ((_rom[offset + 8] & bit) != 0 ? 2 : 0);
+                return ((_source[offset] & bit) != 0 ? 1 : 0) |
+                    ((_source[offset + 8] & bit) != 0 ? 2 : 0);
             }
             set
             {
                 var offset = GetOffset(index);
                 var bit = GetBit(index);
 
-                var input1 = _rom[offset];
+                var input1 = _source[offset];
                 var data = ~bit & input1;
                 var newData1 = unchecked((byte) (data | ((value & 1) != 0 ? bit : 0)));
-                _rom[offset] = newData1;
+                _source[offset] = newData1;
 
-                var input2 = _rom[offset + 8];
+                var input2 = _source[offset + 8];
                 data = ~bit & input2;
                 var newData2 = unchecked((byte) (data | ((value & 2) != 0 ? bit : 0)));
-                _rom[offset + 8] = newData2;
+                _source[offset + 8] = newData2;
 
             }
         }

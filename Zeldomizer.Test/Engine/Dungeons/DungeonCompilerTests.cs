@@ -40,16 +40,16 @@ namespace Zeldomizer.Engine.Dungeons
             };
 
             // Load all data from the original cartridge
-            var cart = new ZeldaCartridge(Rom);
+            var cart = new ZeldaCartridge(Source);
             var rooms = cart.Dungeons.Rooms.ToArray();
 
             // Compile it
             var compiler = new DungeonCompiler();
             var output = compiler.Compile(rooms);
-            Rom.Write(output.Columns, 0);
+            Source.Write(output.Columns, 0);
 
             // Read it out
-            var library = new DungeonColumnLibrary(Rom, output.ColumnOffsets.Count());
+            var library = new DungeonColumnLibrary(Source, output.ColumnOffsets.Count());
             var columns = library.Select(dc => string.Join(string.Empty, dc.Select(t => $"{t:X1}")));
             columns.ShouldAllBeEquivalentTo(expected);
         }

@@ -21,7 +21,7 @@ namespace Zeldomizer.Engine.Graphics
                 0, 0, 0, 3, 3, 3, 2, 2
             };
 
-            var sprite = new Sprite(Rom, 0x807F);
+            var sprite = new Sprite(Source, 0x807F);
             sprite.ToArray().Should().Equal(expected);
         }
 
@@ -42,7 +42,7 @@ namespace Zeldomizer.Engine.Graphics
 
             expected[index] = pixelValue;
 
-            var sprite = new Sprite(Rom, 0x807F) {[index] = pixelValue};
+            var sprite = new Sprite(Source, 0x807F) {[index] = pixelValue};
 
             sprite.ToArray().Should().Equal(expected);
         }

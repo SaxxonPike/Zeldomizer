@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace Zeldomizer.Metal
 {
-    public interface IPointerTable : IEnumerable<IRom>
+    public interface IPointerTable : IEnumerable<ISource>
     {
-        IRom this[int index] { get; }
+        ISource this[int index] { get; }
         int Count { get; }
     }
 }

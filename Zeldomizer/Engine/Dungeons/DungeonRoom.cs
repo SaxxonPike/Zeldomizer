@@ -4,7 +4,7 @@ namespace Zeldomizer.Engine.Dungeons
 {
     public class DungeonRoom
     {
-        public DungeonRoom(IRom rom, int offset)
+        public DungeonRoom(ISource source, int offset)
         {
             
         }

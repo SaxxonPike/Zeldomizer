@@ -6,14 +6,14 @@ namespace Zeldomizer.Engine.Dungeons
 {
     public class Dungeon : IEnumerable<DungeonRoom>
     {
-        private readonly IRom _rom;
+        private readonly ISource _source;
         private readonly IEnumerable<DungeonRoomLayoutMapper> _roomMappers;
         private readonly IEnumerable<DungeonColumnLibrary> _dungeonColumnLibraryList;
 
-        public Dungeon(IRom rom, IEnumerable<DungeonRoomLayoutMapper> roomMappers,
+        public Dungeon(ISource source, IEnumerable<DungeonRoomLayoutMapper> roomMappers,
             IEnumerable<DungeonColumnLibrary> dungeonColumnLibraryList)
         {
-            _rom = rom;
+            _source = source;
             _roomMappers = roomMappers;
             _dungeonColumnLibraryList = dungeonColumnLibraryList;
         }

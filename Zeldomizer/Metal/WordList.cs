@@ -2,9 +2,9 @@
 {
     public class WordList : FixedList<int>
     {
-        private readonly IRom _source;
+        private readonly ISource _source;
 
-        public WordList(IRom source, int capacity) : base(capacity)
+        public WordList(ISource source, int capacity) : base(capacity)
         {
             _source = source;
         }

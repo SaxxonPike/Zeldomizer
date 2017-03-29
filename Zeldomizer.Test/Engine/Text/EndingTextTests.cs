@@ -13,7 +13,7 @@ namespace Zeldomizer.Engine.Text
             var textStringConverter = new TextStringConverter(conversionTable);
             var fixedStringConverter = new FixedStringConverter(conversionTable);
 
-            return new EndingText(Rom, speechStringConverter, textStringConverter, fixedStringConverter);
+            return new EndingText(Source, speechStringConverter, textStringConverter, fixedStringConverter);
         }
 
         [Test]

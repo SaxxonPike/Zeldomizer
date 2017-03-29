@@ -7,12 +7,12 @@ namespace Zeldomizer.Engine.Dungeons
 {
     public class DungeonColumnLibrary : IEnumerable<DungeonColumn>
     {
-        private readonly IRom _rom;
+        private readonly ISource _source;
         private readonly int _count;
 
-        public DungeonColumnLibrary(IRom rom, int count)
+        public DungeonColumnLibrary(ISource source, int count)
         {
-            _rom = rom;
+            _source = source;
             _count = count;
         }
 
@@ -26,11 +26,11 @@ namespace Zeldomizer.Engine.Dungeons
 
             while (macrosRemaining > 0)
             {
-                var input = _rom[i];
+                var input = _source[i];
                 var bit7 = input.Bit(7);
                 if (bit7)
                 {
-                    yield return new DungeonColumn(new RomBlock(_rom, i));
+                    yield return new DungeonColumn(new SourceBlock(_source, i));
                     macrosRemaining--;
                 }
                 i++;
