@@ -8,13 +8,11 @@ namespace Zeldomizer.Engine.Dungeons
     public class DungeonColumnLibrary : IEnumerable<DungeonColumn>
     {
         private readonly IRom _rom;
-        private readonly int _offset;
         private readonly int _count;
 
-        public DungeonColumnLibrary(IRom rom, int offset, int count)
+        public DungeonColumnLibrary(IRom rom, int count)
         {
             _rom = rom;
-            _offset = offset;
             _count = count;
         }
 
@@ -23,7 +21,7 @@ namespace Zeldomizer.Engine.Dungeons
 
         private IEnumerable<DungeonColumn> GetMacros()
         {
-            var i = _offset;
+            var i = 0;
             var macrosRemaining = _count;
 
             while (macrosRemaining > 0)

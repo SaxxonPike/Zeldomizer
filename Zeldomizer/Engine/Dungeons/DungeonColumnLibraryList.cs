@@ -7,31 +7,22 @@ namespace Zeldomizer.Engine.Dungeons
 {
     public class DungeonColumnLibraryList : IEnumerable<DungeonColumnLibrary>
     {
-        private readonly IRom _rom;
-        private readonly int _offsetAdjust;
+        private readonly IPointerTable _pointerTable;
 
-        // ReSharper disable once CollectionNeverUpdated.Local
-        private readonly WordList _libraryOffsetList;
-
-        public DungeonColumnLibraryList(IRom rom, int offsetAdjust, int count)
+        public DungeonColumnLibraryList(IPointerTable pointerTable)
         {
-            _rom = rom;
-            _offsetAdjust = offsetAdjust;
-            _libraryOffsetList = new WordList(_rom, count);
+            _pointerTable = pointerTable;
         }
 
         public DungeonColumnLibrary this[int index] =>
-            new DungeonColumnLibrary(_rom, _libraryOffsetList[index] + _offsetAdjust, 16);
-
-        private IEnumerable<DungeonColumnLibrary> GetLibraries()
-        {
-            return _libraryOffsetList
-                .Select(w => new DungeonColumnLibrary(_rom, w + _offsetAdjust, 16));
-        }
+            new DungeonColumnLibrary(_pointerTable[index], 16);
 
         public IEnumerator<DungeonColumnLibrary> GetEnumerator()
         {
-            return GetLibraries().GetEnumerator();
+            return Enumerable
+                .Range(0, _pointerTable.Count)
+                .Select(i => this[i])
+                .GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

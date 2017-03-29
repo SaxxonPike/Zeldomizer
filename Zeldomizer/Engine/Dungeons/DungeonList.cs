@@ -13,7 +13,8 @@ namespace Zeldomizer.Engine.Dungeons
 
         public DungeonList(IRom rom)
         {
-            _columns = new DungeonColumnLibraryList(new RomBlock(rom, 0x16704), 0xC000, 10);
+            var columnPointerTable = new WordPointerTable(new RomBlock(rom, 0x16704), new RomBlock(rom, 0xC000), 10);
+            _columns = new DungeonColumnLibraryList(columnPointerTable);
             _roomList = new DungeonRoomLayoutList(new RomBlock(rom, 0x160DE), 42);
             _roomMapper = new DungeonRoomMapper(_roomList, _columns);
         }

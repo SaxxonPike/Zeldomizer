@@ -49,7 +49,7 @@ namespace Zeldomizer.Engine.Dungeons
             Rom.Write(output.Columns, 0);
 
             // Read it out
-            var library = new DungeonColumnLibrary(Rom, 0, output.ColumnOffsets.Count());
+            var library = new DungeonColumnLibrary(Rom, output.ColumnOffsets.Count());
             var columns = library.Select(dc => string.Join(string.Empty, dc.Select(t => $"{t:X1}")));
             columns.ShouldAllBeEquivalentTo(expected);
         }

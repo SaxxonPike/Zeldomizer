@@ -17,7 +17,7 @@ namespace Zeldomizer
 
             var output = compiler.Compile(rooms);
             Rom.Write(output.Columns.Select(s => unchecked((byte)s)).ToArray(), 0);
-            var rawColumn = new DungeonColumnLibrary(Rom, 0, output.ColumnOffsets.Count());
+            var rawColumn = new DungeonColumnLibrary(Rom, output.ColumnOffsets.Count());
             var columnOut = rawColumn.ToArray().Select(dc => dc.ToArray());
 
             foreach (var column in columnOut)

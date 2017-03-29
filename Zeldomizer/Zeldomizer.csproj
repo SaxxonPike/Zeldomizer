@@ -53,6 +53,8 @@
     <Compile Include="Engine\Dungeons\DungeonRoomLayout.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutList.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomMapper.cs" />
+    <Compile Include="Metal\IPointerTable.cs" />
+    <Compile Include="Metal\PointerTableRomBlock.cs" />
     <Compile Include="Metal\RomBlock.cs" />
     <Compile Include="Metal\RomBlockType.cs" />
     <Compile Include="Engine\Graphics\DungeonSpriteDefinitions.cs" />
