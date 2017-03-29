@@ -32,6 +32,8 @@ namespace Breadbox
             Cpu.Z.Should().Be(expectedZero, "Z must be set correctly");
             Cpu.N.Should().Be(expectedSign, "N must be set correctly");
             Cpu.C.Should().Be(expectedCarry, "C must be set correctly");
+            MemoryMock.Verify(m => m.Write(0, operand));
+            MemoryMock.Verify(m => m.Write(0, expectedResult));
         }
 
         [Test]
@@ -82,6 +84,8 @@ namespace Breadbox
             Cpu.Z.Should().Be(expectedZero, "Z must be set correctly");
             Cpu.N.Should().Be(expectedSign, "N must be set correctly");
             Cpu.C.Should().Be(expectedCarry, "C must be set correctly");
+            MemoryMock.Verify(m => m.Write(0, operand));
+            MemoryMock.Verify(m => m.Write(0, expectedResult));
         }
 
         [Test]
@@ -134,6 +138,8 @@ namespace Breadbox
             Cpu.Z.Should().Be(expectedZero, "Z must be set correctly");
             Cpu.N.Should().Be(expectedSign, "N must be set correctly");
             Cpu.C.Should().Be(expectedCarry, "C must be set correctly");
+            MemoryMock.Verify(m => m.Write(0, operand));
+            MemoryMock.Verify(m => m.Write(0, expectedResult));
         }
 
         [Test]
@@ -187,6 +193,8 @@ namespace Breadbox
             Cpu.Z.Should().Be(expectedZero, "Z must be set correctly");
             Cpu.N.Should().Be(expectedSign, "N must be set correctly");
             Cpu.C.Should().Be(expectedCarry, "C must be set correctly");
+            MemoryMock.Verify(m => m.Write(0, operand));
+            MemoryMock.Verify(m => m.Write(0, expectedResult));
         }
 
         [Test]
