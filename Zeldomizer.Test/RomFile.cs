@@ -38,11 +38,11 @@ namespace Zeldomizer
         {
             var resource = GetResource("TestData.zip");
             if (resource.Length == 0x20000 || resource.Length == 0x20010)
-                return new Source(resource);
+                return new RomSource(resource);
             if (resource.Length < 2)
                 throw new Exception("Bad ROM file.");
             if (resource[0] == 0x50 && resource[1] == 0x4B)
-                return new ZippedSource(resource);
+                return new ZippedRomSource(resource);
             throw new Exception("Bad ROM file.");
         }
     }

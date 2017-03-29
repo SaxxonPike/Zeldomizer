@@ -12,9 +12,9 @@ namespace Zeldomizer.Metal
             _textConversionTable = textConversionTable;
         }
 
-        public int GetLength(ISource source, int offset)
+        public int GetLength(ISource source)
         {
-            var i = offset;
+            var i = 0;
             var result = 0;
             while (true)
             {
@@ -25,9 +25,9 @@ namespace Zeldomizer.Metal
             }
         }
 
-        public string Decode(ISource source, int offset)
+        public string Decode(ISource source)
         {
-            var i = offset;
+            var i = 0;
             var output = new StringBuilder();
 
             while (true)

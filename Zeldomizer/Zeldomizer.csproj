@@ -55,6 +55,7 @@
     <Compile Include="Engine\Dungeons\DungeonRoomMapper.cs" />
     <Compile Include="Metal\BankPointerTable.cs" />
     <Compile Include="Metal\IPointerTable.cs" />
+    <Compile Include="Metal\Source.cs" />
     <Compile Include="Metal\WordPointerTable.cs" />
     <Compile Include="Metal\SourceBlock.cs" />
     <Compile Include="Metal\RomBlockType.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="Metal\RomExtensions.cs" />
     <Compile Include="Metal\TextStringConverter.cs" />
     <Compile Include="Metal\NullStringFormatter.cs" />
-    <Compile Include="Metal\Source.cs" />
+    <Compile Include="Metal\RomSource.cs" />
     <Compile Include="Metal\ByteList.cs" />
     <Compile Include="Metal\FixedList.cs" />
     <Compile Include="Metal\IStringConverter.cs" />
@@ -95,7 +96,7 @@
     <Compile Include="Metal\StringFormatter.cs" />
     <Compile Include="Metal\StringList.cs" />
     <Compile Include="Metal\WordList.cs" />
-    <Compile Include="Metal\ZippedSource.cs" />
+    <Compile Include="Metal\ZippedRomSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZeldaCartridge.cs" />
   </ItemGroup>

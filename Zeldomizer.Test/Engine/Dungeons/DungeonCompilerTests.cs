@@ -46,10 +46,11 @@ namespace Zeldomizer.Engine.Dungeons
             // Compile it
             var compiler = new DungeonCompiler();
             var output = compiler.Compile(rooms);
-            Source.Write(output.Columns, 0);
+            var columnOutput = output.Columns.ToArray();
+            var mem = new Source(columnOutput);
 
             // Read it out
-            var library = new DungeonColumnLibrary(Source, output.ColumnOffsets.Count());
+            var library = new DungeonColumnLibrary(mem, output.ColumnOffsets.Count());
             var columns = library.Select(dc => string.Join(string.Empty, dc.Select(t => $"{t:X1}")));
             columns.ShouldAllBeEquivalentTo(expected);
         }

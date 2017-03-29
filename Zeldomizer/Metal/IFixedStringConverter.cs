@@ -2,7 +2,7 @@
 {
     public interface IFixedStringConverter
     {
-        string Decode(ISource source, int offset, int length);
+        string Decode(ISource source, int length);
         byte[] Encode(string text, int length);
     }
 }

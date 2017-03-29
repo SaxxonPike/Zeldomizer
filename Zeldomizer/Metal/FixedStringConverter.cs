@@ -13,13 +13,13 @@ namespace Zeldomizer.Metal
             _textConversionTable = textConversionTable;
         }
 
-        public string Decode(ISource source, int offset, int length)
+        public string Decode(ISource source, int length)
         {
             var output = new StringBuilder();
 
             for (var i = 0; i < length; i++)
             {
-                var input = source[i + offset];
+                var input = source[i];
                 switch (input)
                 {
                     case 0xFF:

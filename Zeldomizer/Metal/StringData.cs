@@ -6,13 +6,11 @@ namespace Zeldomizer.Metal
     {
         private readonly ISource _source;
         private readonly IStringConverter _stringConverter;
-        private readonly int _offset;
 
-        public StringData(ISource source, IStringConverter stringConverter, int offset, int maxLength)
+        public StringData(ISource source, IStringConverter stringConverter, int maxLength)
         {
             _source = source;
             _stringConverter = stringConverter;
-            _offset = offset;
             MaxLength = maxLength;
         }
 
@@ -20,7 +18,7 @@ namespace Zeldomizer.Metal
 
         public string Text
         {
-            get { return _stringConverter.Decode(_source, _offset); }
+            get { return _stringConverter.Decode(_source); }
             set
             {
                 if (value == null)
@@ -28,7 +26,7 @@ namespace Zeldomizer.Metal
                 var encoded = _stringConverter.Encode(value);
                 if (encoded.Length > MaxLength)
                     throw new Exception("Text is too long.");
-                _source.Write(encoded, _offset);
+                _source.Write(encoded, 0);
             }
         }
     }

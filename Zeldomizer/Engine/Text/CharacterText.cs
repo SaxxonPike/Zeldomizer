@@ -7,7 +7,7 @@ namespace Zeldomizer.Engine.Text
         private readonly IStringFormatter _stringFormatter;
 
         public CharacterText(ISource source, IStringFormatter stringFormatter, IStringConverter stringConverter)
-            : base(source, stringConverter, 0x04000, -0x04000, 0x556, 0x26)
+            : base(source, new WordPointerTable(new SourceBlock(source, 0x4000), new SourceBlock(source, -0x4000), 0x26), stringConverter, 0x556, 0x26)
         {
             _stringFormatter = stringFormatter;
         }

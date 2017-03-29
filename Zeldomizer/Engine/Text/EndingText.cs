@@ -14,10 +14,10 @@ namespace Zeldomizer.Engine.Text
         public EndingText(ISource source, IStringConverter speechConverter, IStringConverter textConverter, IFixedStringConverter fixedStringConverter)
         {
             _source = source;
-            _topText = new StringData(source, speechConverter, 0xA959, 38);
-            _bottomText1 = new FixedStringData(source, fixedStringConverter, 0xAB07, 8);
-            _bottomText2 = new FixedStringData(source, fixedStringConverter, 0xAB0F, 24);
-            _bottomText3 = new FixedStringData(source, fixedStringConverter, 0xAB27, 20);
+            _topText = new StringData(new SourceBlock(source, 0xA959), speechConverter, 38);
+            _bottomText1 = new FixedStringData(new SourceBlock(source, 0xAB07), fixedStringConverter, 8);
+            _bottomText2 = new FixedStringData(new SourceBlock(source, 0xAB0F), fixedStringConverter, 24);
+            _bottomText3 = new FixedStringData(new SourceBlock(source, 0xAB27), fixedStringConverter, 20);
         }
 
         public string TopText

@@ -11,10 +11,10 @@ namespace Zeldomizer.Engine.Text
 
         public MenuText(ISource source, IFixedStringConverter stringConverter)
         {
-            _eliminationModeText = new FixedStringData(source, stringConverter, 0x09D48, 17);
-            _registerYourNameText = new FixedStringData(source, stringConverter, 0x09D5E, 18);
-            _registerText = new FixedStringData(source, stringConverter, 0x09D70, 8);
-            _specialNameText = new FixedStringData(source, stringConverter, 0x09EEB, 5);
+            _eliminationModeText = new FixedStringData(new SourceBlock(source, 0x09D48), stringConverter, 17);
+            _registerYourNameText = new FixedStringData(new SourceBlock(source, 0x09D5E), stringConverter, 18);
+            _registerText = new FixedStringData(new SourceBlock(source, 0x09D70), stringConverter, 8);
+            _specialNameText = new FixedStringData(new SourceBlock(source, 0x09EEB), stringConverter, 5);
         }
 
         public string EliminationModeText

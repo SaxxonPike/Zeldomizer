@@ -7,13 +7,11 @@ namespace Zeldomizer.Metal
     {
         private readonly ISource _source;
         private readonly IFixedStringConverter _fixedStringConverter;
-        private readonly int _offset;
 
-        public FixedStringData(ISource source, IFixedStringConverter fixedStringConverter, int offset, int length)
+        public FixedStringData(ISource source, IFixedStringConverter fixedStringConverter, int length)
         {
             _source = source;
             _fixedStringConverter = fixedStringConverter;
-            _offset = offset;
             Length = length;
         }
 
@@ -23,7 +21,7 @@ namespace Zeldomizer.Metal
         {
             get
             {
-                return _fixedStringConverter.Decode(_source, _offset, Length).Trim();
+                return _fixedStringConverter.Decode(_source, Length).Trim();
             }
             set
             {
@@ -43,7 +41,7 @@ namespace Zeldomizer.Metal
                         .ToArray();
 
                 // Plop the new string in.
-                _source.Write(encoded, _offset);
+                _source.Write(encoded, 0);
             }
         }
     }
