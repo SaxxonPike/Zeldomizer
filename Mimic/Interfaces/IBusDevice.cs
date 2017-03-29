@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mimic.Interfaces
+﻿namespace Mimic.Interfaces
 {
     public interface IBusDevice
     {
