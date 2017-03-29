@@ -10,7 +10,7 @@ namespace Zeldomizer
     {
         public ZeldaCartridge(IRom source)
         {
-            var conversionTable = new ConversionTable();
+            var conversionTable = new TextConversionTable();
             var speechConverter = new SpeechStringConverter(conversionTable);
             var textConverter = new TextStringConverter(conversionTable);
             var fixedStringConverter = new FixedStringConverter(conversionTable);

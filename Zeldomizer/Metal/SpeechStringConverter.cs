@@ -6,11 +6,11 @@ namespace Zeldomizer.Metal
 {
     public class SpeechStringConverter : IStringConverter
     {
-        private readonly IConversionTable _conversionTable;
+        private readonly ITextConversionTable _textConversionTable;
 
-        public SpeechStringConverter(IConversionTable conversionTable)
+        public SpeechStringConverter(ITextConversionTable textConversionTable)
         {
-            _conversionTable = conversionTable;
+            _textConversionTable = textConversionTable;
         }
 
         private const int FastSpace = 0x25;
@@ -19,12 +19,12 @@ namespace Zeldomizer.Metal
 
         private int Encode(char input)
         {
-            return _conversionTable.Encode(input) ?? UnknownCharacter;
+            return _textConversionTable.Encode(input) ?? UnknownCharacter;
         }
 
         private char Decode(int input)
         {
-            return _conversionTable.Decode(input) ?? ' ';
+            return _textConversionTable.Decode(input) ?? ' ';
         }
 
         public int GetLength(IRom source, int offset)

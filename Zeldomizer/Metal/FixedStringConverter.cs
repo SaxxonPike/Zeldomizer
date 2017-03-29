@@ -6,11 +6,11 @@ namespace Zeldomizer.Metal
 {
     public class FixedStringConverter : IFixedStringConverter
     {
-        private readonly IConversionTable _conversionTable;
+        private readonly ITextConversionTable _textConversionTable;
 
-        public FixedStringConverter(IConversionTable conversionTable)
+        public FixedStringConverter(ITextConversionTable textConversionTable)
         {
-            _conversionTable = conversionTable;
+            _textConversionTable = textConversionTable;
         }
 
         public string Decode(IRom source, int offset, int length)
@@ -28,7 +28,7 @@ namespace Zeldomizer.Metal
                         output.Append(' ');
                         break;
                     default:
-                        output.Append(_conversionTable.Decode(input & 0x3F));
+                        output.Append(_textConversionTable.Decode(input & 0x3F));
                         break;
                 }
             }
@@ -45,7 +45,7 @@ namespace Zeldomizer.Metal
 
             // Encode the string.
             var encoded = input
-                .Select(_conversionTable.Encode)
+                .Select(_textConversionTable.Encode)
                 .Select(c => unchecked((byte)(c ?? 0x24)))
                 .ToArray();
 

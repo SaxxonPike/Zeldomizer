@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Zeldomizer.Metal
 {
-    public class ConversionTable : IConversionTable
+    public class TextConversionTable : ITextConversionTable
     {
         private static readonly Dictionary<int, char> DecodeTable = new Dictionary<int, char>
         {

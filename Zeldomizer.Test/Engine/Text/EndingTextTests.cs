@@ -8,7 +8,7 @@ namespace Zeldomizer.Engine.Text
     {
         protected override EndingText GetTestSubject()
         {
-            var conversionTable = new ConversionTable();
+            var conversionTable = new TextConversionTable();
             var speechStringConverter = new SpeechStringConverter(conversionTable);
             var textStringConverter = new TextStringConverter(conversionTable);
             var fixedStringConverter = new FixedStringConverter(conversionTable);

@@ -65,11 +65,11 @@
     <Compile Include="Engine\Text\CharacterText.cs" />
     <Compile Include="Engine\Text\EndingText.cs" />
     <Compile Include="Engine\Text\MenuText.cs" />
-    <Compile Include="Metal\ConversionTable.cs" />
+    <Compile Include="Metal\TextConversionTable.cs" />
     <Compile Include="Metal\DirectBitmap.cs" />
     <Compile Include="Metal\FixedStringConverter.cs" />
     <Compile Include="Metal\FixedStringData.cs" />
-    <Compile Include="Metal\IConversionTable.cs" />
+    <Compile Include="Metal\ITextConversionTable.cs" />
     <Compile Include="Metal\IFixedStringConverter.cs" />
     <Compile Include="Metal\IntExtensions.cs" />
     <Compile Include="Metal\IRom.cs" />

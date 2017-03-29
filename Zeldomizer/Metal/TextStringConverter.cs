@@ -5,11 +5,11 @@ namespace Zeldomizer.Metal
 {
     public class TextStringConverter : IStringConverter
     {
-        private readonly IConversionTable _conversionTable;
+        private readonly ITextConversionTable _textConversionTable;
 
-        public TextStringConverter(IConversionTable conversionTable)
+        public TextStringConverter(ITextConversionTable textConversionTable)
         {
-            _conversionTable = conversionTable;
+            _textConversionTable = textConversionTable;
         }
 
         public int GetLength(IRom source, int offset)
@@ -41,7 +41,7 @@ namespace Zeldomizer.Metal
                         output.Append(' ');
                         break;
                     default:
-                        output.Append(_conversionTable.Decode(input & 0x3F));
+                        output.Append(_textConversionTable.Decode(input & 0x3F));
                         break;
                 }
 
@@ -52,7 +52,7 @@ namespace Zeldomizer.Metal
         public byte[] Encode(string text)
         {
             return (text ?? "")
-                .Select(_conversionTable.Encode)
+                .Select(_textConversionTable.Encode)
                 .Select(c => unchecked((byte)(c ?? 0x24)))
                 .Concat(new byte[]{ 0xFF })
                 .ToArray();

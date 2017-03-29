@@ -8,7 +8,7 @@ namespace Zeldomizer.Engine.Text
     {
         protected override MenuText GetTestSubject()
         {
-            var conversionTable = new ConversionTable();
+            var conversionTable = new TextConversionTable();
             var stringConverter = new FixedStringConverter(conversionTable);
             return new MenuText(Rom, stringConverter);
         }

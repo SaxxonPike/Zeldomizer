@@ -1,6 +1,6 @@
 ﻿namespace Zeldomizer.Metal
 {
-    public interface IConversionTable
+    public interface ITextConversionTable
     {
         int? Encode(char input);
         char? Decode(int input);
