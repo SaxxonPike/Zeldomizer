@@ -53,6 +53,7 @@
     <Compile Include="Engine\Dungeons\DungeonRoomLayout.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutList.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomMapper.cs" />
+    <Compile Include="Engine\Overworld\OverworldColumn.cs" />
     <Compile Include="Engine\Overworld\OverworldColumnList.cs" />
     <Compile Include="Metal\BankPointerTable.cs" />
     <Compile Include="Metal\IPointerTable.cs" />
