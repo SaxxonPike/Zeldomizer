@@ -67,6 +67,20 @@ namespace Zeldomizer
         }
 
         /// <summary>
+        /// Write a file to a folder on the desktop.
+        /// </summary>
+        /// <param name="data">Data to write.</param>
+        /// <param name="path">Path on the desktop.</param>
+        /// <param name="fileName">Name of the file.</param>
+        protected static void WriteToDesktopPath(byte[] data, string path, string fileName)
+        {
+            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), path);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            WriteToDesktop(data, Path.Combine(path, fileName));
+        }
+
+        /// <summary>
         /// Newline string, environment specific.
         /// </summary>
         protected string NewLine => Environment.NewLine;

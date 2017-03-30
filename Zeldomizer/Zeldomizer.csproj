@@ -53,9 +53,14 @@
     <Compile Include="Engine\Dungeons\DungeonRoomLayout.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutList.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomMapper.cs" />
+    <Compile Include="Engine\Graphics\OverworldSpriteList.cs" />
     <Compile Include="Engine\Overworld\OverworldColumn.cs" />
     <Compile Include="Engine\Overworld\OverworldColumnList.cs" />
+    <Compile Include="Engine\Overworld\OverworldColumnTile.cs" />
+    <Compile Include="Engine\Overworld\OverworldRoom.cs" />
+    <Compile Include="Engine\Overworld\OverworldRoomList.cs" />
     <Compile Include="Metal\BankPointerTable.cs" />
+    <Compile Include="Metal\DebugPrettyPrint.cs" />
     <Compile Include="Metal\IPointerTable.cs" />
     <Compile Include="Metal\OverlappingSourceReader.cs" />
     <Compile Include="Metal\Source.cs" />

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Overworld
@@ -31,6 +27,8 @@ namespace Zeldomizer.Engine.Overworld
                     yield return new OverworldColumn(new SourceBlock(_source, i));
                     count++;
                 }
+
+                i++;
             }
         }
 

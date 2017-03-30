@@ -19,7 +19,7 @@ namespace Zeldomizer.Metal
 
         public override string ToString()
         {
-            return string.Join(" ", this.Select(i => $"{i:x2}"));
+            return DebugPrettyPrint.GetByteArray(this);
         }
     }
 }

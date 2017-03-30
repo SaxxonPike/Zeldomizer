@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Overworld
@@ -20,19 +17,26 @@ namespace Zeldomizer.Engine.Overworld
         private IEnumerable<int> GetTiles()
         {
             var i = 0;
-            while (i < 11)
+            while (true)
             {
-                yield return _source[i] & 0x7F;
+                var input = _source[i];
+                var tile = input.Bits(5, 0) << 1;
+                var doubleHeight = input.Bit(6);
+
+                yield return tile;
+                if (doubleHeight)
+                    yield return tile;
+
                 i++;
             }
         }
 
-        public override string ToString()
-        {
-            return string.Join(" ", this.Select(i => $"{i:x2}"));
-        }
+        public override string ToString() =>
+            DebugPrettyPrint.GetByteArray(this);
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        public IEnumerator<int> GetEnumerator() => GetTiles().GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => 
+            GetEnumerator();
+        public IEnumerator<int> GetEnumerator() => 
+            GetTiles().Take(11).GetEnumerator();
     }
 }
