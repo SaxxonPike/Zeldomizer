@@ -20,7 +20,7 @@ namespace Zeldomizer.Engine.Overworld
             while (true)
             {
                 var input = _source[i];
-                var tile = input.Bits(5, 0) << 1;
+                var tile = input.Bits(5, 0);
                 var doubleHeight = input.Bit(6);
 
                 yield return tile;

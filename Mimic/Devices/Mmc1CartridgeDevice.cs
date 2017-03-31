@@ -16,10 +16,16 @@ namespace Mimic.Devices
         /// </summary>
         private int _mirror;
 
+        private int _prgMode;
+
         /// <summary>
         /// PRG ROM access mode. 0,1=32k mode, 2=16k/fixed lower, 3=16k/fixed upper
         /// </summary>
-        private int _prgMode;
+        public int PrgMode
+        {
+            get { return _prgMode; }
+            set { _prgMode = value & 0x3; }
+        }
 
         /// <summary>
         /// CHR ROM access mode. 0=8k mode, 1=4k mode
@@ -36,10 +42,16 @@ namespace Mimic.Devices
         /// </summary>
         private int _chrBank1;
 
+        private int _prgBank;
+
         /// <summary>
         /// PRG bank selection.
         /// </summary>
-        private int _prgBank;
+        public int PrgBank
+        {
+            get { return _prgBank; }
+            set { _prgBank = value & 0xF; }
+        }
 
         /// <summary>
         /// Save RAM disable bit.

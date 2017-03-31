@@ -36,8 +36,6 @@ namespace Mimic.Devices
 
         int IMemory.Read(int address) => _busRead(address);
         void IMemory.Write(int address, int value) => _busWrite(address, value);
-        int IMemory.Peek(int address) => _busDevice.CpuPeek(address);
-        void IMemory.Poke(int address, int value) => _busDevice.CpuPoke(address, value);
         bool IReadySignal.ReadRdy() => _busDevice.Rdy;
         bool IIrqSignal.ReadIrq() => _busDevice.Irq;
         bool INmiSignal.ReadNmi() => _busDevice.Nmi;
@@ -53,10 +51,45 @@ namespace Mimic.Devices
         public override void Clock() => _cpu.Clock();
 
         /// <summary>
-        /// Retrieve the current PC, or Program Counter, which indicates where
+        /// Current PC, or Program Counter, which indicates where
         /// the CPU will run code from.
         /// </summary>
-        public int CpuPc => _cpu.PC;
+        public int Pc
+        {
+            get { return _cpu.PC; }
+            set
+            {
+                _cpu.SetPC(value);
+                _cpu.ForceOpcodeSync();
+            }
+        }
+
+        /// <summary>
+        /// Current value of the X register.
+        /// </summary>
+        public int A
+        {
+            get { return _cpu.A; }
+            set { _cpu.SetA(value); }
+        }
+
+        /// <summary>
+        /// Current value of the X register.
+        /// </summary>
+        public int X
+        {
+            get { return _cpu.X; }
+            set { _cpu.SetX(value); }
+        }
+
+        /// <summary>
+        /// Current value of the X register.
+        /// </summary>
+        public int Y
+        {
+            get { return _cpu.Y; }
+            set { _cpu.SetY(value); }
+        }
 
         /// <summary>
         /// Retrieve the total number of cycles that the CPU has executed.

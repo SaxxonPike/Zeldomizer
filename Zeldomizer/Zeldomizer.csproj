@@ -54,15 +54,22 @@
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutList.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomMapper.cs" />
     <Compile Include="Engine\Graphics\OverworldSpriteList.cs" />
+    <Compile Include="Engine\Overworld\DecompiledOverworld.cs" />
     <Compile Include="Engine\Overworld\OverworldColumn.cs" />
     <Compile Include="Engine\Overworld\OverworldColumnList.cs" />
     <Compile Include="Engine\Overworld\OverworldColumnTile.cs" />
+    <Compile Include="Engine\Overworld\OverworldDecompiler.cs" />
+    <Compile Include="Engine\Overworld\OverworldDetailTileList.cs" />
     <Compile Include="Engine\Overworld\OverworldRoom.cs" />
     <Compile Include="Engine\Overworld\OverworldRoomList.cs" />
+    <Compile Include="Engine\Overworld\OverworldTileList.cs" />
     <Compile Include="Metal\BankPointerTable.cs" />
+    <Compile Include="Metal\BreadboxBridge.cs" />
     <Compile Include="Metal\DebugPrettyPrint.cs" />
     <Compile Include="Metal\IPointerTable.cs" />
+    <Compile Include="Metal\NullSource.cs" />
     <Compile Include="Metal\OverlappingSourceReader.cs" />
+    <Compile Include="Metal\RangeSource.cs" />
     <Compile Include="Metal\Source.cs" />
     <Compile Include="Metal\WordPointerTable.cs" />
     <Compile Include="Metal\SourceBlock.cs" />
@@ -112,6 +119,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Breadbox\Breadbox.fsproj">
+      <Project>{AA8601C2-2F4E-4720-8868-297745913A14}</Project>
+      <Name>Breadbox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Disaster\Disaster.csproj">
       <Project>{2ee7a459-7ef4-4105-9fd6-4f8ef6689c1e}</Project>
       <Name>Disaster</Name>

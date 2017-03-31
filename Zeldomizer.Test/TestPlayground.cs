@@ -2,6 +2,8 @@
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using Mimic.Devices;
+using Mimic.Systems;
 using NUnit.Framework;
 using Zeldomizer.Engine.Graphics;
 using Zeldomizer.Engine.Overworld;
@@ -20,6 +22,11 @@ namespace Zeldomizer
             var palette = new NtscNesPalette();
             var columns = new OverworldColumnList(new SourceBlock(Source, 0x15BD8)).ToList();
             var rooms = new OverworldRoomList(new SourceBlock(Source, 0x15418), 124).ToList();
+            var tiles = new OverworldTileList(new SourceBlock(Source, 0x1697C)).ToList();
+            var detailTiles = new OverworldDetailTileList(new SourceBlock(Source, 0x169B4));
+
+            var decompiler = new OverworldDecompiler();
+            var decompiledRooms = decompiler.Decompile(columns, rooms, tiles);
 
             // Grayscale
             renderer.Colors[0] = palette[0x0F];
@@ -34,28 +41,31 @@ namespace Zeldomizer
 
             // Render out rooms
             var roomIndex = 0;
-            foreach (var room in rooms)
+            foreach (var room in decompiledRooms.Rooms.Select(r => r.ToArray()))
             {
                 using (var roomBitmap = new Bitmap(256, 168))
                 using (var g = Graphics.FromImage(roomBitmap))
                 using (var mem = new MemoryStream())
                 {
-                    var x = 0;
+                    var tileIndex = 0;
 
-                    foreach (var column in room)
+                    for (var y = 0; y < 11; y++)
                     {
-                        var y = 0;
-
-                        foreach (var tile in columns[column])
+                        for (var x = 0; x < 16; x++)
                         {
-                            g.DrawImage(spriteBitmaps[tile], x, y);
-                            g.DrawImage(spriteBitmaps[tile + 1], x + 8, y);
-                            g.DrawImage(spriteBitmaps[tile + 2], x, y + 8);
-                            g.DrawImage(spriteBitmaps[tile + 3], x + 8, y + 8);
-                            y += 16;
+                            var tile = room[tileIndex];
+                            var plotX = x << 4;
+                            var plotY = y << 4;
+                            if (tile < 0x70 || tile > 0xF1)
+                                tile = 0;
+                            else
+                                tile -= 0x70;
+                            g.DrawImage(spriteBitmaps[tile], plotX, plotY);
+                            g.DrawImage(spriteBitmaps[tile + 1], plotX + 8, plotY);
+                            g.DrawImage(spriteBitmaps[tile + 2], plotX, plotY + 8);
+                            g.DrawImage(spriteBitmaps[tile + 3], plotX + 8, plotY + 8);
+                            tileIndex++;
                         }
-
-                        x += 16;
                     }
 
                     roomBitmap.Save(mem, ImageFormat.Png);
@@ -93,6 +103,28 @@ namespace Zeldomizer
 
                 index++;
             }
+
+        }
+
+        [Test]
+        [Explicit]
+        public void Test3()
+        {
+            //var system = new NesSystem();
+            //var cartridge = new Mmc1CartridgeDevice("Cart", Source.ExportRaw());
+
+            //cartridge.PrgBank = 5;
+            //cartridge.PrgMode = 3;
+            //system.Router.Install(cartridge);
+
+            //system.CpuPc = 0xAA59;
+            //system.Router.CpuPoke(0x0004, 0xD8); // low data
+            //system.Router.CpuPoke(0x0005, 0x9B); // high data
+            //system.Router.CpuPoke(0x7276, 0x60); // RTS
+            //system.Router.CpuPoke(0x728C, 0x60); // RTS
+
+            //for (var i = 0; i < 100; i++)
+            //    system.Clock();
 
         }
     }
