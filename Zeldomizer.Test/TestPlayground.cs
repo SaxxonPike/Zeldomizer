@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -11,6 +12,7 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer
 {
+    [ExcludeFromCodeCoverage]
     public class TestPlayground : BaseTestFixture
     {
         [Test]
