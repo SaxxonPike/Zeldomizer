@@ -1,4 +1,6 @@
-﻿using Disaster.Assembly.Interfaces;
+﻿using System;
+using Disaster.Assembly.Interfaces;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 
@@ -269,6 +271,28 @@ namespace Disaster.Assembly
             rom.VerifySet(x => x[0] = expectedOpcode, Times.Once);
             rom.VerifySet(x => x[1] = operandLo, Times.Once);
             rom.VerifySet(x => x[2] = operandHi, Times.Once);
+        }
+
+        [TestCase(0x123)]
+        public void Assemble_FailsWithInvalidOpcode(Opcode opcode)
+        {
+            var rom = new Mock<IRom>();
+            var codeBlock = new CodeBlock { Rom = rom.Object };
+
+            Action act = () => Subject.Assemble(new Instruction { AddressingMode = Random<AddressingMode>(), Opcode = opcode }, codeBlock, 0);
+
+            act.ShouldThrow<Exception>();
+        }
+
+        [TestCase(0x123)]
+        public void Assemble_FailsWithInvalidAddressingMode(AddressingMode addressingMode)
+        {
+            var rom = new Mock<IRom>();
+            var codeBlock = new CodeBlock { Rom = rom.Object };
+
+            Action act = () => Subject.Assemble(new Instruction { AddressingMode = addressingMode, Opcode = Random<Opcode>() }, codeBlock, 0);
+
+            act.ShouldThrow<Exception>();
         }
 
     }
