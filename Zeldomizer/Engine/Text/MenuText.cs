@@ -19,32 +19,32 @@ namespace Zeldomizer.Engine.Text
 
         public string EliminationModeText
         {
-            get { return _eliminationModeText.Text; }
-            set { _eliminationModeText.Text = value; }
+            get => _eliminationModeText.Text;
+            set => _eliminationModeText.Text = value;
         }
 
         public int EliminationModeTextLength => _eliminationModeText.Length;
 
         public string RegisterYourNameText
         {
-            get { return _registerYourNameText.Text; }
-            set { _registerYourNameText.Text = value; }
+            get => _registerYourNameText.Text;
+            set => _registerYourNameText.Text = value;
         }
 
         public int RegisterYourNameTextLength => _registerYourNameText.Length;
 
         public string RegisterText
         {
-            get { return _registerText.Text; }
-            set { _registerText.Text = value; }
+            get => _registerText.Text;
+            set => _registerText.Text = value;
         }
 
         public int RegisterTextLength => _registerText.Length;
 
         public string SpecialNameText
         {
-            get { return _specialNameText.Text; }
-            set { _specialNameText.Text = value; }
+            get => _specialNameText.Text;
+            set => _specialNameText.Text = value;
         }
 
         public int SpecialNameTextLength => _specialNameText.Length;

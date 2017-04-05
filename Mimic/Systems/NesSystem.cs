@@ -24,26 +24,26 @@ namespace Mimic.Systems
 
         public int CpuPc
         {
-            get { return _cpu6502Device.Pc; }
-            set { _cpu6502Device.Pc = value; }
+            get => _cpu6502Device.Pc;
+            set => _cpu6502Device.Pc = value;
         }
 
         public int CpuA
         {
-            get { return _cpu6502Device.A; }
-            set { _cpu6502Device.A = value; }
+            get => _cpu6502Device.A;
+            set => _cpu6502Device.A = value;
         }
 
         public int CpuX
         {
-            get { return _cpu6502Device.X; }
-            set { _cpu6502Device.X = value; }
+            get => _cpu6502Device.X;
+            set => _cpu6502Device.X = value;
         }
 
         public int CpuY
         {
-            get { return _cpu6502Device.Y; }
-            set { _cpu6502Device.Y = value; }
+            get => _cpu6502Device.Y;
+            set => _cpu6502Device.Y = value;
         }
 
         public void Clock() =>

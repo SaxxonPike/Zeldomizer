@@ -27,8 +27,8 @@ namespace Zeldomizer.Metal
 
         public byte this[int index]
         {
-            get { return GetSourceForOffset(index)[index]; }
-            set { GetSourceForOffset(index)[index] = value; }
+            get => GetSourceForOffset(index)[index];
+            set => GetSourceForOffset(index)[index] = value;
         }
 
         public void Copy(int source, int destination, int length) => 

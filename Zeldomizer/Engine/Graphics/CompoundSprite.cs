@@ -47,8 +47,8 @@ namespace Zeldomizer.Engine.Graphics
 
         public int this[int index]
         {
-            get { return _sprites[GetSpriteNumber(index)][GetSpriteIndex(index)]; }
-            set { _sprites[GetSpriteNumber(index)][GetSpriteIndex(index)] = value; }
+            get => _sprites[GetSpriteNumber(index)][GetSpriteIndex(index)];
+            set => _sprites[GetSpriteNumber(index)][GetSpriteIndex(index)] = value;
         }
 
         public int Width { get; }

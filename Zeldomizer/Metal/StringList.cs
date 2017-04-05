@@ -34,10 +34,7 @@ namespace Zeldomizer.Metal
 
         public override string this[int index]
         {
-            get
-            {
-                return Decode(index);
-            }
+            get => Decode(index);
             set
             {
                 // Determine if the new value will overflow the table

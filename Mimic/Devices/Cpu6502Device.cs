@@ -56,7 +56,7 @@ namespace Mimic.Devices
         /// </summary>
         public int Pc
         {
-            get { return _cpu.PC; }
+            get => _cpu.PC;
             set
             {
                 _cpu.SetPC(value);
@@ -69,8 +69,8 @@ namespace Mimic.Devices
         /// </summary>
         public int A
         {
-            get { return _cpu.A; }
-            set { _cpu.SetA(value); }
+            get => _cpu.A;
+            set => _cpu.SetA(value);
         }
 
         /// <summary>
@@ -78,8 +78,8 @@ namespace Mimic.Devices
         /// </summary>
         public int X
         {
-            get { return _cpu.X; }
-            set { _cpu.SetX(value); }
+            get => _cpu.X;
+            set => _cpu.SetX(value);
         }
 
         /// <summary>
@@ -87,8 +87,8 @@ namespace Mimic.Devices
         /// </summary>
         public int Y
         {
-            get { return _cpu.Y; }
-            set { _cpu.SetY(value); }
+            get => _cpu.Y;
+            set => _cpu.SetY(value);
         }
 
         /// <summary>

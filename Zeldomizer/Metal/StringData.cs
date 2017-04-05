@@ -18,7 +18,7 @@ namespace Zeldomizer.Metal
 
         public string Text
         {
-            get { return _stringConverter.Decode(_source); }
+            get => _stringConverter.Decode(_source);
             set
             {
                 if (value == null)

@@ -19,10 +19,7 @@ namespace Zeldomizer.Metal
 
         public string Text
         {
-            get
-            {
-                return _fixedStringConverter.Decode(_source, Length).Trim();
-            }
+            get => _fixedStringConverter.Decode(_source, Length).Trim();
             set
             {
                 // Sanity check.

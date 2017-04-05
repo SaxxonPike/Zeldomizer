@@ -22,32 +22,32 @@ namespace Zeldomizer.Engine.Text
 
         public string TopText
         {
-            get { return _topText.Text; }
-            set { _topText.Text = value; }
+            get => _topText.Text;
+            set => _topText.Text = value;
         }
 
         public int TopTextLength => _topText.MaxLength;
 
         public string BottomText1
         {
-            get { return _bottomText1.Text; }
-            set { _bottomText1.Text = value; }
+            get => _bottomText1.Text;
+            set => _bottomText1.Text = value;
         }
 
         public int BottomText1Length => _bottomText1.Length;
 
         public string BottomText2
         {
-            get { return _bottomText2.Text; }
-            set { _bottomText2.Text = value; }
+            get => _bottomText2.Text;
+            set => _bottomText2.Text = value;
         }
 
         public int BottomText2Length => _bottomText2.Length;
 
         public string BottomText3
         {
-            get { return _bottomText3.Text; }
-            set { _bottomText3.Text = value; }
+            get => _bottomText3.Text;
+            set => _bottomText3.Text = value;
         }
 
         public int BottomText3Length => _bottomText3.Length;
