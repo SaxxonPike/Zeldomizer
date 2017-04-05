@@ -123,10 +123,6 @@
       <Project>{AA8601C2-2F4E-4720-8868-297745913A14}</Project>
       <Name>Breadbox</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Disaster\Disaster.csproj">
-      <Project>{2ee7a459-7ef4-4105-9fd6-4f8ef6689c1e}</Project>
-      <Name>Disaster</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

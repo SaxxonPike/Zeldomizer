@@ -3,8 +3,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using Mimic.Devices;
-using Mimic.Systems;
 using NUnit.Framework;
 using Zeldomizer.Engine.Graphics;
 using Zeldomizer.Engine.Overworld;
