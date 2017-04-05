@@ -132,15 +132,6 @@ type Mos6502(config:Mos6502Configuration) =
         z <- (value &&& 0xFF) = 0
         n <- (value &&& 0x80) <> 0
 
-    let NZA () =
-        NZ a
-
-    let NZX () =
-        NZ x
-
-    let NZY () =
-        NZ y
-
     let ReadMemoryInternal address =
         read address
 
@@ -179,9 +170,7 @@ type Mos6502(config:Mos6502Configuration) =
 
     let GetPcl () = pc &&& 0xFF
     let GetPch () = pc >>> 8
-    let SetPc low high = pc <- (high <<< 8) ||| low
     let SetPcl value = pc <- (pc &&& 0xFF00) ||| value
-    let SetPch value = pc <- (pc &&& 0x00FF) ||| (value <<< 8)
     let SetNZA value =
         a <- value
         NZ a
@@ -193,9 +182,6 @@ type Mos6502(config:Mos6502Configuration) =
         NZ y
     let SetAlu value =
         aluTemp <- value
-    let SetNZAlu value =
-        SetAlu value
-        NZ aluTemp
     let SetOpcode2 value =
         opcode2 <- value
     let SetOpcode3 value =
@@ -945,9 +931,6 @@ type Mos6502(config:Mos6502Configuration) =
 
     let NopOp () =
         ReadMemoryS <| ignore
-
-    let InvalidOp () =
-        FetchDiscard 0xFFFF |> ignore; false
 
     let EndISpecial () =
         opcode <- vopFetch1
