@@ -30,8 +30,12 @@ namespace Zeldomizer.Metal
                 // If the word is too long, add new line.
                 if (builder.Length + wordLength > TextWidth)
                 {
-                    output.Add(builder);
-                    builder = new StringBuilder();
+                    // Only add a new line if the current one has stuff in it.
+                    if (builder.Length > 0)
+                    {
+                        output.Add(builder);
+                        builder = new StringBuilder();
+                    }
                 }
 
                 // Only add the space if other words are present on this line.
@@ -49,7 +53,7 @@ namespace Zeldomizer.Metal
                 .Select(sb => sb.ToString())
                 .Select(s =>
                 {
-                    var spacesNeeded = TextWidth - s.Length;
+                    var spacesNeeded = Math.Max(0, TextWidth - s.Length);
                     return $"{new string(' ', spacesNeeded / 2)}{s}";
                 })
                 .ToArray();

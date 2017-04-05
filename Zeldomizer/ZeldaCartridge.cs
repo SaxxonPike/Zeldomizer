@@ -16,7 +16,7 @@ namespace Zeldomizer
             var speechFormatter = new StringFormatter();
 
             MusicPointers = new MusicPointers(source);
-            CharacterText = new CharacterText(source, speechFormatter, speechConverter);
+            CharacterText = new CharacterText(new WordPointerTable(new SourceBlock(source, 0x4000), new SourceBlock(source, -0x4000), 0x26), speechFormatter, speechConverter);
             EndingText = new EndingText(source, speechConverter, textConverter, fixedStringConverter);
             Dungeons = new DungeonList(source);
         }
