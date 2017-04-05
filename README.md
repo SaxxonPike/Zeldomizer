@@ -13,8 +13,26 @@ The Legend of Zelda ROM manipulation library.
 
 ## Implemented
 
-- Edit character dialog
-- Edit ending text
+- Zeldomizer
+  - Edit character dialog
+  - Edit ending text
+  - Edit dungeons
+  - Edit overworld map
+  - Render sprites and tiles
+- Breadbox
+  - Fully emulated
+    - Interrupts
+	- Undocumented opcodes
+- Disaster
+  - Assembly
+    - Raw opcodes only
+  - Disassembly
+    - Raw opcodes only
+    - Basic static analysis
+- Mimic
+  - Basic emulation
+    - Runs game code headlessly
+	- MMC1 implemented minimally
 
 ## Todo
 
