@@ -64,6 +64,7 @@
     <Compile Include="InterruptTests.cs" />
     <Compile Include="ExecutionBaseTestFixture.cs" />
     <Compile Include="FlagOpcodeTests.cs" />
+    <Compile Include="PerformanceTests.cs" />
     <Compile Include="TransferTests.cs" />
     <Compile Include="ShiftTests.cs" />
     <Compile Include="BitTests.cs" />
