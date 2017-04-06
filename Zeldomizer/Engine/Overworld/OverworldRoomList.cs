@@ -5,25 +5,28 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Overworld
 {
-    public class OverworldRoomList : IEnumerable<OverworldRoom>
+    public class OverworldRoomList : IReadOnlyList<OverworldRoom>
     {
         private readonly ISource _source;
-        private readonly int _count;
 
         public OverworldRoomList(ISource source, int count)
         {
             _source = source;
-            _count = count;
+            Count = count;
         }
 
         private IEnumerable<OverworldRoom> GetRooms()
         {
             return Enumerable
-                .Range(0, _count)
-                .Select(i => new OverworldRoom(new SourceBlock(_source, i << 4)));
+                .Range(0, Count)
+                .Select(i => this[i]);
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         public IEnumerator<OverworldRoom> GetEnumerator() => GetRooms().GetEnumerator();
+        public int Count { get; }
+
+        public OverworldRoom this[int index] =>
+            new OverworldRoom(new SourceBlock(_source, index << 4));
     }
 }

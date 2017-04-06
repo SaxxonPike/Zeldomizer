@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -17,13 +18,16 @@ namespace Zeldomizer
         [Explicit]
         public void Test1()
         {
-            var sprites = new OverworldSpriteList(new SourceBlock(Source, 0x0C93B)).ToList();
+            var sprites = new OverworldSpriteList(new SourceBlock(Source, 0x0C93B));
             var renderer = new SpriteRenderer();
             var palette = new NtscNesPalette();
-            var columns = new OverworldColumnList(new SourceBlock(Source, 0x15BD8)).ToList();
+            var columns = new OverworldColumnLibraryList(new SourceBlock(Source, 0x14000 - 0x8000), new WordList(new SourceBlock(Source, 0x19D0F), 16))
+                .SelectMany(c => c)
+                .ToList();
             var rooms = new OverworldRoomList(new SourceBlock(Source, 0x15418), 124).ToList();
             var tiles = new OverworldTileList(new SourceBlock(Source, 0x1697C)).ToList();
             var detailTiles = new OverworldDetailTileList(new SourceBlock(Source, 0x169B4));
+            var grid = new OverworldGrid(new SourceBlock(Source, 0x18580));
 
             var decompiler = new OverworldDecompiler();
             var decompiledRooms = decompiler.Decompile(columns, rooms, tiles);
@@ -39,14 +43,19 @@ namespace Zeldomizer
                 .Select(sprite => renderer.Render(sprite))
                 .ToArray();
 
+            var roomBitmaps = new Dictionary<int, Bitmap>();
+
             // Render out rooms
             var roomIndex = 0;
             foreach (var room in decompiledRooms.Rooms.Select(r => r.ToArray()))
             {
-                using (var roomBitmap = new Bitmap(256, 168))
+                var roomBitmap = new Bitmap(256, 168);
+
                 using (var g = Graphics.FromImage(roomBitmap))
+                using (var backgroundBrush = new SolidBrush(renderer.Colors[2]))
                 using (var mem = new MemoryStream())
                 {
+                    g.FillRectangle(backgroundBrush, 0, 0, 256, 168);
                     var tileIndex = 0;
 
                     for (var y = 0; y < 11; y++)
@@ -56,15 +65,25 @@ namespace Zeldomizer
                             var tile = room[tileIndex];
                             var plotX = x << 4;
                             var plotY = y << 4;
-                            if (tile < 0x70 || tile > 0xF1)
-                                tile = 0;
-                            else
-                                tile -= 0x70;
-                            g.DrawImage(spriteBitmaps[tile], plotX, plotY);
-                            g.DrawImage(spriteBitmaps[tile + 1], plotX + 8, plotY);
-                            g.DrawImage(spriteBitmaps[tile + 2], plotX, plotY + 8);
-                            g.DrawImage(spriteBitmaps[tile + 3], plotX + 8, plotY + 8);
                             tileIndex++;
+
+                            var tileIds = tile < 0x10
+                                ? detailTiles[tile]
+                                : tile >= 0x70 && tile <= 0xF1
+                                    ? Enumerable.Range(tile, 4)
+                                    : null;
+
+                            if (tileIds == null)
+                                continue;
+
+                            var tileIdArray = tileIds
+                                .Select(s => s < 0x70 || s > 0xF1 ? 0x7A : s - 0x70)
+                                .ToArray();
+
+                            g.DrawImage(spriteBitmaps[tileIdArray[0]], plotX, plotY);
+                            g.DrawImage(spriteBitmaps[tileIdArray[2]], plotX + 8, plotY);
+                            g.DrawImage(spriteBitmaps[tileIdArray[1]], plotX, plotY + 8);
+                            g.DrawImage(spriteBitmaps[tileIdArray[3]], plotX + 8, plotY + 8);
                         }
                     }
 
@@ -72,8 +91,34 @@ namespace Zeldomizer
                     WriteToDesktopPath(mem.ToArray(), "overworld", $"{roomIndex:X2}.png");
                 }
 
+                roomBitmaps[roomIndex] = roomBitmap;
                 roomIndex++;
             }
+
+            using (var outputMap = new Bitmap(256 * 16, 168 * 8))
+            using (var g = Graphics.FromImage(outputMap))
+            using (var mem = new MemoryStream())
+            {
+                var x = 0;
+                var y = 0;
+                foreach (var i in grid)
+                {
+                    while (x >= outputMap.Width)
+                    {
+                        x -= outputMap.Width;
+                        y += 168;
+                    }
+
+                    g.DrawImage(roomBitmaps[i & 0x7F], x, y);
+                    x += 256;
+                }
+
+                outputMap.Save(mem, ImageFormat.Png);
+                WriteToDesktop(mem.ToArray(), "test.png");
+            }
+
+            foreach (var bitmap in roomBitmaps)
+                bitmap.Value?.Dispose();
         }
 
         [Test]

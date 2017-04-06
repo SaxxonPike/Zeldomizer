@@ -5,7 +5,7 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Overworld
 {
-    public class OverworldColumn : IEnumerable<int>
+    public class OverworldColumn : IReadOnlyList<int>
     {
         private readonly ISource _source;
 
@@ -37,6 +37,11 @@ namespace Zeldomizer.Engine.Overworld
         IEnumerator IEnumerable.GetEnumerator() => 
             GetEnumerator();
         public IEnumerator<int> GetEnumerator() => 
-            GetTiles().Take(11).GetEnumerator();
+            GetTiles().Take(Count).GetEnumerator();
+
+        public int Count => 11;
+
+        public int this[int index] => 
+            GetTiles().ElementAt(index);
     }
 }

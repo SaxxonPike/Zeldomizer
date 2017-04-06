@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Zeldomizer.Metal
 {
-    public abstract class FixedList<T> : IList<T>
+    public abstract class FixedList<T> : IList<T>, IReadOnlyList<T>
     {
         public int Capacity { get; }
 

@@ -56,10 +56,13 @@
     <Compile Include="Engine\Graphics\OverworldSpriteList.cs" />
     <Compile Include="Engine\Overworld\DecompiledOverworld.cs" />
     <Compile Include="Engine\Overworld\OverworldColumn.cs" />
-    <Compile Include="Engine\Overworld\OverworldColumnList.cs" />
+    <Compile Include="Engine\Overworld\OverworldColumnLibrary.cs" />
+    <Compile Include="Engine\Overworld\OverworldColumnLibraryList.cs" />
     <Compile Include="Engine\Overworld\OverworldColumnTile.cs" />
     <Compile Include="Engine\Overworld\OverworldDecompiler.cs" />
+    <Compile Include="Engine\Overworld\OverworldDetailTile.cs" />
     <Compile Include="Engine\Overworld\OverworldDetailTileList.cs" />
+    <Compile Include="Engine\Overworld\OverworldGrid.cs" />
     <Compile Include="Engine\Overworld\OverworldRoom.cs" />
     <Compile Include="Engine\Overworld\OverworldRoomList.cs" />
     <Compile Include="Engine\Overworld\OverworldTileList.cs" />
