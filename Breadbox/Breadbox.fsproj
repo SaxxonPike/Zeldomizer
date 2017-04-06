@@ -52,7 +52,6 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Interfaces.fs" />
     <Compile Include="Mos6502.fs" />
     <Content Include="packages.config" />
   </ItemGroup>

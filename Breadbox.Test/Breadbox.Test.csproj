@@ -59,6 +59,7 @@
     <Compile Include="BitwiseTests.cs" />
     <Compile Include="DecTests.cs" />
     <Compile Include="BaseTestFixture.cs" />
+    <Compile Include="ISystem.cs" />
     <Compile Include="IncTests.cs" />
     <Compile Include="InterruptTests.cs" />
     <Compile Include="ExecutionBaseTestFixture.cs" />

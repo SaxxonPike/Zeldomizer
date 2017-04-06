@@ -23,8 +23,8 @@ namespace Mimic.Devices
         /// </summary>
         public int PrgMode
         {
-            get { return _prgMode; }
-            set { _prgMode = value & 0x3; }
+            get => _prgMode;
+            set => _prgMode = value & 0x3;
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace Mimic.Devices
         /// </summary>
         public int PrgBank
         {
-            get { return _prgBank; }
-            set { _prgBank = value & 0xF; }
+            get => _prgBank;
+            set => _prgBank = value & 0xF;
         }
 
         /// <summary>

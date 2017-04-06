@@ -20,7 +20,7 @@ namespace Breadbox
             var expectedCarry = Cpu.C;
             Cpu.SetOpcode(0x29);
             Cpu.SetA(a);
-            MemoryMock.SetupSequence(m => m.Read(It.IsAny<int>()))
+            System.SetupSequence(m => m.Read(It.IsAny<int>()))
                 .Returns(operand);
 
             // Act
@@ -47,7 +47,7 @@ namespace Breadbox
             var expectedCarry = Cpu.C;
             Cpu.SetOpcode(0x49);
             Cpu.SetA(a);
-            MemoryMock.SetupSequence(m => m.Read(It.IsAny<int>()))
+            System.SetupSequence(m => m.Read(It.IsAny<int>()))
                 .Returns(operand);
 
             // Act
@@ -74,7 +74,7 @@ namespace Breadbox
             var expectedCarry = Cpu.C;
             Cpu.SetOpcode(0x09);
             Cpu.SetA(a);
-            MemoryMock.SetupSequence(m => m.Read(It.IsAny<int>()))
+            System.SetupSequence(m => m.Read(It.IsAny<int>()))
                 .Returns(operand);
 
             // Act

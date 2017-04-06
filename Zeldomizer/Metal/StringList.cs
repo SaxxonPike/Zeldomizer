@@ -5,15 +5,13 @@ namespace Zeldomizer.Metal
 {
     public class StringList : FixedList<string>
     {
-        private readonly ISource _source;
         private readonly IPointerTable _pointerTable;
         private readonly int _maxSize;
         private int _currentSize;
         private readonly IStringConverter _stringConverter;
 
-        public StringList(ISource source, IPointerTable pointerTable, IStringConverter stringConverter, int maxSize, int capacity) : base(capacity)
+        public StringList(IPointerTable pointerTable, IStringConverter stringConverter, int maxSize, int capacity) : base(capacity)
         {
-            _source = source;
             _pointerTable = pointerTable;
             _maxSize = maxSize;
             _stringConverter = stringConverter;
@@ -34,10 +32,7 @@ namespace Zeldomizer.Metal
 
         public override string this[int index]
         {
-            get
-            {
-                return Decode(index);
-            }
+            get => Decode(index);
             set
             {
                 // Determine if the new value will overflow the table
@@ -56,7 +51,7 @@ namespace Zeldomizer.Metal
                     var targetOffset = currentOffset;
                     var length = _maxSize - (_pointerTable[index].Offset - tableStart) - Math.Abs(sizeChange);
 
-                    _source.Copy(sourceOffset, targetOffset, length);
+                    _pointerTable.Source.Copy(sourceOffset, targetOffset, length);
 
                     // Adjust pointer table to account for new string offsets
                     for (var i = index + 1; i < Capacity; i++)
@@ -68,7 +63,7 @@ namespace Zeldomizer.Metal
                 }
 
                 // Insert the new value into the table
-                _source.Write(encoded, currentOffset);
+                _pointerTable.Source.Write(encoded, currentOffset);
             }
         }
     }

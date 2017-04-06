@@ -15,8 +15,8 @@
 
         public byte this[int index]
         {
-            get { return Parent[index + Offset]; }
-            set { Parent[index + Offset] = value; }
+            get => Parent[index + Offset];
+            set => Parent[index + Offset] = value;
         }
 
         public void Copy(int source, int destination, int length) =>

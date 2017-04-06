@@ -13,8 +13,8 @@ namespace Zeldomizer.Metal
 
         public override int this[int index]
         {
-            get { return _source[index]; }
-            set { _source[index] = unchecked((byte)value); }
+            get => _source[index];
+            set => _source[index] = unchecked((byte)value);
         }
 
         public override string ToString()

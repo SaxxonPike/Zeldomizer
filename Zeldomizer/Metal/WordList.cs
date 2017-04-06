@@ -11,11 +11,8 @@
 
         public override int this[int index]
         {
-            get
-            {
-                return _source[index << 1] |
-                    (_source[(index << 1) + 1] << 8);
-            }
+            get => _source[index << 1] |
+                   (_source[(index << 1) + 1] << 8);
             set
             {
                 _source[index << 1] = unchecked((byte)value);

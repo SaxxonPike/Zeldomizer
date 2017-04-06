@@ -3,13 +3,14 @@
 // 6502/6510 core.
 // Ported from Bizhawk's C# core.
 
-type Mos6502Configuration(lxaConstant:int, hasDecimalMode:bool, memory:IMemory, ready:IReadySignal, irq:IIrqSignal, nmi:INmiSignal) =
+type Mos6502Configuration(lxaConstant:int, hasDecimalMode:bool, read:System.Func<int, int>, write:System.Action<int, int>, ready:System.Func<bool>, irq:System.Func<bool>, nmi:System.Func<bool>) =
     member val LxaConstant = lxaConstant
     member val HasDecimalMode = hasDecimalMode
-    member val Memory = memory
-    member val Ready = ready
-    member val Irq = irq
-    member val Nmi = nmi
+    member val Ready = ready.Invoke
+    member val Irq = irq.Invoke
+    member val Nmi = nmi.Invoke
+    member val Read = read.Invoke
+    member val Write = write.Invoke
 
 type Mos6502(config:Mos6502Configuration) =
     [<Literal>]
@@ -74,18 +75,15 @@ type Mos6502(config:Mos6502Configuration) =
     let mutable z = false
     let mutable c = false
 
-    let mutable ioLatch = 0xFF
-    let mutable ioDirection = 0x00
-
     let mutable totalCycles = 0UL
 
     let lxaConstant = config.LxaConstant
     let hasDecimalMode = config.HasDecimalMode
-    let readRdy = config.Ready.ReadRdy
-    let readIrq = config.Irq.ReadIrq
-    let readNmi = config.Nmi.ReadNmi
-    let memoryReadRaw = config.Memory.Read
-    let memoryWriteRaw = config.Memory.Write
+    let readRdy = config.Ready
+    let readIrq = config.Irq
+    let readNmi = config.Nmi
+    let memoryReadRaw = config.Read
+    let memoryWriteRaw = config.Write
 
     let read = memoryReadRaw
 
@@ -132,15 +130,6 @@ type Mos6502(config:Mos6502Configuration) =
         z <- (value &&& 0xFF) = 0
         n <- (value &&& 0x80) <> 0
 
-    let NZA () =
-        NZ a
-
-    let NZX () =
-        NZ x
-
-    let NZY () =
-        NZ y
-
     let ReadMemoryInternal address =
         read address
 
@@ -179,9 +168,7 @@ type Mos6502(config:Mos6502Configuration) =
 
     let GetPcl () = pc &&& 0xFF
     let GetPch () = pc >>> 8
-    let SetPc low high = pc <- (high <<< 8) ||| low
     let SetPcl value = pc <- (pc &&& 0xFF00) ||| value
-    let SetPch value = pc <- (pc &&& 0x00FF) ||| (value <<< 8)
     let SetNZA value =
         a <- value
         NZ a
@@ -193,9 +180,6 @@ type Mos6502(config:Mos6502Configuration) =
         NZ y
     let SetAlu value =
         aluTemp <- value
-    let SetNZAlu value =
-        SetAlu value
-        NZ aluTemp
     let SetOpcode2 value =
         opcode2 <- value
     let SetOpcode3 value =
@@ -945,9 +929,6 @@ type Mos6502(config:Mos6502Configuration) =
 
     let NopOp () =
         ReadMemoryS <| ignore
-
-    let InvalidOp () =
-        FetchDiscard 0xFFFF |> ignore; false
 
     let EndISpecial () =
         opcode <- vopFetch1

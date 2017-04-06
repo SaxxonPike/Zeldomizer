@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Zeldomizer.Metal;
 
@@ -7,6 +8,7 @@ namespace Zeldomizer
     /// <summary>
     /// Helper class for getting the ROM out of the test resources.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class RomFile
     {
         /// <summary>

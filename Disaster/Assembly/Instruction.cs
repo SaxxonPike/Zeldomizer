@@ -10,8 +10,8 @@ namespace Disaster.Assembly
 
         public int Operand
         {
-            get { return Length > 1 ? _operand : 0; }
-            set { _operand = value; }
+            get => Length > 1 ? _operand : 0;
+            set => _operand = value;
         }
 
         public AddressingMode AddressingMode { get; set; }
