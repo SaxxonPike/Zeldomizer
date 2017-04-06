@@ -64,7 +64,6 @@
     <Compile Include="Engine\Overworld\OverworldRoomList.cs" />
     <Compile Include="Engine\Overworld\OverworldTileList.cs" />
     <Compile Include="Metal\BankPointerTable.cs" />
-    <Compile Include="Metal\BreadboxBridge.cs" />
     <Compile Include="Metal\DebugPrettyPrint.cs" />
     <Compile Include="Metal\IPointerTable.cs" />
     <Compile Include="Metal\NullSource.cs" />

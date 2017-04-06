@@ -27,7 +27,7 @@ namespace Breadbox
             Cpu.SetD(false);
             Cpu.SetC(carry);
             Cpu.SetA(a);
-            MemoryMock.SetupSequence(m => m.Read(It.IsAny<int>()))
+            System.SetupSequence(m => m.Read(It.IsAny<int>()))
                 .Returns(operand);
 
             // Act
@@ -65,7 +65,7 @@ namespace Breadbox
             Cpu.SetD(true);
             Cpu.SetC(carry);
             Cpu.SetA(a);
-            MemoryMock.SetupSequence(m => m.Read(It.IsAny<int>()))
+            System.SetupSequence(m => m.Read(It.IsAny<int>()))
                 .Returns(operand);
 
             // Act

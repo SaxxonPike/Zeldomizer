@@ -21,7 +21,7 @@ namespace Breadbox
             var expectedN = (data & 0x80) != 0;
             var expectedV = (data & 0x40) != 0;
             var expectedZ = (data & a) == 0;
-            MemoryMock.Setup(m => m.Read(It.IsAny<int>())).Returns(data);
+            System.Setup(m => m.Read(It.IsAny<int>())).Returns(data);
             Cpu.SetA(a);
 
             // Act

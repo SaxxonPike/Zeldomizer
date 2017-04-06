@@ -17,7 +17,7 @@ namespace Breadbox
             var expectedSign = (expectedResult & 0x80) != 0;
             var expectedZero = (expectedResult & 0xFF) == 0;
             expectedResult &= 0xFF;
-            MemoryMock.SetupSequence(m => m.Read(It.IsAny<int>()))
+            System.SetupSequence(m => m.Read(It.IsAny<int>()))
                 .Returns(0x00)
                 .Returns(operand);
             Cpu.SetOpcode(0xE6);
@@ -28,8 +28,8 @@ namespace Breadbox
             // Assert
             Cpu.Z.Should().Be(expectedZero, "Z must be set correctly");
             Cpu.N.Should().Be(expectedSign, "N must be set correctly");
-            MemoryMock.Verify(m => m.Write(0, operand));
-            MemoryMock.Verify(m => m.Write(0, expectedResult));
+            System.Verify(m => m.Write(0, operand));
+            System.Verify(m => m.Write(0, expectedResult));
         }
 
         [Test]

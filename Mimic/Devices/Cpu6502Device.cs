@@ -7,13 +7,8 @@ namespace Mimic.Devices
     /// <summary>
     /// A 6502 processor.
     /// </summary>
-    public sealed class Cpu6502Device : BusDevice, IMemory, IReadySignal, IIrqSignal, INmiSignal
+    public sealed class Cpu6502Device : BusDevice
     {
-        /// <summary>
-        /// Device the CPU will use to perform reads and writes.
-        /// </summary>
-        private readonly IBusDevice _busDevice;
-
         /// <summary>
         /// Breadbox 6502 core.
         /// </summary>
@@ -28,17 +23,10 @@ namespace Mimic.Devices
         /// <param name="busDevice">Device to target with read/write operations.</param>
         public Cpu6502Device(string name, IBusDevice busDevice) : base(name)
         {
-            _busDevice = busDevice;
-            _cpu = new Mos6502(new Mos6502Configuration(0xFF, false, this, this, this, this));
+            _cpu = new Mos6502(new Mos6502Configuration(0xFF, false, _busRead, _busWrite, () => busDevice.Rdy, () => busDevice.Irq, () => busDevice.Nmi));
             _busWrite = busDevice.CpuWrite;
             _busRead = busDevice.CpuRead;
         }
-
-        int IMemory.Read(int address) => _busRead(address);
-        void IMemory.Write(int address, int value) => _busWrite(address, value);
-        bool IReadySignal.ReadRdy() => _busDevice.Rdy;
-        bool IIrqSignal.ReadIrq() => _busDevice.Irq;
-        bool INmiSignal.ReadNmi() => _busDevice.Nmi;
 
         /// <summary>
         /// Perform a soft reset on the CPU.

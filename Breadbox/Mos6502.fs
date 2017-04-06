@@ -3,13 +3,14 @@
 // 6502/6510 core.
 // Ported from Bizhawk's C# core.
 
-type Mos6502Configuration(lxaConstant:int, hasDecimalMode:bool, memory:IMemory, ready:IReadySignal, irq:IIrqSignal, nmi:INmiSignal) =
+type Mos6502Configuration(lxaConstant:int, hasDecimalMode:bool, read:System.Func<int, int>, write:System.Action<int, int>, ready:System.Func<bool>, irq:System.Func<bool>, nmi:System.Func<bool>) =
     member val LxaConstant = lxaConstant
     member val HasDecimalMode = hasDecimalMode
-    member val Memory = memory
-    member val Ready = ready
-    member val Irq = irq
-    member val Nmi = nmi
+    member val Ready = ready.Invoke
+    member val Irq = irq.Invoke
+    member val Nmi = nmi.Invoke
+    member val Read = read.Invoke
+    member val Write = write.Invoke
 
 type Mos6502(config:Mos6502Configuration) =
     [<Literal>]
@@ -74,18 +75,15 @@ type Mos6502(config:Mos6502Configuration) =
     let mutable z = false
     let mutable c = false
 
-    let mutable ioLatch = 0xFF
-    let mutable ioDirection = 0x00
-
     let mutable totalCycles = 0UL
 
     let lxaConstant = config.LxaConstant
     let hasDecimalMode = config.HasDecimalMode
-    let readRdy = config.Ready.ReadRdy
-    let readIrq = config.Irq.ReadIrq
-    let readNmi = config.Nmi.ReadNmi
-    let memoryReadRaw = config.Memory.Read
-    let memoryWriteRaw = config.Memory.Write
+    let readRdy = config.Ready
+    let readIrq = config.Irq
+    let readNmi = config.Nmi
+    let memoryReadRaw = config.Read
+    let memoryWriteRaw = config.Write
 
     let read = memoryReadRaw
 
