@@ -19,9 +19,7 @@ namespace Zeldomizer
             var sprites = new OverworldSpriteList(new SourceBlock(Source, 0x0C93B));
             var renderer = new SpriteRenderer();
             var palette = new NtscNesPalette();
-            var columns = new OverworldColumnLibraryList(new SourceBlock(Source, 0x14000 - 0x8000), new WordList(new SourceBlock(Source, 0x19D0F), 16))
-                .SelectMany(c => c)
-                .ToList();
+            var columns = new OverworldColumnLibraryList(new SourceBlock(Source, 0x14000 - 0x8000), new WordList(new SourceBlock(Source, 0x19D0F), 16));
             var rooms = new OverworldRoomList(new SourceBlock(Source, 0x15418), 124).ToList();
             var tiles = new OverworldTileList(new SourceBlock(Source, 0x1697C)).ToList();
             var detailTiles = new OverworldDetailTileList(new SourceBlock(Source, 0x169B4));
@@ -71,21 +69,27 @@ namespace Zeldomizer
                                     ? Enumerable.Range(tile, 4)
                                     : null;
 
-                            if (tileIds == null)
-                                continue;
+                            if (tileIds != null)
+                            {
+                                var tileIdArray = tileIds
+                                    .Select(s => s < 0x70 || s > 0xF1 ? 0x7A : s - 0x70)
+                                    .ToArray();
 
-                            var tileIdArray = tileIds
-                                .Select(s => s < 0x70 || s > 0xF1 ? 0x7A : s - 0x70)
-                                .ToArray();
+                                g.DrawImage(spriteBitmaps[tileIdArray[0]], plotX, plotY);
+                                g.DrawImage(spriteBitmaps[tileIdArray[2]], plotX + 8, plotY);
+                                g.DrawImage(spriteBitmaps[tileIdArray[1]], plotX, plotY + 8);
+                                g.DrawImage(spriteBitmaps[tileIdArray[3]], plotX + 8, plotY + 8);
+                            }
 
-                            g.DrawImage(spriteBitmaps[tileIdArray[0]], plotX, plotY);
-                            g.DrawImage(spriteBitmaps[tileIdArray[2]], plotX + 8, plotY);
-                            g.DrawImage(spriteBitmaps[tileIdArray[1]], plotX, plotY + 8);
-                            g.DrawImage(spriteBitmaps[tileIdArray[3]], plotX + 8, plotY + 8);
+                            if (tile >= 0x85 && tile < 0xE5)
+                            {
+                                g.DrawRectangle(Pens.Red, plotX, plotY, 16, 16);
+                            }
                         }
                     }
 
                     roomBitmap.Save(mem, ImageFormat.Png);
+                    WriteToDesktopPath(room.ToByteArray(), "overworld", $"{roomIndex:X2}.bin");
                     WriteToDesktopPath(mem.ToArray(), "overworld", $"{roomIndex:X2}.png");
                 }
 

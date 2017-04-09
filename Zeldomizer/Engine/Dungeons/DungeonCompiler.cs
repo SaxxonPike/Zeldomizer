@@ -20,14 +20,14 @@ namespace Zeldomizer.Engine.Dungeons
         /// Outer enumerable is for dungeon rooms, and the inner enumerable is for tile data
         /// belonging to those rooms. Rooms are 12x7 in size.
         /// </summary>
-        public CompiledDungeons Compile(IEnumerable<IEnumerable<int>> data)
+        public CompiledUnderworld Compile(IEnumerable<IEnumerable<int>> data)
         {
             var columns = ExtractColumns(data);
             var consolidatedMap = Consolidate(columns);
             var compressedMap = Compress(consolidatedMap);
             var compiledMap = Encode(compressedMap);
 
-            var result = new CompiledDungeons
+            var result = new CompiledUnderworld
             {
                 ColumnOffsets = compiledMap.Offsets,
                 Columns = compiledMap.Repo,

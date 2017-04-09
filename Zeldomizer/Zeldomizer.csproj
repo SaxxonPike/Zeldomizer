@@ -39,14 +39,16 @@
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\Dungeons\DecompiledUnderworld.cs" />
     <Compile Include="Engine\Dungeons\Dungeon.cs" />
     <Compile Include="Engine\Dungeons\DungeonColumn.cs" />
     <Compile Include="Engine\Dungeons\DungeonColumnLibrary.cs" />
     <Compile Include="Engine\Dungeons\DungeonColumnLibraryList.cs" />
+    <Compile Include="Engine\Dungeons\DungeonDecompiler.cs" />
     <Compile Include="Engine\Dungeons\DungeonList.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoom.cs" />
     <Compile Include="Engine\Dungeons\DungeonCompiler.cs" />
-    <Compile Include="Engine\Dungeons\CompiledDungeons.cs" />
+    <Compile Include="Engine\Dungeons\CompiledUnderworld.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutMapper.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayout.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutList.cs" />
@@ -66,6 +68,7 @@
     <Compile Include="Engine\Overworld\OverworldTileList.cs" />
     <Compile Include="Metal\BankPointerTable.cs" />
     <Compile Include="Metal\DebugPrettyPrint.cs" />
+    <Compile Include="Metal\EnumerableExtensions.cs" />
     <Compile Include="Metal\IPointerTable.cs" />
     <Compile Include="Metal\NullSource.cs" />
     <Compile Include="Metal\OverlappingSourceReader.cs" />

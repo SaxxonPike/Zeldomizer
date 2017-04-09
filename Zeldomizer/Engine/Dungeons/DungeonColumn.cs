@@ -38,14 +38,7 @@ namespace Zeldomizer.Engine.Dungeons
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public IEnumerator<int> GetEnumerator()
-        {
-            return GetBlocks().GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public IEnumerator<int> GetEnumerator() => GetBlocks().GetEnumerator();
     }
 }

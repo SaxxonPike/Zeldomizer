@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Zeldomizer.Engine.Overworld
+namespace Zeldomizer.Engine.Dungeons
 {
-    public class OverworldDecompiler
+    public class DungeonDecompiler
     {
-        public DecompiledOverworld Decompile(IEnumerable<IEnumerable<IEnumerable<int>>> columnLibraryList, IEnumerable<IEnumerable<int>> roomList, IEnumerable<int> tileList)
+        public DecompiledUnderworld Decompile(IEnumerable<DungeonColumn> columnList, IEnumerable<DungeonRoomLayout> roomList, IEnumerable<int> tileList)
         {
-            var columns = columnLibraryList.SelectMany(c => c.ToArray()).ToArray();
+            var columns = columnList.Select(c => c.ToArray()).ToArray();
             var rooms = roomList.Select(r => r.ToArray()).ToArray();
             var tiles = tileList.ToArray();
 
@@ -15,7 +15,7 @@ namespace Zeldomizer.Engine.Overworld
                 .Select(c => DecompileColumn(c, tiles).ToArray())
                 .ToArray();
 
-            return new DecompiledOverworld
+            return new DecompiledUnderworld
             {
                 Rooms = rooms.Select(r => DecompileRoom(r, translatedColumns))
             };
@@ -28,12 +28,12 @@ namespace Zeldomizer.Engine.Overworld
 
         private static IEnumerable<int> DecompileRoom(IReadOnlyList<int> room, IReadOnlyList<IReadOnlyList<int>> columns)
         {
-            var output = new int[16 * 11];
+            var output = new int[12 * 7];
             var i = 0;
 
-            for (var y = 0; y < 11; y++)
+            for (var y = 0; y < 7; y++)
             {
-                for (var x = 0; x < 16; x++)
+                for (var x = 0; x < 12; x++)
                 {
                     output[i] = columns[room[x]][y];
                     i++;

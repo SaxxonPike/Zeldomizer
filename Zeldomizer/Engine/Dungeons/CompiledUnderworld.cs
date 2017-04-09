@@ -2,7 +2,7 @@
 
 namespace Zeldomizer.Engine.Dungeons
 {
-    public class CompiledDungeons
+    public class CompiledUnderworld
     {
         public IEnumerable<int> Columns { get; set; }
         public IEnumerable<int> Rooms { get; set; }
