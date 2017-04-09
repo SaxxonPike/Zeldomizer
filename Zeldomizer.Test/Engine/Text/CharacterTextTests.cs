@@ -5,7 +5,8 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Text
 {
-    public class CharacterTextTests : BaseTestFixture<CharacterText>
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class CharacterTextTests : ZeldomizerBaseTestFixture<CharacterText>
     {
         protected override CharacterText GetTestSubject()
         {

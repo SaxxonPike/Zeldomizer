@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Zeldomizer</RootNamespace>
     <AssemblyName>Zeldomizer.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,7 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseTestFixture.cs" />
+    <Compile Include="ZeldomizerBaseTestFixture.cs" />
     <Compile Include="Engine\Dungeons\DungeonColumnMacroLibraryListTests.cs" />
     <Compile Include="Engine\Dungeons\DungeonCompilerTests.cs" />
     <Compile Include="Engine\Graphics\CompoundSpriteTests.cs" />
@@ -80,6 +81,10 @@
     <ProjectReference Include="..\Breadbox\Breadbox.fsproj">
       <Project>{aa8601c2-2f4e-4720-8868-297745913a14}</Project>
       <Name>Breadbox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Testing\Testing.csproj">
+      <Project>{09529AD7-A804-4AC6-A2E0-7FB2C362AF4E}</Project>
+      <Name>Testing</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zeldomizer\Zeldomizer.csproj">
       <Project>{30395D74-57C4-4188-8FCC-212ED843A983}</Project>

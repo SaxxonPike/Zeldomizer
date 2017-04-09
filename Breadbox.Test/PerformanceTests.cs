@@ -7,7 +7,8 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    public class PerformanceTests : BaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class PerformanceTests : BreadboxBaseTestFixture
     {
         [Test]
         [Explicit("This test is to be profiled, not simply run.")]

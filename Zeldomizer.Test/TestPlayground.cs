@@ -10,7 +10,7 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer
 {
-    public class TestPlayground : BaseTestFixture
+    public class TestPlayground : ZeldomizerBaseTestFixture
     {
         [Test]
         [Explicit]

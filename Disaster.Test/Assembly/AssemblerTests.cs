@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace Disaster.Assembly
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     public class AssemblerTests : BaseTestFixture<Assembler>
     {
         protected override Assembler GetTestSubject()

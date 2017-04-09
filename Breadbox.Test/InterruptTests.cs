@@ -2,8 +2,8 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    [TestFixture]
-    public class InterruptTests : BaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class InterruptTests : BreadboxBaseTestFixture
     {
         [Test]
         public void CpuCanRunOneCycle()

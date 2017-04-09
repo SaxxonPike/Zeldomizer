@@ -4,9 +4,8 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    [TestFixture]
-    [Parallelizable(ParallelScope.Self)]
-    public class DecTests : ExecutionBaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class DecTests : BreadboxBaseTestFixture
     {
         [Test]
         public void Dec([Range(0x0, 0xF, 0x5)] int lowOperand, [Range(0x0, 0xF, 0x5)] int highOperand)

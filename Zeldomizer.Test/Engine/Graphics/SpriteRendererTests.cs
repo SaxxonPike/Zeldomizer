@@ -5,7 +5,8 @@ using NUnit.Framework;
 
 namespace Zeldomizer.Engine.Graphics
 {
-    public class SpriteRendererTests : BaseTestFixture<SpriteRenderer>
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class SpriteRendererTests : ZeldomizerBaseTestFixture<SpriteRenderer>
     {
         protected override SpriteRenderer GetTestSubject()
         {

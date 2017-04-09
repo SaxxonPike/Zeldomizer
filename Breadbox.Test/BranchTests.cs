@@ -4,9 +4,8 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    [TestFixture]
-    [Parallelizable(ParallelScope.Self)]
-    public class BranchTests : ExecutionBaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class BranchTests : BreadboxBaseTestFixture
     {
         protected int CalculateBranch(int pc, int offset, bool taken)
         {

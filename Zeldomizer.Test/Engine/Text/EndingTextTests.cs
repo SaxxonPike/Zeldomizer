@@ -4,7 +4,8 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Text
 {
-    public class EndingTextTests : BaseTestFixture<EndingText>
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class EndingTextTests : ZeldomizerBaseTestFixture<EndingText>
     {
         protected override EndingText GetTestSubject()
         {

@@ -5,7 +5,8 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Dungeons
 {
-    public class DungeonCompilerTests : BaseTestFixture<DungeonCompiler>
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class DungeonCompilerTests : ZeldomizerBaseTestFixture<DungeonCompiler>
     {
         protected override DungeonCompiler GetTestSubject()
         {

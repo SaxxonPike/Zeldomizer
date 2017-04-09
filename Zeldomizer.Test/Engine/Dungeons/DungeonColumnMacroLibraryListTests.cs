@@ -6,7 +6,8 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Dungeons
 {
-    public class DungeonColumnMacroLibraryListTests : BaseTestFixture<DungeonColumnLibraryList>
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class DungeonColumnMacroLibraryListTests : ZeldomizerBaseTestFixture<DungeonColumnLibraryList>
     {
         protected override DungeonColumnLibraryList GetTestSubject()
         {

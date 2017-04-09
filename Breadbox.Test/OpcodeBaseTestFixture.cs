@@ -2,7 +2,8 @@
 
 namespace Breadbox
 {
-    public abstract class OpcodeBaseTestFixture : ExecutionBaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public abstract class OpcodeBaseTestFixture : BreadboxBaseTestFixture
     {
         private readonly int _opcode;
 

@@ -4,8 +4,8 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    [Parallelizable(ParallelScope.Self)]
-    public class BitwiseTests : ExecutionBaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class BitwiseTests : BreadboxBaseTestFixture
     {
         [Test]
         public void And([Range(0x0, 0xF, 0x5)] int lowA, [Range(0x0, 0xF, 0x5)] int highA, [Range(0x0, 0xF, 0x5)] int lowOperand, [Range(0x0, 0xF, 0x5)] int highOperand)

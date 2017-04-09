@@ -4,8 +4,7 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    [TestFixture]
-    [Parallelizable(ParallelScope.Self)]
+    [Parallelizable(ParallelScope.Fixtures)]
     public class SbcTests : OpcodeBaseTestFixture
     {
         public SbcTests() : base(0xE9)

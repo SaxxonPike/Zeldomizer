@@ -6,9 +6,8 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    [TestFixture]
-    [Parallelizable(ParallelScope.Self)]
-    public class AddressingTests : ExecutionBaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class AddressingTests : BreadboxBaseTestFixture
     {
         private enum AccessType
         {
@@ -76,9 +75,11 @@ namespace Breadbox
             // Arrange
             Cpu.SetPC(address);
             Cpu.SetS(0xFD);
+
             System.Setup(m => m.Read(address)).Returns(opcode);
             System.Setup(m => m.Read(0xFFFE)).Returns(interruptVector & 0xFF);
             System.Setup(m => m.Read(0xFFFF)).Returns((interruptVector >> 8) & 0xFF);
+
             var accesses = new[]
             {
                 new AccessEntry(AccessType.Read, address),
@@ -871,6 +872,7 @@ namespace Breadbox
             address |= 0x80;
             Cpu.SetPC(address);
             Cpu.SetY(y);
+
             System.Setup(m => m.Read(address)).Returns(opcode);
             System.Setup(m => m.Read(address + 1)).Returns(zpAddress);
             System.Setup(m => m.Read(zpAddress)).Returns(absAddress & 0xFF);

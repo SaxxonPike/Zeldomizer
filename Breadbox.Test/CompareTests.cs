@@ -5,9 +5,8 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    [TestFixture]
-    [Parallelizable(ParallelScope.Self)]
-    public class CompareTests : ExecutionBaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class CompareTests : BreadboxBaseTestFixture
     {
         private void CompareFlags(int register, int data)
         {

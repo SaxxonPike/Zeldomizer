@@ -4,7 +4,8 @@ using NUnit.Framework;
 
 namespace Zeldomizer.Engine.Graphics
 {
-    public class CompoundSpriteTests : BaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class CompoundSpriteTests : ZeldomizerBaseTestFixture
     {
         [Test]
         public void CompoundSprite_ReadsCorrectData()

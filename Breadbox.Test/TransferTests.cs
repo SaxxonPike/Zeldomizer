@@ -3,9 +3,8 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    [TestFixture]
-    [Parallelizable(ParallelScope.Self)]
-    public class TransferTests : ExecutionBaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class TransferTests : BreadboxBaseTestFixture
     {
         [Test]
         public void Tax([Random(0x00, 0x7F, 1)] int r0, [Random(0x80, 0xFF, 1)] int r1)

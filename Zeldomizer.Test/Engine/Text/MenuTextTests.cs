@@ -4,7 +4,8 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Text
 {
-    public class MenuTextTests : BaseTestFixture<MenuText>
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class MenuTextTests : ZeldomizerBaseTestFixture<MenuText>
     {
         protected override MenuText GetTestSubject()
         {

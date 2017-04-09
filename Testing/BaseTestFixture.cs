@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
+using Moq;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
-using Zeldomizer.Metal;
 
-namespace Zeldomizer
+namespace Testing
 {
     /// <summary>
     /// Base test fixture for testing.
@@ -16,24 +15,44 @@ namespace Zeldomizer
     [Parallelizable(ParallelScope.Fixtures)]
     public abstract class BaseTestFixture
     {
+        /// <summary>
+        /// Initialize base test fixture.
+        /// </summary>
         [SetUp]
-        public void _InitializeRom()
+        public void _InitializeBaseTestFixture()
         {
-            Fixture = new Fixture();
-            _source = null;
+            _fixture = new Lazy<Fixture>(() => new Fixture());
+            _mocks = new Dictionary<Type, object>();
         }
 
-        private ISource _source;
-
         /// <summary>
-        /// Zelda ROM file.
+        /// Deferred AutoFixture factory.
         /// </summary>
-        protected ISource Source => _source ?? (_source = RomFile.GetRom());
+        private Lazy<Fixture> _fixture;
 
         /// <summary>
         /// AutoFixture factory.
         /// </summary>
-        protected Fixture Fixture { get; private set; }
+        protected Fixture Fixture => _fixture.Value;
+
+        /// <summary>
+        /// Mock repository.
+        /// </summary>
+        private Dictionary<Type, object> _mocks;
+
+        /// <summary>
+        /// Get a mock for specified type T. This will return the same mock for
+        /// the specified type T on all requests.
+        /// </summary>
+        /// <typeparam name="T">Mocked type.</typeparam>
+        /// <returns>Mock for type T.</returns>
+        protected Mock<T> Mock<T>() where T : class
+        {
+            var mockType = typeof(T);
+            if (!_mocks.ContainsKey(mockType))
+                _mocks[mockType] = new Mock<T>();
+            return (Mock<T>) _mocks[mockType];
+        }
 
         /// <summary>
         /// Generate a random value for type T.
@@ -62,8 +81,8 @@ namespace Zeldomizer
         /// <param name="fileName">Name of the file.</param>
         protected static void WriteToDesktop(byte[] data, string fileName)
         {
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), fileName);
-            File.WriteAllBytes(path, data);
+            var path = FileSystem.GetDesktopPath(fileName);
+            FileSystem.WriteFile(data, path);
         }
 
         /// <summary>
@@ -74,10 +93,9 @@ namespace Zeldomizer
         /// <param name="fileName">Name of the file.</param>
         protected static void WriteToDesktopPath(byte[] data, string path, string fileName)
         {
-            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), path);
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
-            WriteToDesktop(data, Path.Combine(path, fileName));
+            var folder = FileSystem.GetDesktopPath(path);
+            FileSystem.CreateDirectory(folder);
+            FileSystem.WriteFile(data, folder, fileName);
         }
 
         /// <summary>
@@ -110,4 +128,5 @@ namespace Zeldomizer
         /// <returns>Test subject.</returns>
         protected abstract TSubject GetTestSubject();
     }
+
 }
