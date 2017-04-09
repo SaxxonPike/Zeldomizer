@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\Dungeons\DungeonDecompilerTests.cs" />
     <Compile Include="Engine\Overworld\OverworldDecompilerTests.cs" />
     <Compile Include="ZeldomizerBaseTestFixture.cs" />
     <Compile Include="Engine\Dungeons\DungeonColumnMacroLibraryListTests.cs" />

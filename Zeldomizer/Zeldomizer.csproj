@@ -53,6 +53,7 @@
     <Compile Include="Engine\Dungeons\DungeonRoomLayout.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutList.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomMapper.cs" />
+    <Compile Include="Engine\Dungeons\DungeonTileList.cs" />
     <Compile Include="Engine\Graphics\OverworldSpriteList.cs" />
     <Compile Include="Engine\Overworld\DecompiledOverworld.cs" />
     <Compile Include="Engine\Overworld\OverworldColumn.cs" />

@@ -5,25 +5,15 @@ namespace Zeldomizer.Engine.Dungeons
 {
     public class DungeonDecompiler
     {
-        public DecompiledUnderworld Decompile(IEnumerable<DungeonColumn> columnList, IEnumerable<DungeonRoomLayout> roomList, IEnumerable<int> tileList)
+        public DecompiledUnderworld Decompile(IEnumerable<IEnumerable<IEnumerable<int>>> columnList, IEnumerable<IEnumerable<int>> roomList)
         {
-            var columns = columnList.Select(c => c.ToArray()).ToArray();
+            var columns = columnList.SelectMany(c => c).Select(c => c.ToArray()).ToArray();
             var rooms = roomList.Select(r => r.ToArray()).ToArray();
-            var tiles = tileList.ToArray();
-
-            var translatedColumns = columns
-                .Select(c => DecompileColumn(c, tiles).ToArray())
-                .ToArray();
 
             return new DecompiledUnderworld
             {
-                Rooms = rooms.Select(r => DecompileRoom(r, translatedColumns))
+                Rooms = rooms.Select(r => DecompileRoom(r, columns))
             };
-        }
-
-        private static IEnumerable<int> DecompileColumn(IEnumerable<int> column, IReadOnlyList<int> tileList)
-        {
-            return column.Select(c => tileList[c]);
         }
 
         private static IEnumerable<int> DecompileRoom(IReadOnlyList<int> room, IReadOnlyList<IReadOnlyList<int>> columns)
