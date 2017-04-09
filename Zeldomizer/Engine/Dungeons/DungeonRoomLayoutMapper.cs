@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Dungeons
 {
@@ -18,7 +19,7 @@ namespace Zeldomizer.Engine.Dungeons
         private IEnumerable<int> GetTiles()
         {
             var columns = _dungeonRoomLayout
-                .Select(columnId => _dungeonColumnLibraryList[columnId >> 4][columnId & 0xF].ToArray());
+                .Select(columnId => _dungeonColumnLibraryList[columnId.Bits(7, 4)][columnId.Bits(3, 0)].ToArray());
             return Enumerable.Range(0, 7)
                 .SelectMany(rowId => columns.Select(column => column[rowId]));
         }

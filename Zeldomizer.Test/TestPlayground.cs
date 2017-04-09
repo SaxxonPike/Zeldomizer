@@ -107,7 +107,7 @@ namespace Zeldomizer
                         y += 168;
                     }
 
-                    g.DrawImage(roomBitmaps[i & 0x7F], x, y);
+                    g.DrawImage(roomBitmaps[i.Bits(6, 0)], x, y);
                     x += 256;
                 }
 

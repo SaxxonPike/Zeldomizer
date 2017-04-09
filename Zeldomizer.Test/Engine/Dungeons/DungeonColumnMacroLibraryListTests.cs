@@ -97,7 +97,7 @@ namespace Zeldomizer.Engine.Dungeons
         [TestCase(0x98, "1313135")]
         public void List_ShouldDecompressColumns(int index, string expected)
         {
-            var tiles = Subject[index >> 4][index & 0xF].ToArray();
+            var tiles = Subject[index.Bits(7, 4)][index.Bits(3, 0)].ToArray();
             var tileIds = string.Join("", tiles.Select(c => $"{c:X1}"));
 
             Console.WriteLine($"Input:     ${index:X2}");

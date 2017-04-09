@@ -21,7 +21,7 @@ namespace Zeldomizer.Metal
             while (remaining > 0)
             {
                 var input = _source[i];
-                if ((input & 0x80) != 0)
+                if (input.Bit(7))
                 {
                     remaining--;
                     yield return new SourceBlock(_source, i);

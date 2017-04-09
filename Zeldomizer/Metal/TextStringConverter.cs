@@ -41,7 +41,7 @@ namespace Zeldomizer.Metal
                         output.Append(' ');
                         break;
                     default:
-                        output.Append(_textConversionTable.Decode(input & 0x3F));
+                        output.Append(_textConversionTable.Decode(input.Bits(5, 0)));
                         break;
                 }
 
@@ -53,7 +53,7 @@ namespace Zeldomizer.Metal
         {
             return (text ?? "")
                 .Select(_textConversionTable.Encode)
-                .Select(c => unchecked((byte)(c ?? 0x24)))
+                .Select(c => unchecked((byte)(c ?? _textConversionTable.SpaceCharacter)))
                 .Concat(new byte[]{ 0xFF })
                 .ToArray();
         }

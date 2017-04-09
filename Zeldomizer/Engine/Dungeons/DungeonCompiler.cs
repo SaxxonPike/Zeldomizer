@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Dungeons
 {
@@ -43,7 +44,7 @@ namespace Zeldomizer.Engine.Dungeons
         {
             // Plot data to 12x7 map, then extract columns from it.
             return data
-                .Select(d => d.Select(t => t & 0x7).ToArray())
+                .Select(d => d.Select(t => t.Bits(2, 0)).ToArray())
                 .SelectMany(d => Enumerable.Range(0, 12)
                     .Select(x => Enumerable.Range(0, 7)
                         .Select(y => d[x + y * 12])));
@@ -118,7 +119,7 @@ namespace Zeldomizer.Engine.Dungeons
             foreach (var entry in consolidatedMap.Repo)
             {
                 offsets[entry.Key] = repo.Count;
-                repo.AddRange(entry.Value.Select(v => v & 0x77));
+                repo.AddRange(entry.Value.Select(v => v & 0b01110111));
             }
 
             var done = false;
@@ -249,7 +250,7 @@ namespace Zeldomizer.Engine.Dungeons
             foreach (var tile in columns)
             {
                 // Bit 7 indicates the beginning of a sequence.
-                if ((tile & 0x80) != 0)
+                if (tile.Bit(7))
                     yield return offset;
                 offset++;
             }
@@ -268,10 +269,10 @@ namespace Zeldomizer.Engine.Dungeons
             foreach (var input in data)
             {
                 // Tile index is the lower 3 bits of the data.
-                var tileInput = input & 0x07;
+                var tileInput = input.Bits(2, 0);
 
                 // Bit 7 indicates the start of a sequence.
-                var marker = (input & 0x80) != 0;
+                var marker = input.Bit(7);
 
                 // First run through will preload the buffer.
                 if (init)
@@ -283,7 +284,7 @@ namespace Zeldomizer.Engine.Dungeons
 
                 // If the tile we found is different than the buffer, write out
                 // the buffer and refill it.
-                if ((tileInput & 0x7) != tile || marker)
+                if (tileInput.Bits(2, 0) != tile || marker)
                 {
                     yield return (count << 4) | tile | (writeMarker ? 0x80 : 0x00);
                     writeMarker = marker;

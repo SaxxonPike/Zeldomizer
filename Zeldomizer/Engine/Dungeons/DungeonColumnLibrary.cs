@@ -21,20 +21,8 @@ namespace Zeldomizer.Engine.Dungeons
 
         private IEnumerable<DungeonColumn> GetMacros()
         {
-            var i = 0;
-            var macrosRemaining = _count;
-
-            while (macrosRemaining > 0)
-            {
-                var input = _source[i];
-                var bit7 = input.Bit(7);
-                if (bit7)
-                {
-                    yield return new DungeonColumn(new SourceBlock(_source, i));
-                    macrosRemaining--;
-                }
-                i++;
-            }
+            var reader = new OverlappingSourceReader(_source, _count);
+            return reader.Select(s => new DungeonColumn(s));
         }
 
 

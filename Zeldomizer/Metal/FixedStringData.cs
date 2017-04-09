@@ -34,7 +34,7 @@ namespace Zeldomizer.Metal
                 // Pad if less than the length.
                 if (encoded.Length < Length)
                     encoded = encoded
-                        .Concat(Enumerable.Repeat((byte) 0x24, Length - encoded.Length))
+                        .Concat(Enumerable.Repeat((byte) _fixedStringConverter.SpaceCharacter, Length - encoded.Length))
                         .ToArray();
 
                 // Plop the new string in.

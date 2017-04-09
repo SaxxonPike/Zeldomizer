@@ -70,5 +70,8 @@ namespace Zeldomizer.Metal
                 return DecodeTable[input];
             return null;
         }
+
+        public int SpaceCharacter => 0x24;
+        public int PaddingCharacter => 0x25;
     }
 }
