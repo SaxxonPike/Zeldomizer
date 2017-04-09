@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using FluentAssertions;
+using NUnit.Framework;
 using Zeldomizer.Metal;
 
 // ReSharper disable CollectionNeverUpdated.Local
@@ -15,12 +17,10 @@ namespace Zeldomizer.Engine.Dungeons
         [Test]
         public void Test1()
         {
-            var columnPointerTable = new WordPointerTable(new SourceBlock(Source, 0x16704), new SourceBlock(Source, 0xC000), 10);
-            var columns = new DungeonColumnLibraryList(columnPointerTable);
-            var roomList = new DungeonRoomLayoutList(new SourceBlock(Source, 0x160DE), 42);
-            var tileList = new DungeonTileList(new SourceBlock(Source, 0x16718));
+            var cart = new ZeldaCartridge(Source);
+            var dungeonGrids = cart.DungeonGrids.ToArray();
 
-            var observed = Subject.Decompile(columns, roomList);
+            dungeonGrids[0][0x00].Room.Should().Be(0x26);
         }
     }
 }

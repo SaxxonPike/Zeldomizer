@@ -9,14 +9,12 @@ namespace Zeldomizer.Engine.Dungeons
     {
         private readonly DungeonColumnLibraryList _columns;
         private readonly DungeonRoomLayoutList _roomList;
-        private DungeonRoomMapper _roomMapper;
 
         public DungeonList(ISource source)
         {
             var columnPointerTable = new WordPointerTable(new SourceBlock(source, 0x16704), new SourceBlock(source, 0xC000), 10);
             _columns = new DungeonColumnLibraryList(columnPointerTable);
             _roomList = new DungeonRoomLayoutList(new SourceBlock(source, 0x160DE), 42);
-            _roomMapper = new DungeonRoomMapper(_roomList, _columns);
         }
 
         private IEnumerable<Dungeon> GetDungeons()

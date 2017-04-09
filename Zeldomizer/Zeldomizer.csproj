@@ -45,6 +45,8 @@
     <Compile Include="Engine\Dungeons\DungeonColumnLibrary.cs" />
     <Compile Include="Engine\Dungeons\DungeonColumnLibraryList.cs" />
     <Compile Include="Engine\Dungeons\DungeonDecompiler.cs" />
+    <Compile Include="Engine\Dungeons\DungeonGrid.cs" />
+    <Compile Include="Engine\Dungeons\DungeonGridList.cs" />
     <Compile Include="Engine\Dungeons\DungeonList.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoom.cs" />
     <Compile Include="Engine\Dungeons\DungeonCompiler.cs" />
@@ -52,7 +54,6 @@
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutMapper.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayout.cs" />
     <Compile Include="Engine\Dungeons\DungeonRoomLayoutList.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoomMapper.cs" />
     <Compile Include="Engine\Dungeons\DungeonTileList.cs" />
     <Compile Include="Engine\Graphics\OverworldSpriteList.cs" />
     <Compile Include="Engine\Overworld\DecompiledOverworld.cs" />

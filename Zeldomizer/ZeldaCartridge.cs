@@ -1,4 +1,5 @@
-﻿using Zeldomizer.Engine.Dungeons;
+﻿using System.Linq;
+using Zeldomizer.Engine.Dungeons;
 using Zeldomizer.Engine.Music;
 using Zeldomizer.Engine.Text;
 using Zeldomizer.Metal;
@@ -18,12 +19,16 @@ namespace Zeldomizer
             MusicPointers = new MusicPointers(source);
             CharacterText = new CharacterText(new WordPointerTable(new SourceBlock(source, 0x4000), new SourceBlock(source, -0x4000), 0x26), speechFormatter, speechConverter);
             EndingText = new EndingText(source, speechConverter, textConverter, fixedStringConverter);
-            Dungeons = new DungeonList(source);
+            DungeonGrids = new DungeonGridList(new SourceBlock(source, 0x18700), 4);
+
+            var dungeonColumnPointers = new WordPointerTable(new SourceBlock(source, 0x16704), new SourceBlock(source, 0xC000), 10);
+            DungeonColumnLibraries = new DungeonColumnLibraryList(dungeonColumnPointers);
         }
 
         public CharacterText CharacterText { get; }
         public MusicPointers MusicPointers { get; }
         public EndingText EndingText { get; }
-        public DungeonList Dungeons { get; }
+        public DungeonGridList DungeonGrids { get; }
+        public DungeonColumnLibraryList DungeonColumnLibraries { get; }
     }
 }
