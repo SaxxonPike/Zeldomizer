@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using Testing;
 
 namespace Disaster.Assembly
 {
@@ -63,7 +64,7 @@ namespace Disaster.Assembly
         [TestCase(0xFA, Opcode.Nop, AddressingMode.Implied)]
         public void Disassemble_ProperlyDisassemblesOneByteOpcodes(int opcode, Opcode expectedOpcode, AddressingMode expectedAddressingMode)
         {
-            var rom = new Mock<IRom>();
+            var rom = Mock<IRom>();
             var codeBlock = new CodeBlock {Rom = rom.Object};
             rom.Setup(x => x[0]).Returns((byte)opcode);
 
@@ -204,7 +205,7 @@ namespace Disaster.Assembly
         [TestCase(0xF7, Opcode.Isc, AddressingMode.ZeroPageX)]
         public void Disassemble_ProperlyDisassemblesTwoByteOpcodes(int opcode, Opcode expectedOpcode, AddressingMode expectedAddressingMode)
         {
-            var rom = new Mock<IRom>();
+            var rom = Mock<IRom>();
             var codeBlock = new CodeBlock { Rom = rom.Object };
             rom.Setup(x => x[0]).Returns((byte)opcode);
             rom.Setup(x => x[1]).Returns(0x12);
@@ -300,7 +301,7 @@ namespace Disaster.Assembly
         [TestCase(0xFF, Opcode.Isc, AddressingMode.AbsoluteX)]
         public void Disassemble_ProperlyDisassemblesThreeByteOpcodes(int opcode, Opcode expectedOpcode, AddressingMode expectedAddressingMode)
         {
-            var rom = new Mock<IRom>();
+            var rom = Mock<IRom>();
             var codeBlock = new CodeBlock { Rom = rom.Object };
             rom.Setup(x => x[0]).Returns((byte)opcode);
             rom.Setup(x => x[1]).Returns(0x12);

@@ -3,6 +3,7 @@ using Disaster.Assembly.Interfaces;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using Testing;
 
 namespace Disaster.Assembly
 {
@@ -47,7 +48,7 @@ namespace Disaster.Assembly
         [TestCase(0xF8, Opcode.Sed, AddressingMode.Implied)]
         public void Assemble_ProperlyAssemblesOneByteOpcodes(byte expectedOpcode, Opcode opcode, AddressingMode addressingMode)
         {
-            var rom = new Mock<IRom>();
+            var rom = Mock<IRom>();
             var codeBlock = new CodeBlock { Rom = rom.Object };
             Subject.Assemble(new Instruction { AddressingMode = addressingMode, Opcode = opcode }, codeBlock, 0);
 
@@ -174,7 +175,7 @@ namespace Disaster.Assembly
         [TestCase(0xF7, Opcode.Isc, AddressingMode.ZeroPageX)]
         public void Assemble_ProperlyAssemblesTwoByteOpcodes(byte expectedOpcode, Opcode opcode, AddressingMode addressingMode)
         {
-            var rom = new Mock<IRom>();
+            var rom = Mock<IRom>();
             var codeBlock = new CodeBlock { Rom = rom.Object };
             var operand = Random<byte>();
             Subject.Assemble(new Instruction { AddressingMode = addressingMode, Opcode = opcode, Operand = operand }, codeBlock, 0);
@@ -263,7 +264,7 @@ namespace Disaster.Assembly
         [TestCase(0xFF, Opcode.Isc, AddressingMode.AbsoluteX)]
         public void Assemble_ProperlyAssemblesThreeByteOpcodes(byte expectedOpcode, Opcode opcode, AddressingMode addressingMode)
         {
-            var rom = new Mock<IRom>();
+            var rom = Mock<IRom>();
             var codeBlock = new CodeBlock { Rom = rom.Object };
             var operandLo = Random<byte>();
             var operandHi = Random<byte>();
@@ -277,7 +278,7 @@ namespace Disaster.Assembly
         [TestCase(0x123)]
         public void Assemble_FailsWithInvalidOpcode(Opcode opcode)
         {
-            var rom = new Mock<IRom>();
+            var rom = Mock<IRom>();
             var codeBlock = new CodeBlock { Rom = rom.Object };
 
             Action act = () => Subject.Assemble(new Instruction { AddressingMode = Random<AddressingMode>(), Opcode = opcode }, codeBlock, 0);
@@ -288,7 +289,7 @@ namespace Disaster.Assembly
         [TestCase(0x123)]
         public void Assemble_FailsWithInvalidAddressingMode(AddressingMode addressingMode)
         {
-            var rom = new Mock<IRom>();
+            var rom = Mock<IRom>();
             var codeBlock = new CodeBlock { Rom = rom.Object };
 
             Action act = () => Subject.Assemble(new Instruction { AddressingMode = addressingMode, Opcode = Random<Opcode>() }, codeBlock, 0);
