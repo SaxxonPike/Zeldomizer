@@ -16,36 +16,36 @@ type Mos6502Configuration(lxaConstant:int, hasDecimalMode:bool, read:System.Func
 [<Sealed>]
 type Mos6502(config:Mos6502Configuration) =
     [<Literal>]
-    let vopFetch1 = 0x100
+    let VopFetch1 = 0x100
     [<Literal>]
-    let vopRelativeStuff = 0x101
+    let VopRelativeStuff = 0x101
     [<Literal>]
-    let vopRelativeStuff2 = 0x102
+    let VopRelativeStuff2 = 0x102
     [<Literal>]
-    let vopRelativeStuff3 = 0x103
+    let VopRelativeStuff3 = 0x103
     [<Literal>]
-    let vopNmi = 0x104
+    let VopNmi = 0x104
     [<Literal>]
-    let vopIrq = 0x105
+    let VopIrq = 0x105
     [<Literal>]
-    let vopReset = 0x106
+    let VopReset = 0x106
     [<Literal>]
-    let vopFetch1NoInterrupt = 0x107
+    let VopFetch1NoInterrupt = 0x107
     [<Literal>]
-    let vopForceSync = 0x108
+    let VopForceSync = 0x108
 
 
     [<Literal>]
-    let nmiVector = 0xFFFA
+    let NmiVector = 0xFFFA
     [<Literal>]
-    let resetVector = 0xFFFC
+    let ResetVector = 0xFFFC
     [<Literal>]
-    let irqVector = 0xFFFE
+    let IrqVector = 0xFFFE
     [<Literal>]
-    let brkVector = 0xFFFE
+    let BrkVector = 0xFFFE
 
     let mutable restart = false
-    let mutable opcode = vopReset
+    let mutable opcode = VopReset
     let mutable opcode2 = 0
     let mutable opcode3 = 0
     let mutable ea = 0
@@ -95,7 +95,7 @@ type Mos6502(config:Mos6502Configuration) =
         i <- true
         iFlagPending <- true
         mi <- 0
-        opcode <- vopReset
+        opcode <- VopReset
 
     let HardResetInternal () =
         a <- 0x00
@@ -261,7 +261,12 @@ type Mos6502(config:Mos6502Configuration) =
         aluTemp <-
             let initialMask = a &&& value
             let binaryResult = (initialMask >>> 1) ||| (if c then 0x80 else 0x00)
-            if isDecimalMode then
+            if not isDecimalMode then
+                NZ binaryResult
+                c <- (binaryResult &&& 0x40) <> 0
+                v <- (binaryResult &&& 0x40) <> ((binaryResult &&& 0x20) <<< 1)
+                binaryResult
+            else
                 n <- (a &&& 0x80) <> 0
                 z <- binaryResult = 0
                 v <- (binaryResult ^^^ initialMask) &&& 0x40 <> 0
@@ -275,11 +280,6 @@ type Mos6502(config:Mos6502Configuration) =
                 else
                     c <- false
                     lowResult
-            else
-                NZ binaryResult
-                c <- (binaryResult &&& 0x40) <> 0
-                v <- (binaryResult &&& 0x40) <> ((binaryResult &&& 0x20) <<< 1)
-                binaryResult
         a <- aluTemp
 
     let Lxa value =
@@ -294,7 +294,12 @@ type Mos6502(config:Mos6502Configuration) =
             v <- (a ^^^ sum) &&& (a ^^^ operand) &&& 0x80 <> 0
         let alu =
             let binaryResult = a - value - (if c then 0 else 1)
-            if isDecimalMode then
+            if not isDecimalMode then
+                NZ binaryResult
+                c <- binaryResult >= 0
+                setV binaryResult value
+                binaryResult &&& 0xFF
+            else
                 let initialSub = (a &&& 0x0F) - (value &&& 0x0F) - (if c then 0 else 1)
                 let adjustedSub =
                     if (initialSub &&& 0x10) = 0 then
@@ -307,11 +312,6 @@ type Mos6502(config:Mos6502Configuration) =
                 c <- binaryResult >= 0
                 setV binaryResult value
                 result &&& 0xFF
-            else
-                NZ binaryResult
-                c <- binaryResult >= 0
-                setV binaryResult value
-                binaryResult &&& 0xFF
         aluTemp <- alu
         a <- alu
 
@@ -320,7 +320,12 @@ type Mos6502(config:Mos6502Configuration) =
             v <- (a ^^^ sum) &&& (a ^^^ operand) &&& 0x80 = 0
         let alu =
             let binaryResult = value + a + (if c then 1 else 0)
-            if isDecimalMode then
+            if not isDecimalMode then
+                NZ binaryResult
+                c <- binaryResult > 0xFF
+                setV binaryResult value
+                binaryResult &&& 0xFF
+            else
                 let initialAdd = (a &&& 0x0F) + (value &&& 0x0F) + (if c then 1 else 0)
                 let adjustedAdd = initialAdd + (if initialAdd > 9 then 6 else 0)
                 let result = (adjustedAdd &&& 0x0F) + (a &&& 0xF0) + (value &&& 0xF0) + (if adjustedAdd > 0x0F then 0x10 else 0x00)
@@ -330,11 +335,6 @@ type Mos6502(config:Mos6502Configuration) =
                 let adjustedResult = result + (if result &&& 0x1F0 > 0x090 then 0x060 else 0x000)
                 c <- (adjustedResult &&& 0xFF0) > 0x0F0
                 adjustedResult &&& 0xFF
-            else
-                NZ binaryResult
-                c <- binaryResult > 0xFF
-                setV binaryResult value
-                binaryResult &&& 0xFF
         aluTemp <- alu
         a <- alu
 
@@ -467,15 +467,15 @@ type Mos6502(config:Mos6502Configuration) =
         match branchIrqHack, nmi, (irq && (not myIFlag)) with
             | false, true, _ ->
                 interruptPending <- false
-                ea <- nmiVector
-                opcode <- vopNmi
+                ea <- NmiVector
+                opcode <- VopNmi
                 nmi <- false
                 mi <- 0
                 restart <- true
             | false, false, true ->
                 interruptPending <- false
-                ea <- irqVector
-                opcode <- vopIrq
+                ea <- IrqVector
+                opcode <- VopIrq
                 mi <- 0
                 restart <- true
             | _ -> Fetch1RealInternal()
@@ -501,27 +501,27 @@ type Mos6502(config:Mos6502Configuration) =
             ea <- newEa
 
     let PushPBrk () =
-        PushPInterrupt true brkVector
+        PushPInterrupt true BrkVector
 
     let PushPIrq () =
-        PushPInterrupt false irqVector
+        PushPInterrupt false IrqVector
             
     let PushPNmi () =
-        PushPInterrupt false nmiVector
+        PushPInterrupt false NmiVector
 
     let PushPReset () =
         if PushDummy() then
             b <- false
             i <- true
-            ea <- resetVector
+            ea <- ResetVector
             true
         else
             false
 
     let FetchPclVectorInternal () =
-        if nmi && ((ea = brkVector && b) || (ea = irqVector && (not b))) then
+        if nmi && ((ea = BrkVector && b) || (ea = IrqVector && (not b))) then
             nmi <- false
-            ea <- nmiVector
+            ea <- NmiVector
         aluTemp <- ReadMemoryInternal ea
         
     let FetchPclVector () =
@@ -624,7 +624,7 @@ type Mos6502(config:Mos6502Configuration) =
         ReadMemoryPcIncrement (fun mem ->
             opcode2 <- mem
             if branchTaken then
-                opcode <- vopRelativeStuff
+                opcode <- VopRelativeStuff
                 mi <- -1)
             
     let RelBranchStage2Bvs () = RelBranchStage2 v
@@ -642,7 +642,7 @@ type Mos6502(config:Mos6502Configuration) =
             aluTemp <- address
             pc <- (pc &&& 0xFF00) ||| (aluTemp &&& 0xFF)
             if (address &&& 0xFF00) >= 0x100 then
-                opcode <- vopRelativeStuff2
+                opcode <- VopRelativeStuff2
                 mi <- -1
             else
                 if interruptPending then
@@ -912,19 +912,19 @@ type Mos6502(config:Mos6502Configuration) =
         ReadMemoryS <| ignore
 
     let EndISpecial () =
-        opcode <- vopFetch1
+        opcode <- VopFetch1
         mi <- -1
         restart <- true
         rdy
 
     let EndSuppressInterrupt () =
-        opcode <- vopFetch1NoInterrupt
+        opcode <- VopFetch1NoInterrupt
         mi <- -1
         restart <- true
         rdy
 
     let End () =
-        opcode <- vopFetch1
+        opcode <- VopFetch1
         mi <- -1
         iFlagPending <- i
         restart <- true
@@ -1362,7 +1362,7 @@ type Mos6502(config:Mos6502Configuration) =
         restart <- false
 
     member this.ForceOpcodeSync () =
-        opcode <- vopFetch1
+        opcode <- VopFetch1
 
     member this.TotalCycles = totalCycles
 
