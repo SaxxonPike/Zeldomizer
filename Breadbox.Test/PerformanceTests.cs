@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Breadbox
@@ -40,6 +36,9 @@ namespace Breadbox
 
                 // STA $0300
                 0x8D, 0x00, 0x03,
+
+                // PHP
+                0x08,
 
                 // JMP $0000
                 0x4C, 0x00, 0x00
