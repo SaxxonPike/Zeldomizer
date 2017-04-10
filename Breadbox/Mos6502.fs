@@ -70,8 +70,8 @@ type Mos6502(config:Mos6502Configuration) =
     let mutable isDecimalMode = false
 
     let mutable n = 0x80
-    let mutable v = false
-    let mutable b = false
+    let mutable v = 0x00
+    let mutable b = 0x00
     let mutable d = false
     let mutable i = true
     let mutable z = false
@@ -102,8 +102,8 @@ type Mos6502(config:Mos6502Configuration) =
         x <- 0x00
         y <- 0x00
         n <- 0x00
-        v <- false
-        b <- false
+        v <- 0x00
+        b <- 0x00
         d <- false
         z <- false
         c <- 0x00
@@ -112,8 +112,8 @@ type Mos6502(config:Mos6502Configuration) =
     let GetP () =
         0x20 |||
         n |||
-        (if v then 0x40 else 0x00) |||
-        (if b then 0x10 else 0x00) |||
+        v |||
+        b |||
         (if d then 0x08 else 0x00) |||
         (if i then 0x04 else 0x00) |||
         (if z then 0x02 else 0x00) |||
@@ -121,8 +121,8 @@ type Mos6502(config:Mos6502Configuration) =
 
     let SetP value =
         n <- (value &&& 0x80)
-        v <- (value &&& 0x40) <> 0
-        b <- (value &&& 0x10) <> 0
+        v <- (value &&& 0x40)
+        b <- (value &&& 0x10)
         d <- (value &&& 0x08) <> 0
         i <- (value &&& 0x04) <> 0
         z <- (value &&& 0x02) <> 0
@@ -132,13 +132,14 @@ type Mos6502(config:Mos6502Configuration) =
         z <- (value &&& 0xFF) = 0
         n <- (value &&& 0x80)
 
-    let ReadMemoryInternal address =
-        read address
+    let ReadMemoryInternal = read
 
     let ReadMemory address operation =
         if rdy then
             ReadMemoryInternal address |> operation
-        rdy
+            true
+        else
+            false
 
     let WriteMemory address value operation =
         write(address, value)
@@ -205,53 +206,45 @@ type Mos6502(config:Mos6502Configuration) =
 
 
     let Cmp register value =
-        let result = (register - value) &&& 0xFF
-        aluTemp <- result
-        c <- if register >= result then 1 else 0
+        let result = (register - value)
+        aluTemp <- result &&& 0xFF
+        c <- ((result >>> 8) &&& 1) ^^^ 1
         NZ result
 
     let CmpA value = Cmp a value
     let CmpX value = Cmp x value
     let CmpY value = Cmp y value
 
-    let And value =
-        let result = (a &&& value)
+    let AluANz result =
         aluTemp <- result
         a <- result
         NZ result
+
+    let And value =
+        AluANz (a &&& value)
 
     let Bit value =
         aluTemp <- value
         n <- (value &&& 0x80)
-        v <- (value &&& 0x40) <> 0
+        v <- (value &&& 0x40)
         z <- (a &&& value) = 0
 
     let Eor value =
-        let result = (a ^^^ value)
-        aluTemp <- result
-        a <- result
-        NZ result
+        AluANz (a ^^^ value)
 
     let Ora value =
-        let result = (a ||| value)
-        aluTemp <- result
-        a <- result
-        NZ result
+        AluANz (a ||| value)
 
     let Anc value =
         let result = (a &&& value)
-        aluTemp <- result
+        AluANz result
         c <- (result &&& 0x80) >>> 7
-        a <- result
-        NZ result
 
     let Asr value =
         let andResult = (a &&& value)
         let result = (andResult >>> 1)
         c <- (andResult &&& 0x01)
-        aluTemp <- result
-        a <- result
-        NZ result
+        AluANz result
 
     let Axs value =
         Cmp (x &&& a) value
@@ -264,12 +257,12 @@ type Mos6502(config:Mos6502Configuration) =
             if not isDecimalMode then
                 NZ binaryResult
                 c <- (binaryResult &&& 0x40) >>> 6
-                v <- (binaryResult &&& 0x40) <> ((binaryResult &&& 0x20) <<< 1)
+                v <- (binaryResult &&& 0x40) ^^^ ((binaryResult &&& 0x20) <<< 1)
                 binaryResult
             else
                 n <- (a &&& 0x80)
                 z <- binaryResult = 0
-                v <- (binaryResult ^^^ initialMask) &&& 0x40 <> 0
+                v <- (binaryResult ^^^ initialMask) &&& 0x40
                 let lowResult =
                     match ((initialMask &&& 0xf) + (initialMask &&& 0x1)) with
                         | x when x > 0x5 -> (binaryResult &&& 0xf0) ||| ((binaryResult + 0x6) &&& 0xf)
@@ -291,7 +284,7 @@ type Mos6502(config:Mos6502Configuration) =
 
     let Sbc value =
         let inline setV sum operand =
-            v <- (a ^^^ sum) &&& (a ^^^ operand) &&& 0x80 <> 0
+            v <- ((a ^^^ sum) &&& (a ^^^ operand) &&& 0x80) >>> 1
         let binaryResult = a - value - (c ^^^ 1)
         let alu =
             if not isDecimalMode then
@@ -315,7 +308,7 @@ type Mos6502(config:Mos6502Configuration) =
 
     let Adc value =
         let inline setV sum operand =
-            v <- (a ^^^ sum) &&& (a ^^^ operand) &&& 0x80 = 0
+            v <- (((a ^^^ sum) &&& (a ^^^ operand) &&& 0x80) >>> 1) ^^^ 0x40
         let binaryResult = value + a + c
         let alu =
             if not isDecimalMode then
@@ -339,9 +332,7 @@ type Mos6502(config:Mos6502Configuration) =
     let Slo value =
         let result = ((value <<< 1) &&& 0xFF) ||| a
         c <- (value &&& 0x80) >>> 7
-        aluTemp <- result
-        a <- result
-        NZ result
+        AluANz result
 
     let Isc value =
         Sbc ((value + 1) &&& 0xFF)
@@ -353,9 +344,7 @@ type Mos6502(config:Mos6502Configuration) =
     let Sre value =
         let result = ((value >>> 1) &&& 0xFF) ^^^ a
         c <- (value &&& 0x01)
-        aluTemp <- result
-        a <- result
-        NZ result
+        AluANz result
 
     let Rra value =
         c <- (value &&& 0x01)
@@ -364,9 +353,7 @@ type Mos6502(config:Mos6502Configuration) =
     let Rla value =
         let result = (((value <<< 1) &&& 0xFF) ||| c) &&& a
         c <- (value &&& 0x80) >>> 7
-        aluTemp <- result
-        a <- result
-        NZ result
+        AluANz result
 
     let Lsr value =
         let result = value >>> 1
@@ -499,17 +486,17 @@ type Mos6502(config:Mos6502Configuration) =
             ea <- newEa
 
     let PushPBrk () =
-        PushPInterrupt true BrkVector
+        PushPInterrupt 0x10 BrkVector
 
     let PushPIrq () =
-        PushPInterrupt false IrqVector
+        PushPInterrupt 0x00 IrqVector
             
     let PushPNmi () =
-        PushPInterrupt false NmiVector
+        PushPInterrupt 0x00 NmiVector
 
     let PushPReset () =
         if PushDummy() then
-            b <- false
+            b <- 0x00
             i <- true
             ea <- ResetVector
             true
@@ -517,7 +504,7 @@ type Mos6502(config:Mos6502Configuration) =
             false
 
     let FetchPclVectorInternal () =
-        if nmi && ((ea = BrkVector && b) || (ea = IrqVector && (not b))) then
+        if nmi && ((ea = BrkVector && b <> 0) || (ea = IrqVector && (b = 0))) then
             nmi <- false
             ea <- NmiVector
         aluTemp <- ReadMemoryInternal ea
@@ -547,7 +534,7 @@ type Mos6502(config:Mos6502Configuration) =
     let ImpCli () = Imp <| fun _ -> iFlagPending <- false
     let ImpSec () = Imp <| fun _ -> c <- 1
     let ImpClc () = Imp <| fun _ -> c <- 0
-    let ImpClv () = Imp <| fun _ -> v <- false
+    let ImpClv () = Imp <| fun _ -> v <- 0
     let ImpSed () = Imp <| fun _ -> (d <- true; isDecimalMode <- hasDecimalMode)
     let ImpCld () = Imp <| fun _ -> (d <- false; isDecimalMode <- false)
 
@@ -589,8 +576,7 @@ type Mos6502(config:Mos6502Configuration) =
     let IndIdxRmwStage5 () =
         IfReady <| fun _ ->
             ReadMemoryInternal ea |> ignore
-            if aluTemp >= 0x100 then
-                ea <- (ea + 0x100) &&& 0xFFFF
+            ea <- (ea + (aluTemp &&& 0x100)) &&& 0xFFFF
 
     let IndIdxWriteStage6 value = WriteMemory ea value <| ignore
     let IndIdxWriteStage6Sta () = IndIdxWriteStage6 <| a
@@ -625,8 +611,8 @@ type Mos6502(config:Mos6502Configuration) =
                 opcode <- VopRelativeStuff
                 mi <- -1)
             
-    let RelBranchStage2Bvs () = RelBranchStage2 v
-    let RelBranchStage2Bvc () = RelBranchStage2 (not v)
+    let RelBranchStage2Bvs () = RelBranchStage2 (v <> 0)
+    let RelBranchStage2Bvc () = RelBranchStage2 (v = 0)
     let RelBranchStage2Bmi () = RelBranchStage2 (n <> 0)
     let RelBranchStage2Bpl () = RelBranchStage2 (n = 0)
     let RelBranchStage2Bcs () = RelBranchStage2 (c <> 0)
@@ -753,7 +739,7 @@ type Mos6502(config:Mos6502Configuration) =
     let IdxIndRmwStage8 () = WriteMemory ea aluTemp <| ignore
 
     let PushP () =
-        b <- true
+        b <- 0x10
         PushDiscard <| GetP()
 
     let PushA () = PushDiscard a
@@ -812,8 +798,7 @@ type Mos6502(config:Mos6502Configuration) =
         
     let AbsIdxStage4 () =
         ReadMemory ea <| fun mem ->
-            if aluTemp >= 0x100 then
-                ea <- ea + 0x100
+            ea <- ea + (aluTemp &&& 0x100)
             aluTemp <- mem
 
     let AbsIdxWriteStage5 value =
@@ -1330,8 +1315,8 @@ type Mos6502(config:Mos6502Configuration) =
     member this.S = s
     member this.PC = pc
     member this.N = n <> 0
-    member this.V = v
-    member this.B = b
+    member this.V = v <> 0
+    member this.B = b <> 0
     member this.I = i
     member this.Z = z
     member this.C = c <> 0
@@ -1346,8 +1331,8 @@ type Mos6502(config:Mos6502Configuration) =
     member this.SetS value = s <- value &&& 0xFF
     member this.SetPC value = pc <- value &&& 0xFFFF
     member this.SetN value = n <- if value then 0x80 else 0x00
-    member this.SetV value = v <- value
-    member this.SetB value = b <- value
+    member this.SetV value = v <- if value then 0x40 else 0x00
+    member this.SetB value = b <- if value then 0x10 else 0x00
     member this.SetI value = i <- value; iFlagPending <- value
     member this.SetZ value = z <- value
     member this.SetC value = c <- if value then 0x01 else 0x00
