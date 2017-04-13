@@ -739,9 +739,8 @@ type Mos6502(config:Mos6502Configuration) =
 
     let IdxIndRmwStage8 () = WriteMemory ea aluTemp <| ignore
 
-    let PushP () =
-        b <- 0x10
-        PushDiscard <| GetP()
+    let PushP =
+        (fun _ -> b <- 0x10) >> GetP >> PushDiscard
 
     let PushA () = PushDiscard a
 
