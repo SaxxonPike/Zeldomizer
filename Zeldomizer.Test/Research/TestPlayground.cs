@@ -25,8 +25,8 @@ namespace Zeldomizer.Research
             var detailTiles = new OverworldDetailTileList(new SourceBlock(Source, 0x169B4));
             var grid = new OverworldGrid(new SourceBlock(Source, 0x18580));
 
-            var decompiler = new OverworldDecompiler();
-            var decompiledRooms = decompiler.Decompile(columns, rooms, tiles);
+            var decompiler = new OverworldRoomDecompiler();
+            var decompiledRooms = decompiler.Decompile(columns, rooms);
 
             // Grayscale
             renderer.Colors[0] = palette[0x0F];
@@ -43,7 +43,7 @@ namespace Zeldomizer.Research
 
             // Render out rooms
             var roomIndex = 0;
-            foreach (var room in decompiledRooms.Rooms.Select(r => r.ToArray()))
+            foreach (var room in decompiledRooms.Rooms.Select(r => r.Select(i => tiles[i]).ToArray()))
             {
                 var roomBitmap = new Bitmap(256, 168);
 

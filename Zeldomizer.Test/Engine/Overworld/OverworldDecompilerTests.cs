@@ -5,11 +5,11 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Overworld
 {
-    public class OverworldDecompilerTests : ZeldomizerBaseTestFixture<OverworldDecompiler>
+    public class OverworldDecompilerTests : ZeldomizerBaseTestFixture<OverworldRoomDecompiler>
     {
-        protected override OverworldDecompiler GetTestSubject()
+        protected override OverworldRoomDecompiler GetTestSubject()
         {
-            return new OverworldDecompiler();
+            return new OverworldRoomDecompiler();
         }
 
         [Test]
@@ -52,10 +52,10 @@ namespace Zeldomizer.Engine.Overworld
             var rooms = new OverworldRoomList(new SourceBlock(Source, 0x15418), 124).ToList();
             var tiles = new OverworldTileList(new SourceBlock(Source, 0x1697C)).ToList();
 
-            var overworld = Subject.Decompile(columns, rooms, tiles);
+            var overworld = Subject.Decompile(columns, rooms);
             var overworldRooms = overworld.Rooms.ToArray();
-            overworldRooms[0x00].Should().Equal(expected00);
-            overworldRooms[0x36].Should().Equal(expected36);
+            overworldRooms[0x00].Select(i => tiles[i]).Should().Equal(expected00);
+            overworldRooms[0x36].Select(i => tiles[i]).Should().Equal(expected36);
         }
     }
 }
