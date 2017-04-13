@@ -21,7 +21,12 @@ namespace Zeldomizer.Engine.Overworld
         /// <summary>
         /// Remove the start bit.
         /// </summary>
-        protected override int RemoveSpecialBits(int value) => value & 0b01111111;
+        protected override int RemoveSpecialBits(int value) => value.Bits(6, 0);
+
+        /// <summary>
+        /// Remove the start and RLE bits.
+        /// </summary>
+        protected override int RemoveNonValueBits(int value) => value.Bits(5, 0);
 
         /// <summary>
         /// Take existing column data and encode it using RLE.
@@ -35,8 +40,8 @@ namespace Zeldomizer.Engine.Overworld
 
             foreach (var input in data)
             {
-                // Tile index is the lower 5 bits of the data.
-                var tileInput = input.Bits(4, 0);
+                // Tile index is the lower 6 bits of the data.
+                var tileInput = input.Bits(5, 0);
 
                 // Bit 7 indicates the start of a sequence.
                 var marker = input.Bit(7);
@@ -51,7 +56,7 @@ namespace Zeldomizer.Engine.Overworld
 
                 // If the tile we found is different than the buffer, write out
                 // the buffer and refill it. Max 2 tiles in a run.
-                if (count == 1 || tileInput.Bits(4, 0) != tile || marker)
+                if (count == 1 || tileInput.Bits(5, 0) != tile || marker)
                 {
                     yield return (count << 6) | tile | (writeMarker ? 0x80 : 0x00);
                     writeMarker = marker;

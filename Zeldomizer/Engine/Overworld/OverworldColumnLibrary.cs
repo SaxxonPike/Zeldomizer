@@ -16,8 +16,9 @@ namespace Zeldomizer.Engine.Overworld
     {
         private readonly ISource _source;
 
-        public OverworldColumnLibrary(ISource source)
+        public OverworldColumnLibrary(ISource source, int count)
         {
+            Count = count;
             _source = source;
         }
 
@@ -33,7 +34,7 @@ namespace Zeldomizer.Engine.Overworld
         /// <returns></returns>
         private IEnumerable<OverworldColumn> GetColumns()
         {
-            var reader = new OverlappingSourceReader(_source, 16);
+            var reader = new OverlappingSourceReader(_source, Count);
             return reader.Select(s => new OverworldColumn(s));
         }
 
@@ -43,7 +44,7 @@ namespace Zeldomizer.Engine.Overworld
         /// <summary>
         /// Number of overworld columns.
         /// </summary>
-        public int Count => 256;
+        public int Count { get; }
 
     }
 }

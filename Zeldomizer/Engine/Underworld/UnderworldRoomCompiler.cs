@@ -25,6 +25,11 @@ namespace Zeldomizer.Engine.Underworld
         protected override int RemoveSpecialBits(int value) => value & 0b01110111;
 
         /// <summary>
+        /// Remove the start and RLE bits.
+        /// </summary>
+        protected override int RemoveNonValueBits(int value) => value.Bits(2, 0);
+
+        /// <summary>
         /// Take existing column data and encode it using RLE.
         /// </summary>
         protected override IEnumerable<int> EncodeSequence(IEnumerable<int> data)

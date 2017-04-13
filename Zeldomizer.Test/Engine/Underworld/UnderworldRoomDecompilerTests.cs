@@ -17,9 +17,7 @@ namespace Zeldomizer.Engine.Underworld
         public void Test1()
         {
             var cart = new ZeldaCartridge(Source);
-            var dungeonGrids = cart.UnderworldGrids.ToArray();
-
-            dungeonGrids[0][0x00].Layout.Should().Be(0x26);
+            var decompiled = Subject.Decompile(cart.Overworld.ColumnLibraries, cart.Overworld.RoomLayouts);
         }
     }
 }

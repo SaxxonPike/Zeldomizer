@@ -32,7 +32,7 @@ namespace Zeldomizer.Engine
         {
             // Plot data to grid, then extract columns from it.
             return data
-                .Select(d => d.Select(t => t.Bits(2, 0)).ToArray())
+                .Select(d => d.Select(RemoveNonValueBits).ToArray())
                 .SelectMany(d => Enumerable.Range(0, RoomWidth)
                     .Select(x => Enumerable.Range(0, RoomHeight)
                         .Select(y => d[x + y * RoomWidth])));
@@ -99,6 +99,11 @@ namespace Zeldomizer.Engine
         /// Remove special bits from tile data that don't contribute to its actual representation.
         /// </summary>
         protected abstract int RemoveSpecialBits(int value);
+
+        /// <summary>
+        /// Remove all special bits including RLE counter.
+        /// </summary>
+        protected abstract int RemoveNonValueBits(int value);
 
         /// <summary>
         /// Find overlapping portions of data and consolidate columns.
@@ -254,9 +259,9 @@ namespace Zeldomizer.Engine
         protected abstract IEnumerable<int> EncodeSequence(IEnumerable<int> data);
 
         /// <summary>
-        /// Compile dungeon room data to the format used internally.
-        /// Outer enumerable is for dungeon rooms, and the inner enumerable is for tile data
-        /// belonging to those rooms. Rooms are 12x7 in size.
+        /// Compile room data to the format used internally.
+        /// Outer enumerable is for rooms, and the inner enumerable is for tile data
+        /// belonging to those rooms.
         /// </summary>
         public CompiledMap Compile(IEnumerable<IEnumerable<int>> data)
         {
@@ -265,12 +270,17 @@ namespace Zeldomizer.Engine
             var compressedMap = Compress(consolidatedMap);
             var compiledMap = Encode(compressedMap);
 
-            var result = new CompiledMap
-            {
-                ColumnOffsets = compiledMap.Offsets,
-                Columns = compiledMap.Repo,
-                Rooms = consolidatedMap.Map.Select(cm => compressedMap.Map[cm.Value]).ToArray()
-            };
+            var columnOffsets = compiledMap.Offsets.ToArray();
+            var columnData = compiledMap.Repo.ToArray();
+            var roomData = consolidatedMap.Map.Select(cm => compressedMap.Map[cm.Value]).ToArray();
+
+            var result = new CompiledMap(
+                columnData, 
+                columnOffsets.Length,
+                roomData,
+                roomData.Length / RoomWidth,
+                columnOffsets
+                );
 
             return result;
         }

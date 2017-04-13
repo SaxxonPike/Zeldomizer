@@ -50,7 +50,7 @@ namespace Zeldomizer.Engine.Underworld
             // Compile it
             var compiler = new UnderworldRoomCompiler();
             var output = compiler.Compile(inRooms.Rooms);
-            var columnOutput = output.Columns.ToArray();
+            var columnOutput = output.ColumnData.ToArray();
             var mem = new Source(columnOutput);
 
             // Read it out

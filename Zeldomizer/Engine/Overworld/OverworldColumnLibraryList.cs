@@ -14,16 +14,14 @@ namespace Zeldomizer.Engine.Overworld
     /// </remarks>
     public class OverworldColumnLibraryList : IReadOnlyList<OverworldColumnLibrary>
     {
-        private readonly ISource _source;
-        private readonly IReadOnlyList<int> _offsets;
+        private readonly IPointerTable _pointerTable;
 
         /// <summary>
         /// Initialize a list of lists of overworld columns.
         /// </summary>
-        public OverworldColumnLibraryList(ISource source, IReadOnlyList<int> offsets)
+        public OverworldColumnLibraryList(IPointerTable pointerTable)
         {
-            _source = source;
-            _offsets = offsets;
+            _pointerTable = pointerTable;
         }
 
         /// <summary>
@@ -48,6 +46,6 @@ namespace Zeldomizer.Engine.Overworld
         /// Get the overworld column list at the specified index.
         /// </summary>
         public OverworldColumnLibrary this[int index] => 
-            new OverworldColumnLibrary(new SourceBlock(_source, _offsets[index]));
+            new OverworldColumnLibrary(_pointerTable[index], 16);
     }
 }

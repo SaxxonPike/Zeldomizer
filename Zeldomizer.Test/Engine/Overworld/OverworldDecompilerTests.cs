@@ -47,10 +47,10 @@ namespace Zeldomizer.Engine.Overworld
             };
 
             // Arrange.
-            var columns = new OverworldColumnLibraryList(new SourceBlock(Source, 0x14000 - 0x8000),
-                new WordList(new SourceBlock(Source, 0x19D0F), 16));
-            var rooms = new OverworldRoomLayoutList(new SourceBlock(Source, 0x15418), 124).ToList();
-            var tiles = new OverworldTileList(new SourceBlock(Source, 0x1697C)).ToList();
+            var cart = new ZeldaCartridge(Source);
+            var tiles = cart.Overworld.Tiles;
+            var columns = cart.Overworld.ColumnLibraries;
+            var rooms = cart.Overworld.RoomLayouts;
 
             var overworld = Subject.Decompile(columns, rooms);
             var overworldRooms = overworld.Rooms.ToArray();
