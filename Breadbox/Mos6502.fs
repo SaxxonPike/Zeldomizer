@@ -53,7 +53,6 @@ type Mos6502(config:Mos6502Configuration) =
     let mutable mi = 0
     let mutable myIFlag = false
     let mutable iFlagPending = true
-    let mutable rdyFreeze = false
     let mutable interruptPending = false
     let mutable branchIrqHack = false
     let mutable irq = false
@@ -181,6 +180,8 @@ type Mos6502(config:Mos6502Configuration) =
     let SetNZY value =
         y <- value
         NZ y
+    let SetAInternal value =
+        a <- value
     let SetAlu value =
         aluTemp <- value
     let SetOpcode2 value =
@@ -728,7 +729,7 @@ type Mos6502(config:Mos6502Configuration) =
 
     let IdxIndRmwStage6 () = ReadMemory ea <| SetAlu
 
-    let IdxIndRmwStage7 operation = WriteMemory ea aluTemp operation
+    let IdxIndRmwStage7 operation = WriteMemory ea aluTemp <| operation
     let IdxIndRmwStage7Slo () = IdxIndRmwStage7 <| Slo
     let IdxIndRmwStage7Sre () = IdxIndRmwStage7 <| Sre
     let IdxIndRmwStage7Rra () = IdxIndRmwStage7 <| Rra
@@ -751,7 +752,7 @@ type Mos6502(config:Mos6502Configuration) =
             iFlagPending <- i
             i <- myIFlag
 
-    let PullANoInc () = ReadMemoryS <| fun mem -> a <- mem
+    let PullANoInc () = ReadMemoryS <| SetAInternal
 
     let Imp operation = FetchDummy <| operation
     let ImpAslA () = Imp <| AslA
@@ -766,18 +767,18 @@ type Mos6502(config:Mos6502Configuration) =
     let ZpRmwStage5 () = WriteMemory opcode2 aluTemp <| ignore
     let ZpRmw operation = WriteMemory opcode2 aluTemp <| operation
 
-    let ZpRmwInc () = ZpRmw Inc
-    let ZpRmwDec () = ZpRmw Dec
-    let ZpRmwAsl () = ZpRmw Asl
-    let ZpRmwSre () = ZpRmw Sre
-    let ZpRmwRra () = ZpRmw Rra
-    let ZpRmwDcp () = ZpRmw Dcp
-    let ZpRmwLsr () = ZpRmw Lsr
-    let ZpRmwRor () = ZpRmw Ror
-    let ZpRmwRol () = ZpRmw Rol
-    let ZpRmwSlo () = ZpRmw Slo
-    let ZpRmwIsc () = ZpRmw Isc
-    let ZpRmwRla () = ZpRmw Rla
+    let ZpRmwInc () = ZpRmw <| Inc
+    let ZpRmwDec () = ZpRmw <| Dec
+    let ZpRmwAsl () = ZpRmw <| Asl
+    let ZpRmwSre () = ZpRmw <| Sre
+    let ZpRmwRra () = ZpRmw <| Rra
+    let ZpRmwDcp () = ZpRmw <| Dcp
+    let ZpRmwLsr () = ZpRmw <| Lsr
+    let ZpRmwRor () = ZpRmw <| Ror
+    let ZpRmwRol () = ZpRmw <| Rol
+    let ZpRmwSlo () = ZpRmw <| Slo
+    let ZpRmwIsc () = ZpRmw <| Isc
+    let ZpRmwRla () = ZpRmw <| Rla
 
     let AbsIdxStage3 value =
         ReadMemoryPcIncrement <| (fun mem ->
@@ -863,7 +864,7 @@ type Mos6502(config:Mos6502Configuration) =
             ea <- (opcode3 <<< 8) + opcode2
             aluTemp <- ReadMemoryInternal ea
 
-    let AbsRmwStage5 operation = WriteMemory ea aluTemp operation
+    let AbsRmwStage5 operation = WriteMemory ea aluTemp <| operation
     let AbsRmwStage5Inc () = AbsRmwStage5 <| Inc
     let AbsRmwStage5Dec () = AbsRmwStage5 <| Dec
     let AbsRmwStage5Dcp () = AbsRmwStage5 <| Dcp
@@ -880,7 +881,7 @@ type Mos6502(config:Mos6502Configuration) =
     let AbsRmwStage6 () = WriteMemory ea aluTemp <| ignore
 
     let JamAddress address =
-        FetchDiscard address |> ignore; true
+        FetchDiscard address <| ignore
 
     let JamFFFE () =
         JamAddress 0xFFFE
@@ -898,20 +899,20 @@ type Mos6502(config:Mos6502Configuration) =
         opcode <- VopFetch1
         mi <- -1
         restart <- true
-        rdy
+        true
 
     let EndSuppressInterrupt () =
         opcode <- VopFetch1NoInterrupt
         mi <- -1
         restart <- true
-        rdy
+        true
 
     let End () =
         opcode <- VopFetch1
         mi <- -1
         iFlagPending <- i
         restart <- true
-        rdy
+        true
 
     let EndBranchSpecial = End
 
