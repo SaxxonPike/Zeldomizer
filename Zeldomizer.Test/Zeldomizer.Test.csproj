@@ -71,13 +71,12 @@
     <Compile Include="Engine\Text\EndingTextTests.cs" />
     <Compile Include="Engine\Text\MenuTextTests.cs" />
     <Compile Include="Metal\IntExtensionsTests.cs" />
-    <Compile Include="TestPlayground.cs" />
+    <Compile Include="Research\TestPlayground.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RomFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <EmbeddedResource Include="TestData.zip" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Breadbox\Breadbox.fsproj">

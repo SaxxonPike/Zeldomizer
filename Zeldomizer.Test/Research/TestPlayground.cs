@@ -8,7 +8,7 @@ using Zeldomizer.Engine.Graphics;
 using Zeldomizer.Engine.Overworld;
 using Zeldomizer.Metal;
 
-namespace Zeldomizer
+namespace Zeldomizer.Research
 {
     public class TestPlayground : ZeldomizerBaseTestFixture
     {
