@@ -56,8 +56,6 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Mos6502.fs" />
     <Content Include="packages.config" />
-    <None Include="any\netstandard1.6\FSharp.Core.sigdata" />
-    <None Include="any\netstandard1.6\FSharp.Core.optdata" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
