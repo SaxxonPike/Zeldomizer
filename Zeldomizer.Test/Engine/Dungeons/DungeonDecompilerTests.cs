@@ -20,7 +20,7 @@ namespace Zeldomizer.Engine.Dungeons
             var cart = new ZeldaCartridge(Source);
             var dungeonGrids = cart.DungeonGrids.ToArray();
 
-            dungeonGrids[0][0x00].Room.Should().Be(0x26);
+            dungeonGrids[0][0x00].Layout.Should().Be(0x26);
         }
     }
 }

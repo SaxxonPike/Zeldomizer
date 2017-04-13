@@ -30,10 +30,16 @@ namespace Zeldomizer.Engine.Dungeons
             set => _source[0x100] = unchecked((byte)value);
         }
 
-        public int Room
+        public int Layout
         {
             get => _source[0x180].Bits(6, 0);
             set => _source[0x180] = _source[0x180].Bits(6, 0, value);
+        }
+
+        public bool LayoutFlag
+        {
+            get => _source[0x180].Bit(7);
+            set => _source[0x180] = _source[0x180].Bit(7, value);
         }
 
         public int FloorItem
