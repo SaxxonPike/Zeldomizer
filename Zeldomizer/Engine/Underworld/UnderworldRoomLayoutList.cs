@@ -5,28 +5,44 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Underworld
 {
-    public class UnderworldRoomLayoutList : IEnumerable<UnderworldRoomLayout>
+    /// <summary>
+    /// Represents a list of room layouts, in raw form.
+    /// </summary>
+    public class UnderworldRoomLayoutList : IReadOnlyList<UnderworldRoomLayout>
     {
         private readonly ISource _source;
-        private readonly int _count;
 
+        /// <summary>
+        /// Initialize a list of room layouts.
+        /// </summary>
         public UnderworldRoomLayoutList(ISource source, int count)
         {
             _source = source;
-            _count = count;
+            Count = count;
         }
 
+        /// <summary>
+        /// Get the room layout at the specified index.
+        /// </summary>
         public UnderworldRoomLayout this[int index] => 
             new UnderworldRoomLayout(new SourceBlock(_source, index * 12));
 
+        /// <summary>
+        /// Enumerate all room layouts.
+        /// </summary>
         public IEnumerator<UnderworldRoomLayout> GetEnumerator()
         {
             return Enumerable
-                .Range(0, _count)
+                .Range(0, Count)
                 .Select(i => this[i])
                 .GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        /// <summary>
+        /// Get the number of room layouts.
+        /// </summary>
+        public int Count { get; }
     }
 }

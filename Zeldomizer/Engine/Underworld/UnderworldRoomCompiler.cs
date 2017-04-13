@@ -4,6 +4,9 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Underworld
 {
+    /// <summary>
+    /// A compiler for underworld rooms.
+    /// </summary>
     public class UnderworldRoomCompiler : MapCompiler
     {
         /// <summary>
