@@ -31,8 +31,6 @@ type Mos6502(config:Mos6502Configuration) =
     let VopReset = 0x106
     [<Literal>]
     let VopFetch1NoInterrupt = 0x107
-    [<Literal>]
-    let VopForceSync = 0x108
 
 
     [<Literal>]
@@ -1264,8 +1262,6 @@ type Mos6502(config:Mos6502Configuration) =
             [| FetchDummyOp; FetchDummyOp; FetchDummyOp; PushDummy; PushDummy; PushPReset; FetchPclVector; FetchPchVector; EndSuppressInterrupt |];
             // 107 (VOP_Fetch1_NoInterrupt)
             [| Fetch1Real |];
-            // 108 (VOP_ForceSync)
-            [| End |];
         |]
 
     let rec ExecuteOneRetryInternal () =
