@@ -3,6 +3,9 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Overworld
 {
+    /// <summary>
+    /// A map compiler for the overworld.
+    /// </summary>
     public class OverworldRoomCompiler : MapCompiler
     {
         /// <summary>

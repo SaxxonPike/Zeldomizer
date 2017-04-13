@@ -8,6 +8,12 @@ namespace Zeldomizer.Engine.Underworld
     /// <summary>
     /// Represents a 16x8 grid of underworld rooms, in raw form.
     /// </summary>
+    /// <remarks>
+    /// Global coordinates are based off an index within a grid. There are a total of 5 grids in
+    /// the entire game: two for the first quest dungeons, two for the second quest dungeons, and
+    /// one for the world map which is shared between the two (although there are differences that
+    /// are applied at runtime.)
+    /// </remarks>
     public class UnderworldGrid : IReadOnlyList<UnderworldRoom>
     {
         private readonly ISource _source;

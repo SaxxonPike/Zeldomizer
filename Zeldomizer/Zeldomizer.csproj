@@ -59,13 +59,12 @@
     <Compile Include="Engine\Overworld\OverworldColumn.cs" />
     <Compile Include="Engine\Overworld\OverworldColumnLibrary.cs" />
     <Compile Include="Engine\Overworld\OverworldColumnLibraryList.cs" />
-    <Compile Include="Engine\Overworld\OverworldColumnTile.cs" />
     <Compile Include="Engine\Overworld\OverworldRoomDecompiler.cs" />
     <Compile Include="Engine\Overworld\OverworldDetailTile.cs" />
     <Compile Include="Engine\Overworld\OverworldDetailTileList.cs" />
     <Compile Include="Engine\Overworld\OverworldGrid.cs" />
-    <Compile Include="Engine\Overworld\OverworldRoom.cs" />
-    <Compile Include="Engine\Overworld\OverworldRoomList.cs" />
+    <Compile Include="Engine\Overworld\OverworldRoomLayout.cs" />
+    <Compile Include="Engine\Overworld\OverworldRoomLayoutList.cs" />
     <Compile Include="Engine\Overworld\OverworldTileList.cs" />
     <Compile Include="Metal\BankPointerTable.cs" />
     <Compile Include="Metal\DebugPrettyPrint.cs" />

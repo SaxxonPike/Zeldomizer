@@ -6,7 +6,7 @@ using Zeldomizer.Metal;
 namespace Zeldomizer.Engine.Underworld
 {
     /// <summary>
-    /// Represents a list of columns, in raw form.
+    /// Represents a list of underworld columns, in raw form.
     /// </summary>
     /// <remarks>
     /// Due to the way columns are referenced in room definitions, it is possible

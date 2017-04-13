@@ -8,6 +8,11 @@ namespace Zeldomizer.Engine.Underworld
     /// <summary>
     /// Represents a list of room layouts, in raw form.
     /// </summary>
+    /// <remarks>
+    /// Each room layout is defined by a list of columns indices. This way,
+    /// room layouts that share significant portions of their makeup can
+    /// also save space by sharing entire columns.
+    /// </remarks>
     public class UnderworldRoomLayoutList : IReadOnlyList<UnderworldRoomLayout>
     {
         private readonly ISource _source;

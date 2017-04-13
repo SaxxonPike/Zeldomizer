@@ -3,7 +3,7 @@
 namespace Zeldomizer.Engine.Underworld
 {
     /// <summary>
-    /// Represents a room layout, in raw form.
+    /// Represents a room layout for the underworld, in raw form.
     /// </summary>
     public class UnderworldRoomLayout : ByteList
     {

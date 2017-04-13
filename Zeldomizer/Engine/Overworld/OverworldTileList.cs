@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Zeldomizer.Metal;
+﻿using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Overworld
 {
+    /// <summary>
+    /// A mapping of overworld room tile values to graphics.
+    /// </summary>
     public class OverworldTileList : ByteList
     {
-        private readonly ISource _source;
-
+        /// <summary>
+        /// Initialize an underworld tile graphic list.
+        /// </summary>
         public OverworldTileList(ISource source) : base(source, 0x40)
         {
-            _source = source;
         }
     }
 }

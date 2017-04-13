@@ -8,6 +8,10 @@ namespace Zeldomizer.Engine.Underworld
     /// <summary>
     /// Represents a column of underworld tiles, in raw form.
     /// </summary>
+    /// <remarks>
+    /// Columns are RLE encoded in order to save space where there will be long runs
+    /// of the same tile.
+    /// </remarks>
     public class UnderworldColumn : IReadOnlyList<int>
     {
         private readonly ISource _source;
