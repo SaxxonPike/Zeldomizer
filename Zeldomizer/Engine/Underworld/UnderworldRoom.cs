@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using Zeldomizer.Metal;
 
-namespace Zeldomizer.Engine.Dungeons
+namespace Zeldomizer.Engine.Underworld
 {
-    public class DungeonRoom
+    public class UnderworldRoom
     {
         private readonly ISource _source;
 
-        public DungeonRoom(ISource source)
+        public UnderworldRoom(ISource source)
         {
             _source = source;
         }

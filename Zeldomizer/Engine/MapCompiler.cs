@@ -2,10 +2,10 @@
 using System.Linq;
 using Zeldomizer.Metal;
 
-namespace Zeldomizer.Engine.Dungeons
+namespace Zeldomizer.Engine
 {
     /// <summary>
-    /// Encodes dungeon rooms and columns to the format used internally by the game.
+    /// Encodes rooms and columns to the format used internally by the game.
     /// </summary>
     /// <remarks>
     /// The method used here doesn't compress data as tightly as the original. It favors
@@ -13,41 +13,29 @@ namespace Zeldomizer.Engine.Dungeons
     /// measured to be roughly 10%. In order to be more efficient, the Compress step would
     /// need to be optimized to search for better ways columns can overlap.
     /// </remarks>
-    public class DungeonCompiler
+    public abstract class MapCompiler
     {
         /// <summary>
-        /// Compile dungeon room data to the format used internally.
-        /// Outer enumerable is for dungeon rooms, and the inner enumerable is for tile data
-        /// belonging to those rooms. Rooms are 12x7 in size.
+        /// Width of the room, in tiles.
         /// </summary>
-        public CompiledUnderworld Compile(IEnumerable<IEnumerable<int>> data)
-        {
-            var columns = ExtractColumns(data);
-            var consolidatedMap = Consolidate(columns);
-            var compressedMap = Compress(consolidatedMap);
-            var compiledMap = Encode(compressedMap);
+        protected abstract int RoomWidth { get; }
 
-            var result = new CompiledUnderworld
-            {
-                ColumnOffsets = compiledMap.Offsets,
-                Columns = compiledMap.Repo,
-                Rooms = consolidatedMap.Map.Select(cm => compressedMap.Map[cm.Value]).ToArray()
-            };
-
-            return result;
-        }
+        /// <summary>
+        /// Height of the room, in tiles.
+        /// </summary>
+        protected abstract int RoomHeight { get; }
 
         /// <summary>
         /// Extract columns from raw room data.
         /// </summary>
-        private static IEnumerable<IEnumerable<int>> ExtractColumns(IEnumerable<IEnumerable<int>> data)
+        private IEnumerable<IEnumerable<int>> ExtractColumns(IEnumerable<IEnumerable<int>> data)
         {
-            // Plot data to 12x7 map, then extract columns from it.
+            // Plot data to grid, then extract columns from it.
             return data
                 .Select(d => d.Select(t => t.Bits(2, 0)).ToArray())
-                .SelectMany(d => Enumerable.Range(0, 12)
-                    .Select(x => Enumerable.Range(0, 7)
-                        .Select(y => d[x + y * 12])));
+                .SelectMany(d => Enumerable.Range(0, RoomWidth)
+                    .Select(x => Enumerable.Range(0, RoomHeight)
+                        .Select(y => d[x + y * RoomWidth])));
         }
 
         /// <summary>
@@ -64,27 +52,27 @@ namespace Zeldomizer.Engine.Dungeons
         /// </summary>
         private static ConsolidatedMap Consolidate(IEnumerable<IEnumerable<int>> dungeonColumns)
         {
-            var dungeonColumnMap = new Dictionary<int, int>();
-            var dungeonColumnRepo = new Dictionary<int, int[]>();
+            var columnMap = new Dictionary<int, int>();
+            var columnRepo = new Dictionary<int, int[]>();
             var sourceIndex = 0;
             var repoIndex = 0;
 
-            foreach (var dungeonColumn in dungeonColumns)
+            foreach (var column in dungeonColumns)
             {
                 // Try and find existing matching column data
-                var existingColumn = dungeonColumnRepo
-                    .FirstOrDefault(kv => kv.Value.SequenceEqual(dungeonColumn));
+                var existingColumn = columnRepo
+                    .FirstOrDefault(kv => kv.Value.SequenceEqual(column));
 
                 // If the column doesn't already exist, allocate
                 if (existingColumn.Value == null)
                 {
-                    dungeonColumnRepo[repoIndex] = dungeonColumn.ToArray();
-                    dungeonColumnMap[sourceIndex] = repoIndex;
+                    columnRepo[repoIndex] = column.ToArray();
+                    columnMap[sourceIndex] = repoIndex;
                     repoIndex++;
                 }
                 else
                 {
-                    dungeonColumnMap[sourceIndex] = existingColumn.Key;
+                    columnMap[sourceIndex] = existingColumn.Key;
                 }
 
                 sourceIndex++;
@@ -92,15 +80,15 @@ namespace Zeldomizer.Engine.Dungeons
 
             return new ConsolidatedMap
             {
-                Map = dungeonColumnMap,
-                Repo = dungeonColumnRepo
+                Map = columnMap,
+                Repo = columnRepo
             };
         }
 
         /// <summary>
         /// Result from compression operation.
         /// </summary>
-        private class CompressedMap
+        protected class CompressedMap
         {
             public IDictionary<int, int> Offsets { get; set; }
             public IEnumerable<int> Repo { get; set; }
@@ -108,9 +96,14 @@ namespace Zeldomizer.Engine.Dungeons
         }
 
         /// <summary>
+        /// Remove special bits from tile data that don't contribute to its actual representation.
+        /// </summary>
+        protected abstract int RemoveSpecialBits(int value);
+
+        /// <summary>
         /// Find overlapping portions of data and consolidate columns.
         /// </summary>
-        private static CompressedMap Compress(ConsolidatedMap consolidatedMap)
+        private CompressedMap Compress(ConsolidatedMap consolidatedMap)
         {
             var offsets = new Dictionary<int, int>();
             var repo = new List<int>();
@@ -119,7 +112,7 @@ namespace Zeldomizer.Engine.Dungeons
             foreach (var entry in consolidatedMap.Repo)
             {
                 offsets[entry.Key] = repo.Count;
-                repo.AddRange(entry.Value.Select(v => v & 0b01110111));
+                repo.AddRange(entry.Value.Select(RemoveSpecialBits));
             }
 
             var done = false;
@@ -139,12 +132,12 @@ namespace Zeldomizer.Engine.Dungeons
                 {
                     var key = entry.Key;
                     var value = entry.Value;
-                    var term = repo.Skip(entry.Value).Take(7).ToArray();
+                    var term = repo.Skip(entry.Value).Take(RoomHeight).ToArray();
 
-                    for (var i = 0; i < repo.Count - 7; i++)
+                    for (var i = 0; i < repo.Count - RoomHeight; i++)
                     {
                         // If the occurrence is different than current, use it.
-                        if (i != value && term.SequenceEqual(repo.Skip(i).Take(7)))
+                        if (i != value && term.SequenceEqual(repo.Skip(i).Take(RoomHeight)))
                         {
                             value = i;
                             break;
@@ -164,7 +157,7 @@ namespace Zeldomizer.Engine.Dungeons
                 for (var i = 0; i < repo.Count; i++)
                 {
                     if (usedOffsets.Contains(i))
-                        activeTiles = 7;
+                        activeTiles = RoomHeight;
 
                     // Do not shift offsets if we are actively using the data.
                     if (activeTiles > 0)
@@ -224,15 +217,14 @@ namespace Zeldomizer.Engine.Dungeons
         /// <summary>
         /// Generate start points for decompression and apply encoding.
         /// </summary>
-        private static EncodedMap Encode(CompressedMap compressedMap)
+        private EncodedMap Encode(CompressedMap compressedMap)
         {
             // Set bit 7 to indicate where sequences begin.
             var repo = compressedMap.Repo.ToArray();
             foreach (var entry in compressedMap.Offsets)
                 repo[entry.Value] |= 0x80;
 
-            var encodedRepo = EncodeSequence(repo)
-                .ToArray();
+            var encodedRepo = EncodeSequence(repo).ToArray();
 
             return new EncodedMap
             {
@@ -257,47 +249,30 @@ namespace Zeldomizer.Engine.Dungeons
         }
 
         /// <summary>
-        /// Take existing column data and encode it using RLE.
+        /// Take existing column data and encode it.
         /// </summary>
-        private static IEnumerable<int> EncodeSequence(IEnumerable<int> data)
+        protected abstract IEnumerable<int> EncodeSequence(IEnumerable<int> data);
+
+        /// <summary>
+        /// Compile dungeon room data to the format used internally.
+        /// Outer enumerable is for dungeon rooms, and the inner enumerable is for tile data
+        /// belonging to those rooms. Rooms are 12x7 in size.
+        /// </summary>
+        public CompiledMap Compile(IEnumerable<IEnumerable<int>> data)
         {
-            var init = true;
-            var tile = 0;
-            var count = 0;
-            var writeMarker = true;
+            var columns = ExtractColumns(data);
+            var consolidatedMap = Consolidate(columns);
+            var compressedMap = Compress(consolidatedMap);
+            var compiledMap = Encode(compressedMap);
 
-            foreach (var input in data)
+            var result = new CompiledMap
             {
-                // Tile index is the lower 3 bits of the data.
-                var tileInput = input.Bits(2, 0);
+                ColumnOffsets = compiledMap.Offsets,
+                Columns = compiledMap.Repo,
+                Rooms = consolidatedMap.Map.Select(cm => compressedMap.Map[cm.Value]).ToArray()
+            };
 
-                // Bit 7 indicates the start of a sequence.
-                var marker = input.Bit(7);
-
-                // First run through will preload the buffer.
-                if (init)
-                {
-                    init = false;
-                    tile = tileInput;
-                    continue;
-                }
-
-                // If the tile we found is different than the buffer, write out
-                // the buffer and refill it.
-                if (tileInput.Bits(2, 0) != tile || marker)
-                {
-                    yield return (count << 4) | tile | (writeMarker ? 0x80 : 0x00);
-                    writeMarker = marker;
-                    count = 0;
-                    tile = tileInput;
-                    continue;
-                }
-
-                count++;
-            }
-
-            // Flush the buffer.
-            yield return (count << 4) | tile | (writeMarker ? 0x80 : 0x00);
+            return result;
         }
     }
 }

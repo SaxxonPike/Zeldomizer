@@ -4,15 +4,15 @@ using FluentAssertions;
 using NUnit.Framework;
 using Zeldomizer.Metal;
 
-namespace Zeldomizer.Engine.Dungeons
+namespace Zeldomizer.Engine.Underworld
 {
     [Parallelizable(ParallelScope.Fixtures)]
-    public class DungeonColumnMacroLibraryListTests : ZeldomizerBaseTestFixture<DungeonColumnLibraryList>
+    public class UnderworldColumnLibraryListTests : ZeldomizerBaseTestFixture<UnderworldColumnLibraryList>
     {
-        protected override DungeonColumnLibraryList GetTestSubject()
+        protected override UnderworldColumnLibraryList GetTestSubject()
         {
             var columnPointerTable = new WordPointerTable(new SourceBlock(Source, 0x16704), new SourceBlock(Source, 0xC000), 10);
-            return new DungeonColumnLibraryList(columnPointerTable);
+            return new UnderworldColumnLibraryList(columnPointerTable);
         }
 
         [Test]

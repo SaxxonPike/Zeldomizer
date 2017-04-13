@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Zeldomizer.Engine.Dungeons
+namespace Zeldomizer.Engine.Underworld
 {
     public class DecompiledUnderworld
     {

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Zeldomizer.Metal;
 
-namespace Zeldomizer.Engine.Dungeons
+namespace Zeldomizer.Engine.Underworld
 {
-    public class DungeonColumn : IEnumerable<int>
+    public class UnderworldColumn : IEnumerable<int>
     {
         private readonly ISource _source;
 
-        public DungeonColumn(ISource source)
+        public UnderworldColumn(ISource source)
         {
             _source = source;
         }

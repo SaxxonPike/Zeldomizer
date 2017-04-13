@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Zeldomizer.Metal;
 
-namespace Zeldomizer.Engine.Dungeons
+namespace Zeldomizer.Engine.Underworld
 {
-    public class DungeonColumnLibraryList : IEnumerable<DungeonColumnLibrary>
+    public class UnderworldColumnLibraryList : IEnumerable<UnderworldColumnLibrary>
     {
         private readonly IPointerTable _pointerTable;
 
-        public DungeonColumnLibraryList(IPointerTable pointerTable)
+        public UnderworldColumnLibraryList(IPointerTable pointerTable)
         {
             _pointerTable = pointerTable;
         }
 
-        public DungeonColumnLibrary this[int index] =>
-            new DungeonColumnLibrary(_pointerTable[index], 16);
+        public UnderworldColumnLibrary this[int index] =>
+            new UnderworldColumnLibrary(_pointerTable[index], 16);
 
-        public IEnumerator<DungeonColumnLibrary> GetEnumerator()
+        public IEnumerator<UnderworldColumnLibrary> GetEnumerator()
         {
             return Enumerable
                 .Range(0, _pointerTable.Count)

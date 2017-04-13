@@ -59,11 +59,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\Dungeons\DungeonDecompilerTests.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoomDecompilerTests.cs" />
     <Compile Include="Engine\Overworld\OverworldDecompilerTests.cs" />
     <Compile Include="ZeldomizerBaseTestFixture.cs" />
-    <Compile Include="Engine\Dungeons\DungeonColumnMacroLibraryListTests.cs" />
-    <Compile Include="Engine\Dungeons\DungeonCompilerTests.cs" />
+    <Compile Include="Engine\Underworld\UnderworldColumnLibraryListTests.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoomCompilerTests.cs" />
     <Compile Include="Engine\Graphics\CompoundSpriteTests.cs" />
     <Compile Include="Engine\Graphics\SpriteRendererTests.cs" />
     <Compile Include="Engine\Graphics\SpriteTests.cs" />

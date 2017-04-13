@@ -39,19 +39,21 @@
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\Dungeons\DecompiledUnderworld.cs" />
-    <Compile Include="Engine\Dungeons\DungeonColumn.cs" />
-    <Compile Include="Engine\Dungeons\DungeonColumnLibrary.cs" />
-    <Compile Include="Engine\Dungeons\DungeonColumnLibraryList.cs" />
-    <Compile Include="Engine\Dungeons\DungeonDecompiler.cs" />
-    <Compile Include="Engine\Dungeons\DungeonGrid.cs" />
-    <Compile Include="Engine\Dungeons\DungeonGridList.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoom.cs" />
-    <Compile Include="Engine\Dungeons\DungeonCompiler.cs" />
-    <Compile Include="Engine\Dungeons\CompiledUnderworld.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoomLayout.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoomLayoutList.cs" />
-    <Compile Include="Engine\Dungeons\DungeonTileList.cs" />
+    <Compile Include="Engine\CompiledMap.cs" />
+    <Compile Include="Engine\MapCompiler.cs" />
+    <Compile Include="Engine\MapDecompiler.cs" />
+    <Compile Include="Engine\Underworld\DecompiledUnderworld.cs" />
+    <Compile Include="Engine\Underworld\UnderworldColumn.cs" />
+    <Compile Include="Engine\Underworld\UnderworldColumnLibrary.cs" />
+    <Compile Include="Engine\Underworld\UnderworldColumnLibraryList.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoomDecompiler.cs" />
+    <Compile Include="Engine\Underworld\UnderworldGrid.cs" />
+    <Compile Include="Engine\Underworld\UnderworldGridList.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoom.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoomCompiler.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoomLayout.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoomLayoutList.cs" />
+    <Compile Include="Engine\Underworld\UnderworldTileList.cs" />
     <Compile Include="Engine\Graphics\OverworldSpriteList.cs" />
     <Compile Include="Engine\Overworld\DecompiledOverworld.cs" />
     <Compile Include="Engine\Overworld\OverworldColumn.cs" />

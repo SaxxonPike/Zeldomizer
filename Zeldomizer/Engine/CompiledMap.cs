@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Zeldomizer.Engine.Dungeons
+namespace Zeldomizer.Engine
 {
-    public class CompiledUnderworld
+    public class CompiledMap
     {
         public IEnumerable<int> Columns { get; set; }
         public IEnumerable<int> Rooms { get; set; }

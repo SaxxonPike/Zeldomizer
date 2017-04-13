@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Zeldomizer.Engine.Dungeons
+namespace Zeldomizer.Engine.Underworld
 {
-    public class DungeonDecompiler
+    public class UnderworldRoomDecompiler
     {
         public DecompiledUnderworld Decompile(IEnumerable<IEnumerable<IEnumerable<int>>> columnList, IEnumerable<IEnumerable<int>> roomList)
         {

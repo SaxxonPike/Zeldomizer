@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Zeldomizer.Metal;
 
-namespace Zeldomizer.Engine.Dungeons
+namespace Zeldomizer.Engine.Underworld
 {
-    public class DungeonGrid : IReadOnlyList<DungeonRoom>
+    public class UnderworldGrid : IReadOnlyList<UnderworldRoom>
     {
         private readonly ISource _source;
 
-        public DungeonGrid(ISource source)
+        public UnderworldGrid(ISource source)
         {
             _source = source;
         }
 
-        public IEnumerator<DungeonRoom> GetEnumerator() => 
+        public IEnumerator<UnderworldRoom> GetEnumerator() => 
             Enumerable.Range(0, 128).Select(i => this[i]).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>
@@ -22,6 +22,6 @@ namespace Zeldomizer.Engine.Dungeons
 
         public int Count => 128;
 
-        public DungeonRoom this[int index] => new DungeonRoom(new SourceBlock(_source, index));
+        public UnderworldRoom this[int index] => new UnderworldRoom(new SourceBlock(_source, index));
     }
 }

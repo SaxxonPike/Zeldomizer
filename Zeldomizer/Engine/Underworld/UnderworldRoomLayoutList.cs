@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using Zeldomizer.Metal;
 
-namespace Zeldomizer.Engine.Dungeons
+namespace Zeldomizer.Engine.Underworld
 {
-    public class DungeonRoomLayoutList : IEnumerable<DungeonRoomLayout>
+    public class UnderworldRoomLayoutList : IEnumerable<UnderworldRoomLayout>
     {
         private readonly ISource _source;
         private readonly int _count;
 
-        public DungeonRoomLayoutList(ISource source, int count)
+        public UnderworldRoomLayoutList(ISource source, int count)
         {
             _source = source;
             _count = count;
         }
 
-        public DungeonRoomLayout this[int index] => 
-            new DungeonRoomLayout(new SourceBlock(_source, index * 12));
+        public UnderworldRoomLayout this[int index] => 
+            new UnderworldRoomLayout(new SourceBlock(_source, index * 12));
 
-        public IEnumerator<DungeonRoomLayout> GetEnumerator()
+        public IEnumerator<UnderworldRoomLayout> GetEnumerator()
         {
             return Enumerable
                 .Range(0, _count)
