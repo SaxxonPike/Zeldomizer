@@ -1,4 +1,6 @@
-﻿namespace Zeldomizer.Engine.Overworld
+﻿using Zeldomizer.Engine.Overworld.Interfaces;
+
+namespace Zeldomizer.Engine.Overworld
 {
     public class Overworld : IOverworld
     {

@@ -1,4 +1,4 @@
-﻿namespace Zeldomizer.Engine.Text
+﻿namespace Zeldomizer.Engine.Text.Interfaces
 {
     public interface IEndingText
     {

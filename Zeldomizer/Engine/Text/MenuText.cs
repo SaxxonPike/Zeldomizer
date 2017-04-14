@@ -1,4 +1,5 @@
-﻿using Zeldomizer.Metal;
+﻿using Zeldomizer.Engine.Text.Interfaces;
+using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Text
 {

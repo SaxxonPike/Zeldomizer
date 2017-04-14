@@ -1,4 +1,4 @@
-﻿namespace Zeldomizer.Engine.Underworld
+﻿namespace Zeldomizer.Engine.Underworld.Interfaces
 {
     public interface IUnderworld
     {

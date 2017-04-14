@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Zeldomizer.Engine.Overworld;
+using Zeldomizer.Engine.Overworld.Interfaces;
 using Zeldomizer.Engine.Text;
+using Zeldomizer.Engine.Text.Interfaces;
 using Zeldomizer.Engine.Underworld;
+using Zeldomizer.Engine.Underworld.Interfaces;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer
