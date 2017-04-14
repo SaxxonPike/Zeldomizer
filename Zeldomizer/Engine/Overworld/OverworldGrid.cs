@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Zeldomizer.Engine.Underworld;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Overworld

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Zeldomizer.Engine.Underworld
+﻿namespace Zeldomizer.Engine.Underworld
 {
     /// <summary>
     /// A decompiler for underworld rooms.

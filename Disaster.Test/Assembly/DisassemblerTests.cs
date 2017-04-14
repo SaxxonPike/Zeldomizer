@@ -1,6 +1,5 @@
 ﻿using Disaster.Assembly.Interfaces;
 using FluentAssertions;
-using Moq;
 using NUnit.Framework;
 using Testing;
 
