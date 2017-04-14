@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Zeldomizer.Engine.Interfaces;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine
@@ -13,7 +14,7 @@ namespace Zeldomizer.Engine
     /// measured to be roughly 10%. In order to be more efficient, the Compress step would
     /// need to be optimized to search for better ways columns can overlap.
     /// </remarks>
-    public abstract class MapCompiler
+    public abstract class MapCompiler : IMapCompiler
     {
         /// <summary>
         /// Width of the room, in tiles.
@@ -263,7 +264,7 @@ namespace Zeldomizer.Engine
         /// Outer enumerable is for rooms, and the inner enumerable is for tile data
         /// belonging to those rooms.
         /// </summary>
-        public CompiledMap Compile(IEnumerable<IEnumerable<int>> data)
+        public ICompiledMap Compile(IEnumerable<IEnumerable<int>> data)
         {
             var columns = ExtractColumns(data);
             var consolidatedMap = Consolidate(columns);
@@ -274,13 +275,14 @@ namespace Zeldomizer.Engine
             var columnData = compiledMap.Repo.ToArray();
             var roomData = consolidatedMap.Map.Select(cm => compressedMap.Map[cm.Value]).ToArray();
 
-            var result = new CompiledMap(
-                columnData, 
-                columnOffsets.Length,
-                roomData,
-                roomData.Length / RoomWidth,
-                columnOffsets
-                );
+            var result = new CompiledMap
+            {
+                ColumnCount = columnOffsets.Length,
+                ColumnData = columnData,
+                RoomCount = roomData.Length / RoomWidth,
+                RoomData = roomData,
+                ColumnOffsets = columnOffsets
+            };
 
             return result;
         }

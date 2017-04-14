@@ -4,19 +4,8 @@ namespace Zeldomizer.Engine.Underworld
 {
     public class Underworld : IUnderworld
     {
-        public Underworld(
-            UnderworldColumnLibraryList columnLibraries, 
-            UnderworldGridList grids, 
-            UnderworldRoomLayoutList roomLayouts
-            )
-        {
-            ColumnLibraries = columnLibraries;
-            Grids = grids;
-            RoomLayouts = roomLayouts;
-        }
-
-        public UnderworldColumnLibraryList ColumnLibraries { get; }
-        public UnderworldGridList Grids { get; }
-        public UnderworldRoomLayoutList RoomLayouts { get; }
+        public UnderworldColumnLibraryList ColumnLibraries { get; set; }
+        public UnderworldGridList Grids { get; set; }
+        public UnderworldRoomLayoutList RoomLayouts { get; set; }
     }
 }

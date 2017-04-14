@@ -57,18 +57,21 @@ namespace Zeldomizer
                 var underworldColumnPointers = new WordPointerTable(
                     new SourceBlock(source, 0x16704),
                     new SourceBlock(source, 0xC000), 10);
-                var underworldColumnLibraries = new UnderworldColumnLibraryList(
+                var columnLibraries = new UnderworldColumnLibraryList(
                     underworldColumnPointers);
-                var underworldGrids = new UnderworldGridList(
+                var grids = new UnderworldGridList(
                     new SourceBlock(source, 0x18700),
                     4);
-                var underworldRoomLayouts = new UnderworldRoomLayoutList(
+                var roomLayouts = new UnderworldRoomLayoutList(
                     new SourceBlock(source, 0x160DE),
                     42);
-                return new Underworld(
-                    underworldColumnLibraries,
-                    underworldGrids,
-                    underworldRoomLayouts);
+
+                return new Underworld
+                {
+                    ColumnLibraries = columnLibraries,
+                    Grids = grids,
+                    RoomLayouts = roomLayouts
+                };
             });
 
             // Overworld
@@ -78,24 +81,27 @@ namespace Zeldomizer
                     new SourceBlock(source, 0x19D0F),
                     new SourceBlock(source, 0xC000),
                     16);
-                var overworldColumnLibraries = new OverworldColumnLibraryList(
+                var columnLibraries = new OverworldColumnLibraryList(
                     overworldColumnPointers);
-                var overworldGrid = new OverworldGrid(new SourceBlock(
+                var grid = new OverworldGrid(new SourceBlock(
                     source,
                     0x18580));
-                var overworldRoomLayouts = new OverworldRoomLayoutList(
+                var roomLayouts = new OverworldRoomLayoutList(
                     new SourceBlock(source, 0x15418),
                     124);
-                var overworldTiles = new OverworldTileList(
+                var tiles = new OverworldTileList(
                     new SourceBlock(source, 0x1697C));
-                var overworldDetailTiles = new OverworldDetailTileList(
+                var detailTiles = new OverworldDetailTileList(
                     new SourceBlock(source, 0x169B4));
-                return new Overworld(
-                    overworldColumnLibraries, 
-                    overworldGrid, 
-                    overworldRoomLayouts, 
-                    overworldTiles, 
-                    overworldDetailTiles);
+
+                return new Overworld
+                {
+                    ColumnLibraries = columnLibraries,
+                    Grid = grid,
+                    DetailTiles = detailTiles,
+                    RoomLayouts = roomLayouts,
+                    Tiles = tiles
+                };
             });
         }
 

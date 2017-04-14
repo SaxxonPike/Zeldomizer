@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Zeldomizer.Engine.Interfaces;
 
 namespace Zeldomizer.Engine
 {
-    public abstract class MapDecompiler
+    public abstract class MapDecompiler : IMapDecompiler
     {
         /// <summary>
         /// Width of the room, in tiles.
@@ -20,7 +21,7 @@ namespace Zeldomizer.Engine
         /// </summary>
         /// <param name="columnLibraryList">Libraries to reference in the decompilation, which contain column definitions.</param>
         /// <param name="roomList">Room definitions. Each record refers to a list of columns in the room.</param>
-        public DecompiledMap Decompile(IEnumerable<IEnumerable<IEnumerable<int>>> columnLibraryList, IEnumerable<IEnumerable<int>> roomList)
+        public IDecompiledMap Decompile(IEnumerable<IEnumerable<IEnumerable<int>>> columnLibraryList, IEnumerable<IEnumerable<int>> roomList)
         {
             var columns = columnLibraryList.SelectMany(c => c).Select(c => c.ToArray()).ToArray();
             var rooms = roomList.Select(r => r.ToArray()).ToArray();

@@ -1,49 +1,36 @@
 ﻿using System.Collections.Generic;
+using Zeldomizer.Engine.Interfaces;
 
 namespace Zeldomizer.Engine
 {
     /// <summary>
     /// Map data that has been compiled by a <see cref="MapCompiler"/>.
     /// </summary>
-    public class CompiledMap
+    public class CompiledMap : ICompiledMap
     {
-        public CompiledMap(
-            IEnumerable<int> columnData,
-            int columnCount,
-            IEnumerable<int> roomData,
-            int roomCount,
-            IEnumerable<int> columnOffsets)
-        {
-            ColumnData = columnData;
-            ColumnCount = columnCount;
-            RoomData = roomData;
-            RoomCount = roomCount;
-            ColumnOffsets = columnOffsets;
-        }
-
         /// <summary>
         /// Raw column data.
         /// </summary>
-        public IEnumerable<int> ColumnData { get; }
+        public IEnumerable<int> ColumnData { get; set; }
 
         /// <summary>
         /// Number of columns.
         /// </summary>
-        public int ColumnCount { get; }
+        public int ColumnCount { get; set; }
 
         /// <summary>
         /// Raw room data.
         /// </summary>
-        public IEnumerable<int> RoomData { get; }
+        public IEnumerable<int> RoomData { get; set; }
 
         /// <summary>
         /// Number of rooms.
         /// </summary>
-        public int RoomCount { get; }
+        public int RoomCount { get; set; }
 
         /// <summary>
         /// Offsets in the data where column data starts.
         /// </summary>
-        public IEnumerable<int> ColumnOffsets { get; }
+        public IEnumerable<int> ColumnOffsets { get; set; }
     }
 }
