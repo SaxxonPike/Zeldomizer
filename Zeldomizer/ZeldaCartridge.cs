@@ -20,32 +20,33 @@ namespace Zeldomizer
         /// </summary>
         public ZeldaCartridge(ISource source)
         {
-            var conversionTable = new TextConversionTable();
-            var speechConverter = new SpeechStringConverter(conversionTable);
-            var textConverter = new TextStringConverter(conversionTable);
-            var fixedStringConverter = new FixedStringConverter(conversionTable);
-            var speechFormatter = new StringFormatter();
+            var conversionTable = new Lazy<ITextConversionTable>(() => new TextConversionTable());
+            var speechConverter = new Lazy<IStringConverter>(() => new SpeechStringConverter(conversionTable.Value));
+            var textConverter = new Lazy<IStringConverter>(() => new TextStringConverter(conversionTable.Value));
+            var fixedStringConverter = new Lazy<IFixedStringConverter>(() => new FixedStringConverter(conversionTable.Value));
+            var speechFormatter = new Lazy<IStringFormatter>(() => new StringFormatter());
 
             // Character Text
             _characterText = new Lazy<IList<string>>(() => new CharacterText(
                 new WordPointerTable(new SourceBlock(source, 0x4000), new SourceBlock(source, -0x4000), 0x26), 
-                speechFormatter, 
-                speechConverter, 
+                speechFormatter.Value, 
+                speechConverter.Value, 
                 0x556, 
                 0x26));
 
             // Ending Text
             _endingText = new Lazy<IEndingText>(() => new EndingText(
-                new StringData(new SourceBlock(source, 0xA959), speechConverter, 38),
-                new FixedStringData(new SourceBlock(source, 0xAB07), fixedStringConverter, 8),
-                new FixedStringData(new SourceBlock(source, 0xAB0F), fixedStringConverter, 24),
-                new FixedStringData(new SourceBlock(source, 0xAB27), fixedStringConverter, 20)));
+                new StringData(new SourceBlock(source, 0xA959), speechConverter.Value, 38),
+                new FixedStringData(new SourceBlock(source, 0xAB07), fixedStringConverter.Value, 8),
+                new FixedStringData(new SourceBlock(source, 0xAB0F), fixedStringConverter.Value, 24),
+                new FixedStringData(new SourceBlock(source, 0xAB27), fixedStringConverter.Value, 20)));
 
             // Menu Text
-            _menuText = new Lazy<IMenuText>(() => new MenuText(new FixedStringData(new SourceBlock(source, 0x09D48), fixedStringConverter, 17),
-                new FixedStringData(new SourceBlock(source, 0x09D5E), fixedStringConverter, 18),
-                new FixedStringData(new SourceBlock(source, 0x09D70), fixedStringConverter, 8),
-                new FixedStringData(new SourceBlock(source, 0x09EEB), fixedStringConverter, 5)));
+            _menuText = new Lazy<IMenuText>(() => new MenuText(
+                new FixedStringData(new SourceBlock(source, 0x09D48), fixedStringConverter.Value, 17),
+                new FixedStringData(new SourceBlock(source, 0x09D5E), fixedStringConverter.Value, 18),
+                new FixedStringData(new SourceBlock(source, 0x09D70), fixedStringConverter.Value, 8),
+                new FixedStringData(new SourceBlock(source, 0x09EEB), fixedStringConverter.Value, 5)));
 
             // Underworld
             _underworld = new Lazy<IUnderworld>(() =>
