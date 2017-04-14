@@ -1,4 +1,5 @@
-﻿using Zeldomizer.Engine.Overworld.Interfaces;
+﻿using Zeldomizer.Engine.Graphics;
+using Zeldomizer.Engine.Overworld.Interfaces;
 
 namespace Zeldomizer.Engine.Overworld
 {
@@ -9,5 +10,6 @@ namespace Zeldomizer.Engine.Overworld
         public OverworldRoomLayoutList RoomLayouts { get; set; }
         public OverworldTileList Tiles { get; set; }
         public OverworldDetailTileList DetailTiles { get; set; }
+        public OverworldSpriteList Sprites { get; set; }
     }
 }

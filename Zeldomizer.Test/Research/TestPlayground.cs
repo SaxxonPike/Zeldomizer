@@ -17,14 +17,14 @@ namespace Zeldomizer.Research
         public void Test1()
         {
             var cart = new ZeldaCartridge(Source);
-            var sprites = new OverworldSpriteList(new SourceBlock(Source, 0x0C93B));
+            var sprites = cart.Overworld.Sprites;
             var renderer = new SpriteRenderer();
             var palette = new NtscNesPalette();
-            var columns = cart.Overworld.ColumnLibraries; // new OverworldColumnLibraryList(new SourceBlock(Source, 0x14000 - 0x8000), new WordList(new SourceBlock(Source, 0x19D0F), 16));
-            var rooms = cart.Overworld.RoomLayouts.ToList(); //new OverworldRoomLayoutList(new SourceBlock(Source, 0x15418), 124).ToList();
-            var tiles = cart.Overworld.Tiles; // new OverworldTileList(new SourceBlock(Source, 0x1697C)).ToList();
-            var detailTiles = cart.Overworld.DetailTiles; // new OverworldDetailTileList(new SourceBlock(Source, 0x169B4));
-            var grid = cart.Overworld.Grid; // new OverworldGrid(new SourceBlock(Source, 0x18580));
+            var columns = cart.Overworld.ColumnLibraries;
+            var rooms = cart.Overworld.RoomLayouts.ToList();
+            var tiles = cart.Overworld.Tiles;
+            var detailTiles = cart.Overworld.DetailTiles;
+            var grid = cart.Overworld.Grid;
 
             var decompiler = new OverworldRoomDecompiler();
             var decompiledRooms = decompiler.Decompile(columns, rooms);

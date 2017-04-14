@@ -1,4 +1,6 @@
-﻿namespace Zeldomizer.Engine.Overworld.Interfaces
+﻿using Zeldomizer.Engine.Graphics;
+
+namespace Zeldomizer.Engine.Overworld.Interfaces
 {
     public interface IOverworld
     {
@@ -7,5 +9,6 @@
         OverworldGrid Grid { get; }
         OverworldRoomLayoutList RoomLayouts { get; }
         OverworldTileList Tiles { get; }
+        OverworldSpriteList Sprites { get; }
     }
 }

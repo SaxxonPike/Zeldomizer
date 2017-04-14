@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Zeldomizer.Engine.Graphics;
 using Zeldomizer.Engine.Overworld;
 using Zeldomizer.Engine.Overworld.Interfaces;
 using Zeldomizer.Engine.Text;
@@ -79,13 +80,12 @@ namespace Zeldomizer
             {
                 var overworldColumnPointers = new WordPointerTable(
                     new SourceBlock(source, 0x19D0F),
-                    new SourceBlock(source, 0xC000),
+                    new SourceBlock(source, 0x0C000),
                     16);
                 var columnLibraries = new OverworldColumnLibraryList(
                     overworldColumnPointers);
-                var grid = new OverworldGrid(new SourceBlock(
-                    source,
-                    0x18580));
+                var grid = new OverworldGrid(
+                    new SourceBlock(source, 0x18580));
                 var roomLayouts = new OverworldRoomLayoutList(
                     new SourceBlock(source, 0x15418),
                     124);
@@ -93,6 +93,8 @@ namespace Zeldomizer
                     new SourceBlock(source, 0x1697C));
                 var detailTiles = new OverworldDetailTileList(
                     new SourceBlock(source, 0x169B4));
+                var sprites = new OverworldSpriteList(
+                    new SourceBlock(source, 0x0C93B));
 
                 return new Overworld
                 {
@@ -100,7 +102,8 @@ namespace Zeldomizer
                     Grid = grid,
                     DetailTiles = detailTiles,
                     RoomLayouts = roomLayouts,
-                    Tiles = tiles
+                    Tiles = tiles,
+                    Sprites = sprites
                 };
             });
         }

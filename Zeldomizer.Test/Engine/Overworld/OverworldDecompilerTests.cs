@@ -5,6 +5,7 @@ using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Overworld
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     public class OverworldDecompilerTests : ZeldomizerBaseTestFixture<OverworldRoomDecompiler>
     {
         protected override OverworldRoomDecompiler GetTestSubject()
