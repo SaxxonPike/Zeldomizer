@@ -1,6 +1,6 @@
 ﻿namespace Zeldomizer.Engine.Underworld
 {
-    public class Underworld
+    public class Underworld : IUnderworld
     {
         public Underworld(
             UnderworldColumnLibraryList columnLibraries, 

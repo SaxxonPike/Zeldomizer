@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Text
 {
@@ -9,12 +8,8 @@ namespace Zeldomizer.Engine.Text
     {
         protected override EndingText GetTestSubject()
         {
-            var conversionTable = new TextConversionTable();
-            var speechStringConverter = new SpeechStringConverter(conversionTable);
-            var textStringConverter = new TextStringConverter(conversionTable);
-            var fixedStringConverter = new FixedStringConverter(conversionTable);
-
-            return new EndingText(Source, speechStringConverter, textStringConverter, fixedStringConverter);
+            var cart = new ZeldaCartridge(Source);
+            return cart.EndingText as EndingText;
         }
 
         [Test]

@@ -43,9 +43,13 @@
     <Compile Include="Engine\DecompiledMap.cs" />
     <Compile Include="Engine\MapCompiler.cs" />
     <Compile Include="Engine\MapDecompiler.cs" />
+    <Compile Include="Engine\Overworld\IOverworld.cs" />
     <Compile Include="Engine\Overworld\Overworld.cs" />
     <Compile Include="Engine\Overworld\OverworldRoom.cs" />
     <Compile Include="Engine\Overworld\OverworldRoomCompiler.cs" />
+    <Compile Include="Engine\Text\IEndingText.cs" />
+    <Compile Include="Engine\Text\IMenuText.cs" />
+    <Compile Include="Engine\Underworld\IUnderworld.cs" />
     <Compile Include="Engine\Underworld\Underworld.cs" />
     <Compile Include="Engine\Underworld\UnderworldColumn.cs" />
     <Compile Include="Engine\Underworld\UnderworldColumnLibrary.cs" />
@@ -102,7 +106,6 @@
     <Compile Include="Metal\IFixedStringConverter.cs" />
     <Compile Include="Metal\IntExtensions.cs" />
     <Compile Include="Metal\ISource.cs" />
-    <Compile Include="Engine\Music\MusicPointers.cs" />
     <Compile Include="Metal\NtscNesPalette.cs" />
     <Compile Include="Metal\RomExtensions.cs" />
     <Compile Include="Metal\TextStringConverter.cs" />

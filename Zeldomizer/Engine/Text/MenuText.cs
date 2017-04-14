@@ -2,19 +2,23 @@
 
 namespace Zeldomizer.Engine.Text
 {
-    public class MenuText
+    public class MenuText : IMenuText
     {
-        private readonly FixedStringData _eliminationModeText;
-        private readonly FixedStringData _registerYourNameText;
-        private readonly FixedStringData _registerText;
-        private readonly FixedStringData _specialNameText;
+        private readonly IStringData _eliminationModeText;
+        private readonly IStringData _registerYourNameText;
+        private readonly IStringData _registerText;
+        private readonly IStringData _specialNameText;
 
-        public MenuText(ISource source, IFixedStringConverter stringConverter)
+        public MenuText(
+            IStringData eliminationModeText, 
+            IStringData registerYourNameText, 
+            IStringData registerText, 
+            IStringData specialNameText)
         {
-            _eliminationModeText = new FixedStringData(new SourceBlock(source, 0x09D48), stringConverter, 17);
-            _registerYourNameText = new FixedStringData(new SourceBlock(source, 0x09D5E), stringConverter, 18);
-            _registerText = new FixedStringData(new SourceBlock(source, 0x09D70), stringConverter, 8);
-            _specialNameText = new FixedStringData(new SourceBlock(source, 0x09EEB), stringConverter, 5);
+            _eliminationModeText = eliminationModeText;
+            _registerYourNameText = registerYourNameText;
+            _registerText = registerText;
+            _specialNameText = specialNameText;
         }
 
         public string EliminationModeText
@@ -23,7 +27,7 @@ namespace Zeldomizer.Engine.Text
             set => _eliminationModeText.Text = value;
         }
 
-        public int EliminationModeTextLength => _eliminationModeText.Length;
+        public int EliminationModeTextLength => _eliminationModeText.MaxLength;
 
         public string RegisterYourNameText
         {
@@ -31,7 +35,7 @@ namespace Zeldomizer.Engine.Text
             set => _registerYourNameText.Text = value;
         }
 
-        public int RegisterYourNameTextLength => _registerYourNameText.Length;
+        public int RegisterYourNameTextLength => _registerYourNameText.MaxLength;
 
         public string RegisterText
         {
@@ -39,7 +43,7 @@ namespace Zeldomizer.Engine.Text
             set => _registerText.Text = value;
         }
 
-        public int RegisterTextLength => _registerText.Length;
+        public int RegisterTextLength => _registerText.MaxLength;
 
         public string SpecialNameText
         {
@@ -47,6 +51,6 @@ namespace Zeldomizer.Engine.Text
             set => _specialNameText.Text = value;
         }
 
-        public int SpecialNameTextLength => _specialNameText.Length;
+        public int SpecialNameTextLength => _specialNameText.MaxLength;
     }
 }

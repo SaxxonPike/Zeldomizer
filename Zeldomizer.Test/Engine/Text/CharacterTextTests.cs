@@ -10,10 +10,8 @@ namespace Zeldomizer.Engine.Text
     {
         protected override CharacterText GetTestSubject()
         {
-            var stringFormatter = new StringFormatter();
-            var textConversionTable = new TextConversionTable();
-            var stringConverter = new SpeechStringConverter(textConversionTable);
-            return new CharacterText(new WordPointerTable(new SourceBlock(Source, 0x4000), new SourceBlock(Source, -0x4000), 0x26), stringFormatter, stringConverter);
+            var cart = new ZeldaCartridge(Source);
+            return cart.CharacterText as CharacterText;
         }
 
         [Test]

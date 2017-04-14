@@ -9,9 +9,8 @@ namespace Zeldomizer.Engine.Text
     {
         protected override MenuText GetTestSubject()
         {
-            var conversionTable = new TextConversionTable();
-            var stringConverter = new FixedStringConverter(conversionTable);
-            return new MenuText(Source, stringConverter);
+            var cart = new ZeldaCartridge(Source);
+            return cart.MenuText as MenuText;
         }
 
         [Test]

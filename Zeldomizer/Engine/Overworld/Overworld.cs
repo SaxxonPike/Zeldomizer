@@ -1,6 +1,6 @@
 ﻿namespace Zeldomizer.Engine.Overworld
 {
-    public class Overworld
+    public class Overworld : IOverworld
     {
         public Overworld(
             OverworldColumnLibraryList columnLibraries,

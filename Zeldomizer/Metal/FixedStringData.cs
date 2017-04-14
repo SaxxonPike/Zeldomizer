@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Zeldomizer.Metal
 {
-    public class FixedStringData
+    public class FixedStringData : IStringData
     {
         private readonly ISource _source;
         private readonly IFixedStringConverter _fixedStringConverter;
@@ -16,6 +16,8 @@ namespace Zeldomizer.Metal
         }
 
         public int Length { get; }
+
+        int IStringData.MaxLength => Length;
 
         public string Text
         {

@@ -2,7 +2,7 @@
 
 namespace Zeldomizer.Metal
 {
-    public class StringData
+    public class StringData : IStringData
     {
         private readonly ISource _source;
         private readonly IStringConverter _stringConverter;
@@ -29,5 +29,11 @@ namespace Zeldomizer.Metal
                 _source.Write(encoded, 0);
             }
         }
+    }
+
+    public interface IStringData
+    {
+        int MaxLength { get; }
+        string Text { get; set; }
     }
 }
