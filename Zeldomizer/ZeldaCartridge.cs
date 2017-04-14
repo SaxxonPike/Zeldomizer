@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Zeldomizer.Engine.Graphics;
 using Zeldomizer.Engine.Overworld;
 using Zeldomizer.Engine.Overworld.Interfaces;
+using Zeldomizer.Engine.Shops;
+using Zeldomizer.Engine.Shops.Interfaces;
 using Zeldomizer.Engine.Text;
 using Zeldomizer.Engine.Text.Interfaces;
 using Zeldomizer.Engine.Underworld;
@@ -106,6 +108,9 @@ namespace Zeldomizer
                     Sprites = sprites
                 };
             });
+
+            // Shops
+            _shops = new Lazy<IReadOnlyList<IShop>>(() => new ShopList(new SourceBlock(source, 0x18600), 20));
         }
 
         private readonly Lazy<IList<string>> _characterText;
@@ -113,11 +118,13 @@ namespace Zeldomizer
         private readonly Lazy<IOverworld> _overworld;
         private readonly Lazy<IUnderworld> _underworld;
         private readonly Lazy<IMenuText> _menuText;
+        private readonly Lazy<IReadOnlyList<IShop>> _shops;
 
         public IList<string> CharacterText => _characterText.Value;
         public IEndingText EndingText => _endingText.Value;
         public IOverworld Overworld => _overworld.Value;
         public IUnderworld Underworld => _underworld.Value;
         public IMenuText MenuText => _menuText.Value;
+        public IReadOnlyList<IShop> Shops => _shops.Value;
     }
 }
