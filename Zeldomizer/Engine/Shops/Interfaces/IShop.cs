@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Zeldomizer.Engine.Shops.Interfaces
 {
@@ -17,5 +13,6 @@ namespace Zeldomizer.Engine.Shops.Interfaces
         bool VendorRemains { get; set; }
         bool CanObtainItems { get; set; }
         int MessageId { get; set; }
+        int VendorId { get; set; }
     }
 }

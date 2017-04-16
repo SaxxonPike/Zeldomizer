@@ -15,15 +15,21 @@ namespace Zeldomizer.Engine.Shops
         private readonly ISource _itemSource;
         private readonly ISource _priceSource;
         private readonly ISource _messageSource;
+        private readonly ISource _vendorSource;
 
         /// <summary>
         /// Initialize a shop.
         /// </summary>
-        public Shop(ISource itemSource, ISource priceSource, ISource messageSource)
+        public Shop(
+            ISource itemSource,
+            ISource priceSource,
+            ISource messageSource,
+            ISource vendorSource)
         {
             _itemSource = itemSource;
             _priceSource = priceSource;
             _messageSource = messageSource;
+            _vendorSource = vendorSource;
         }
 
         /// <summary>
@@ -129,6 +135,15 @@ namespace Zeldomizer.Engine.Shops
         {
             get => _messageSource[0].Bits(5, 1);
             set => _messageSource[0] = _messageSource[0].Bits(5, 1, value);
+        }
+
+        /// <summary>
+        /// Get or set the vendor ID.
+        /// </summary>
+        public int VendorId
+        {
+            get => _vendorSource[0];
+            set => _vendorSource[0] = unchecked((byte) value);
         }
     }
 }

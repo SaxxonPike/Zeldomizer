@@ -13,15 +13,21 @@ namespace Zeldomizer.Engine.Shops
     {
         private readonly ISource _shopSource;
         private readonly ISource _messageSource;
+        private readonly ISource _vendorSource;
 
         /// <summary>
         /// Initialize a list of shops.
         /// </summary>
-        public ShopList(ISource shopSource, ISource messageSource, int count)
+        public ShopList(
+            ISource shopSource, 
+            ISource messageSource, 
+            ISource vendorSource,
+            int count)
         {
             Count = count;
             _shopSource = shopSource;
             _messageSource = messageSource;
+            _vendorSource = vendorSource;
         }
 
         /// <summary>
@@ -43,7 +49,8 @@ namespace Zeldomizer.Engine.Shops
         public IShop this[int index] => new Shop(
             new SourceBlock(_shopSource, index * 3), 
             new SourceBlock(_shopSource, (index + Count) * 3),
-            new SourceBlock(_messageSource, index));
+            new SourceBlock(_messageSource, index),
+            new SourceBlock(_vendorSource, index));
 
         /// <summary>
         /// Number of shops.

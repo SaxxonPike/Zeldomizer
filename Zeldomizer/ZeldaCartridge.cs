@@ -116,6 +116,7 @@ namespace Zeldomizer
             _shops = new Lazy<IReadOnlyList<IShop>>(() => new ShopList(
                 new SourceBlock(source, 0x18600),
                 new SourceBlock(source, 0x045A2),
+                new SourceBlock(source, 0x06E6F), 
                 20));
         }
 
