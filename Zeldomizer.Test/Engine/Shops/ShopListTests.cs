@@ -1,5 +1,4 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NUnit.Framework;
 
 namespace Zeldomizer.Engine.Shops
@@ -9,16 +8,6 @@ namespace Zeldomizer.Engine.Shops
         protected override ShopList GetTestSubject()
         {
             var cart = new ZeldaCartridge(Source);
-
-            foreach (var shop in cart.Shops)
-            {
-                foreach (var item in shop)
-                {
-                    Console.WriteLine(item);
-                }
-                Console.WriteLine();
-            }
-
             return cart.Shops as ShopList;
         }
 
@@ -29,9 +18,6 @@ namespace Zeldomizer.Engine.Shops
             shopItems[0].Item.Should().Be(0x1C);
             shopItems[1].Item.Should().Be(0x00);
             shopItems[2].Item.Should().Be(0x08);
-            shopItems[0].ItemBit7.Should().Be(false);
-            shopItems[1].ItemBit7.Should().Be(false);
-            shopItems[2].ItemBit7.Should().Be(true);
         }
 
         [Test]
@@ -44,9 +30,9 @@ namespace Zeldomizer.Engine.Shops
             shopItems[1].Item.Should().Be(0x00);
             shopItems[1].Item = 0x34;
             shopItems[1].Item.Should().Be(0x34);
-            shopItems[2].Item.Should().Be(0xC8);
+            shopItems[2].Item.Should().Be(0x08);
             shopItems[2].Item = 0x56;
-            shopItems[2].Item.Should().Be(0x56);
+            shopItems[2].Item.Should().Be(0x16);
         }
 
         [Test]

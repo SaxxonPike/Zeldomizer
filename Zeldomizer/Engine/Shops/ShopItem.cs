@@ -39,31 +39,11 @@ namespace Zeldomizer.Engine.Shops
         }
 
         /// <summary>
-        /// Unknown bit 7.
-        /// </summary>
-        public bool ItemBit7
-        {
-            get => _itemSource[0].Bit(7);
-            set => _itemSource[0] = _itemSource[0].Bit(7, value);
-        }
-
-        /// <summary>
-        /// Unknown bit 6.
-        /// </summary>
-        public bool ItemBit6
-        {
-            get => _itemSource[0].Bit(6);
-            set => _itemSource[0] = _itemSource[0].Bit(6, value);
-        }
-
-        /// <summary>
         /// Get the string representation of the shop item.
         /// </summary>
         public override string ToString()
         {
-            return Item < 0x3F 
-                ? $"Item {Item:X2} for {Price} rupees. Bit7: {ItemBit7}. Bit6: {ItemBit6}." 
-                : $"No item for {Price} rupees. Bit7: {ItemBit7}. Bit6: {ItemBit6}.";
+            return $"Item {Item:X2} for ${Price}";
         }
     }
 }

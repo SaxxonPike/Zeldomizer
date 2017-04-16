@@ -19,18 +19,6 @@ namespace Zeldomizer.Research
             var cart = new ZeldaCartridge(Source);
             var shops = cart.Shops;
             var shop = shops[0];
-            shop[0].Item = 0x18;
-            shop[0].ItemBit6 = false;
-            shop[0].ItemBit7 = false;
-            shop[0].Price = 10;
-            shop[1].Item = 0x18;
-            shop[1].ItemBit6 = false;
-            shop[1].ItemBit7 = false;
-            shop[1].Price = 20;
-            shop[2].Item = 0x18;
-            shop[2].ItemBit6 = true;
-            shop[2].ItemBit7 = false;
-            shop[2].Price = 30;
             WriteToDesktop(ExportHeaderedRom(), "zelda-test.nes");
         }
 

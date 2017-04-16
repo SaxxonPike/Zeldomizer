@@ -51,6 +51,7 @@
     <Compile Include="Engine\Overworld\Overworld.cs" />
     <Compile Include="Engine\Overworld\OverworldRoom.cs" />
     <Compile Include="Engine\Overworld\OverworldRoomCompiler.cs" />
+    <Compile Include="Engine\Shops\Interfaces\IShop.cs" />
     <Compile Include="Engine\Shops\Interfaces\IShopItem.cs" />
     <Compile Include="Engine\Shops\Shop.cs" />
     <Compile Include="Engine\Shops\ShopItem.cs" />
