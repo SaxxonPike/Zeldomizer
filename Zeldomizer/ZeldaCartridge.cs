@@ -71,11 +71,15 @@ namespace Zeldomizer
                 var roomLayouts = new UnderworldRoomLayoutList(
                     new SourceBlock(source, 0x160DE),
                     42);
+                var levels = new UnderworldLevelList(
+                    new SourceBlock(source, 0x193FF),
+                    9);
 
                 return new Underworld
                 {
                     ColumnLibraries = columnLibraries,
                     Grids = grids,
+                    Levels = levels,
                     RoomLayouts = roomLayouts
                 };
             });

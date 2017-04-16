@@ -6,6 +6,7 @@ namespace Zeldomizer.Engine.Underworld
     {
         public UnderworldColumnLibraryList ColumnLibraries { get; set; }
         public UnderworldGridList Grids { get; set; }
+        public UnderworldLevelList Levels { get; set; }
         public UnderworldRoomLayoutList RoomLayouts { get; set; }
     }
 }

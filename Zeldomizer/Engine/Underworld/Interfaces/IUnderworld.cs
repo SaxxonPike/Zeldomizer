@@ -4,6 +4,7 @@
     {
         UnderworldColumnLibraryList ColumnLibraries { get; }
         UnderworldGridList Grids { get; }
+        UnderworldLevelList Levels { get; }
         UnderworldRoomLayoutList RoomLayouts { get; }
     }
 }
