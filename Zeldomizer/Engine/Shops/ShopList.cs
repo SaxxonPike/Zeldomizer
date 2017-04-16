@@ -9,7 +9,7 @@ namespace Zeldomizer.Engine.Shops
     /// <summary>
     /// Represents a list of shops, in raw form.
     /// </summary>
-    public class ShopList : IReadOnlyList<IShop>
+    public class ShopList : IReadOnlyList<IReadOnlyList<IShopItem>>
     {
         private readonly ISource _source;
 
@@ -25,7 +25,7 @@ namespace Zeldomizer.Engine.Shops
         /// <summary>
         /// Enumerate all shops.
         /// </summary>
-        public IEnumerator<IShop> GetEnumerator()
+        public IEnumerator<IReadOnlyList<IShopItem>> GetEnumerator()
         {
             return Enumerable
                 .Range(0, Count)
@@ -38,7 +38,7 @@ namespace Zeldomizer.Engine.Shops
         /// <summary>
         /// Get the shop at the specified index.
         /// </summary>
-        public IShop this[int index] => 
+        public IReadOnlyList<IShopItem> this[int index] => 
             new Shop(new SourceBlock(_source, index * 3), new SourceBlock(_source, (index + Count) * 3));
 
         /// <summary>

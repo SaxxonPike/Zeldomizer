@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Zeldomizer.Engine.Shops.Interfaces;
@@ -9,33 +10,42 @@ namespace Zeldomizer.Engine.Shops
     /// <summary>
     /// Represents a shop, in raw form.
     /// </summary>
-    public class Shop : IShop
+    public class Shop : IReadOnlyList<IShopItem>
     {
+        private readonly ISource _itemSource;
+        private readonly ISource _priceSource;
+
         /// <summary>
         /// Initialize a shop.
         /// </summary>
         public Shop(ISource itemSource, ISource priceSource)
         {
-            Items = new ByteList(itemSource, 3);
-            Prices = new ByteList(priceSource, 3);
+            _itemSource = itemSource;
+            _priceSource = priceSource;
         }
 
         /// <summary>
-        /// List of items available at the shop.
+        /// Enumerate items in the shop.
         /// </summary>
-        public IList<int> Items { get; }
-
-        /// <summary>
-        /// List of prices for the items.
-        /// </summary>
-        public IList<int> Prices { get; }
-
-        /// <summary>
-        /// Get a string representation of this shop.
-        /// </summary>
-        public override string ToString()
+        public IEnumerator<IShopItem> GetEnumerator()
         {
-            return string.Join(", ", Enumerable.Range(0, 3).Select(i => $"Item:{Items[i]:X2} Price:{Prices[i]}"));
+            return Enumerable.Range(0, 3)
+                .Select(i => this[i])
+                .GetEnumerator();
         }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        /// <summary>
+        /// Number of possible items in the shop.
+        /// </summary>
+        public int Count => 3;
+
+        /// <summary>
+        /// Items in the shop.
+        /// </summary>
+        public IShopItem this[int index] => new ShopItem(
+            new SourceBlock(_priceSource, index),
+            new SourceBlock(_itemSource, index));
     }
 }

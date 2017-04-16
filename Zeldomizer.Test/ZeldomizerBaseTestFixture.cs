@@ -26,6 +26,17 @@ namespace Zeldomizer
         /// Zelda ROM file.
         /// </summary>
         protected ISource Source => _source.Value;
+
+        /// <summary>
+        /// Export ROM file.
+        /// </summary>
+        protected byte[] ExportHeaderedRom()
+        {
+            if (Source is IExportable exportable)
+                return exportable.Export();
+
+            throw new Exception("Base source type is not exportable with header!");
+        }
     }
 
     /// <summary>
