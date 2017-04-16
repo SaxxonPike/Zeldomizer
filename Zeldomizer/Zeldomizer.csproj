@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Engine\CompiledMap.cs" />
     <Compile Include="Engine\DecompiledMap.cs" />
+    <Compile Include="Engine\Graphics\Palette.cs" />
+    <Compile Include="Engine\Graphics\PaletteList.cs" />
     <Compile Include="Engine\Interfaces\IDecompiledMap.cs" />
     <Compile Include="Engine\Interfaces\IMapCompiler.cs" />
     <Compile Include="Engine\Interfaces\IMapDecompiler.cs" />
@@ -65,6 +67,8 @@
     <Compile Include="Engine\Underworld\UnderworldColumn.cs" />
     <Compile Include="Engine\Underworld\UnderworldColumnLibrary.cs" />
     <Compile Include="Engine\Underworld\UnderworldColumnLibraryList.cs" />
+    <Compile Include="Engine\Underworld\UnderworldFadePaletteList.cs" />
+    <Compile Include="Engine\Underworld\UnderworldFade.cs" />
     <Compile Include="Engine\Underworld\UnderworldLevel.cs" />
     <Compile Include="Engine\Underworld\UnderworldLevelList.cs" />
     <Compile Include="Engine\Underworld\UnderworldRoomDecompiler.cs" />

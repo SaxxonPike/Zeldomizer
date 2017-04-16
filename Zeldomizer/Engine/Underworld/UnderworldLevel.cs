@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Zeldomizer.Engine.Graphics;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Underworld
@@ -12,22 +13,10 @@ namespace Zeldomizer.Engine.Underworld
             _source = source;
         }
 
-        public IList<int> Palette0 =>
-            new ByteList(new SourceBlock(_source, 0x00), 4);
-        public IList<int> Palette1 =>
-            new ByteList(new SourceBlock(_source, 0x04), 4);
-        public IList<int> Palette2 =>
-            new ByteList(new SourceBlock(_source, 0x08), 4);
-        public IList<int> Palette3 =>
-            new ByteList(new SourceBlock(_source, 0x0C), 4);
-        public IList<int> EnemyPalette0 =>
-            new ByteList(new SourceBlock(_source, 0x10), 4);
-        public IList<int> EnemyPalette1 =>
-            new ByteList(new SourceBlock(_source, 0x14), 4);
-        public IList<int> EnemyPalette2 =>
-            new ByteList(new SourceBlock(_source, 0x18), 4);
-        public IList<int> EnemyPalette3 =>
-            new ByteList(new SourceBlock(_source, 0x1C), 4);
+        public PaletteList RoomPalette =>
+            new PaletteList(new SourceBlock(_source, 0x00), 4);
+        public PaletteList EnemyPalette =>
+            new PaletteList(new SourceBlock(_source, 0x10), 4);
 
         public IList<int> ItemTiles =>
             new ByteList(new SourceBlock(_source, 0x26), 4);
@@ -76,13 +65,13 @@ namespace Zeldomizer.Engine.Underworld
         public IList<int> DungeonMapDisplay =>
             new ByteList(new SourceBlock(_source, 0x4C), 45);
 
-        public IList<int> PaletteStairFadeOut =>
-            new ByteList(new SourceBlock(_source, 0x79), 32);
-        public IList<int> PaletteStairFadeIn =>
-            new ByteList(new SourceBlock(_source, 0x99), 32);
-        public IList<int> PaletteDarkFade =>
-            new ByteList(new SourceBlock(_source, 0xB9), 32);
-        public IList<int> PaletteDeathFade =>
-            new ByteList(new SourceBlock(_source, 0xD9), 32);
+        public UnderworldFade DownstairsPaletteFade =>
+            new UnderworldFade(new SourceBlock(_source, 0x79));
+        public UnderworldFade UpstairsPaletteFade =>
+            new UnderworldFade(new SourceBlock(_source, 0x99));
+        public UnderworldFade DarkRoomPaletteFade =>
+            new UnderworldFade(new SourceBlock(_source, 0xB9));
+        public UnderworldFade DeathPaletteFade =>
+            new UnderworldFade(new SourceBlock(_source, 0xD9));
     }
 }
