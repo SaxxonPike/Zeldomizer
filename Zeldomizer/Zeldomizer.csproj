@@ -45,6 +45,7 @@
     <Compile Include="Engine\Interfaces\IMapCompiler.cs" />
     <Compile Include="Engine\Interfaces\IMapDecompiler.cs" />
     <Compile Include="Engine\Interfaces\ICompiledMap.cs" />
+    <Compile Include="Engine\ItemKind.cs" />
     <Compile Include="Engine\MapCompiler.cs" />
     <Compile Include="Engine\MapDecompiler.cs" />
     <Compile Include="Engine\Overworld\Interfaces\IOverworld.cs" />
