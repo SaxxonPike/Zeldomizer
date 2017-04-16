@@ -49,26 +49,6 @@ namespace Zeldomizer.Engine.Shops
             new SourceBlock(_itemSource, index));
 
         /// <summary>
-        /// Get or set the shop type.
-        /// </summary>
-        public int ShopType
-        {
-            get
-            {
-                var bit2 = _itemSource[0].Bit(6) ? 0x4 : 0x0;
-                var bit1 = _itemSource[1].Bit(6) ? 0x2 : 0x0;
-                var bit0 = _itemSource[2].Bit(6) ? 0x1 : 0x0;
-                return bit2 | bit1 | bit0;
-            }
-            set
-            {
-                _itemSource[0] = _itemSource[0].Bit(6, (value & 0x4) != 0);
-                _itemSource[1] = _itemSource[1].Bit(6, (value & 0x2) != 0);
-                _itemSource[2] = _itemSource[2].Bit(6, (value & 0x1) != 0);
-            }
-        }
-
-        /// <summary>
         /// If true, price numbers are shown in the shop.
         /// </summary>
         public bool ShowPrices
@@ -96,11 +76,30 @@ namespace Zeldomizer.Engine.Shops
         }
 
         /// <summary>
-        /// Get a string representation of this shop.
+        /// If true, enough hearts must be obtained in order to get items.
         /// </summary>
-        public override string ToString()
+        public bool RequireHearts
         {
-            return $"Shop type {ShopType}. Showing prices: {ShowPrices}. Showing minus sign: {ShowMinusSign}. Revealed price: {RevealPrice}. ";
+            get => _itemSource[2].Bit(6);
+            set => _itemSource[2] = _itemSource[2].Bit(6, value);
+        }
+
+        /// <summary>
+        /// If true, this shop is Pay to Talk.
+        /// </summary>
+        public bool PayToTalk
+        {
+            get => _itemSource[1].Bit(6);
+            set => _itemSource[1] = _itemSource[1].Bit(6, value);
+        }
+
+        /// <summary>
+        /// If true, items are shown.
+        /// </summary>
+        public bool ShowItems
+        {
+            get => _itemSource[0].Bit(6);
+            set => _itemSource[0] = _itemSource[0].Bit(6, value);
         }
     }
 }
