@@ -14,14 +14,16 @@ namespace Zeldomizer.Engine.Shops
     {
         private readonly ISource _itemSource;
         private readonly ISource _priceSource;
+        private readonly ISource _messageSource;
 
         /// <summary>
         /// Initialize a shop.
         /// </summary>
-        public Shop(ISource itemSource, ISource priceSource)
+        public Shop(ISource itemSource, ISource priceSource, ISource messageSource)
         {
             _itemSource = itemSource;
             _priceSource = priceSource;
+            _messageSource = messageSource;
         }
 
         /// <summary>
@@ -100,6 +102,33 @@ namespace Zeldomizer.Engine.Shops
         {
             get => _itemSource[0].Bit(6);
             set => _itemSource[0] = _itemSource[0].Bit(6, value);
+        }
+
+        /// <summary>
+        /// If true, the vendor will not disappear.
+        /// </summary>
+        public bool VendorRemains
+        {
+            get => _messageSource[0].Bit(7);
+            set => _messageSource[0] = _messageSource[0].Bit(7, value);
+        }
+
+        /// <summary>
+        /// If true, items can be obtained from the shop.
+        /// </summary>
+        public bool CanObtainItems
+        {
+            get => _messageSource[0].Bit(6);
+            set => _messageSource[0] = _messageSource[0].Bit(6, value);
+        }
+
+        /// <summary>
+        /// Get or set the message ID to show.
+        /// </summary>
+        public int MessageId
+        {
+            get => _messageSource[0].Bits(5, 1);
+            set => _messageSource[0] = _messageSource[0].Bits(5, 1, value);
         }
     }
 }

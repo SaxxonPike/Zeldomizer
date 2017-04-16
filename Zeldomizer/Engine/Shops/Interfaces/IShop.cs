@@ -14,5 +14,8 @@ namespace Zeldomizer.Engine.Shops.Interfaces
         bool RequireHearts { get; set; }
         bool PayToTalk { get; set; }
         bool ShowItems { get; set; }
+        bool VendorRemains { get; set; }
+        bool CanObtainItems { get; set; }
+        int MessageId { get; set; }
     }
 }

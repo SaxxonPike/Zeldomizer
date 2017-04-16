@@ -113,7 +113,10 @@ namespace Zeldomizer
             });
 
             // Shops
-            _shops = new Lazy<IReadOnlyList<IReadOnlyList<IShopItem>>>(() => new ShopList(new SourceBlock(source, 0x18600), 20));
+            _shops = new Lazy<IReadOnlyList<IShop>>(() => new ShopList(
+                new SourceBlock(source, 0x18600),
+                new SourceBlock(source, 0x045A2),
+                20));
         }
 
         private readonly Lazy<IList<string>> _characterText;
@@ -121,13 +124,13 @@ namespace Zeldomizer
         private readonly Lazy<IOverworld> _overworld;
         private readonly Lazy<IUnderworld> _underworld;
         private readonly Lazy<IMenuText> _menuText;
-        private readonly Lazy<IReadOnlyList<IReadOnlyList<IShopItem>>> _shops;
+        private readonly Lazy<IReadOnlyList<IShop>> _shops;
 
         public IList<string> CharacterText => _characterText.Value;
         public IEndingText EndingText => _endingText.Value;
         public IOverworld Overworld => _overworld.Value;
         public IUnderworld Underworld => _underworld.Value;
         public IMenuText MenuText => _menuText.Value;
-        public IReadOnlyList<IReadOnlyList<IShopItem>> Shops => _shops.Value;
+        public IReadOnlyList<IShop> Shops => _shops.Value;
     }
 }
