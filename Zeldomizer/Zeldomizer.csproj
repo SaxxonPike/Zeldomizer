@@ -52,6 +52,7 @@
     <Compile Include="Engine\MapDecompiler.cs" />
     <Compile Include="Engine\Overworld\Interfaces\IOverworld.cs" />
     <Compile Include="Engine\Overworld\Overworld.cs" />
+    <Compile Include="Engine\Overworld\OverworldLevel.cs" />
     <Compile Include="Engine\Overworld\OverworldRoom.cs" />
     <Compile Include="Engine\Overworld\OverworldRoomCompiler.cs" />
     <Compile Include="Engine\Shops\Interfaces\IShop.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Engine\Underworld\UnderworldColumn.cs" />
     <Compile Include="Engine\Underworld\UnderworldColumnLibrary.cs" />
     <Compile Include="Engine\Underworld\UnderworldColumnLibraryList.cs" />
+    <Compile Include="Engine\Underworld\UnderworldExitType.cs" />
     <Compile Include="Engine\Underworld\UnderworldFadePaletteList.cs" />
     <Compile Include="Engine\Underworld\UnderworldFade.cs" />
     <Compile Include="Engine\Underworld\UnderworldLevel.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Engine\Underworld\UnderworldRoomCompiler.cs" />
     <Compile Include="Engine\Underworld\UnderworldRoomLayout.cs" />
     <Compile Include="Engine\Underworld\UnderworldRoomLayoutList.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoomScript.cs" />
     <Compile Include="Engine\Underworld\UnderworldTileList.cs" />
     <Compile Include="Engine\Graphics\OverworldSpriteList.cs" />
     <Compile Include="Engine\Overworld\OverworldColumn.cs" />

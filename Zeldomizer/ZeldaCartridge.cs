@@ -104,6 +104,8 @@ namespace Zeldomizer
                     new SourceBlock(source, 0x169B4));
                 var sprites = new OverworldSpriteList(
                     new SourceBlock(source, 0x0C93B));
+                var level = new OverworldLevel(
+                    new SourceBlock(source, 0x19303));
 
                 return new Overworld
                 {
@@ -112,7 +114,8 @@ namespace Zeldomizer
                     DetailTiles = detailTiles,
                     RoomLayouts = roomLayouts,
                     Tiles = tiles,
-                    Sprites = sprites
+                    Sprites = sprites,
+                    Level = level
                 };
             });
 

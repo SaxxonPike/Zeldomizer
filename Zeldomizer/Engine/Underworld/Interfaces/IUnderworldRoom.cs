@@ -2,12 +2,19 @@
 {
     public interface IUnderworldRoom
     {
-        int Color0 { get; set; }
-        int Color1 { get; set; }
+        bool Dark { get; set; }
+        UnderworldExitType ExitEast { get; set; }
+        UnderworldExitType ExitNorth { get; set; }
+        UnderworldExitType ExitSouth { get; set; }
+        UnderworldExitType ExitWest { get; set; }
         int FloorItem { get; set; }
+        ItemKind FloorItemKind { get; set; }
+        bool HasPushableBlock { get; set; }
+        int ItemDropPosition { get; set; }
         int Layout { get; set; }
-        bool LayoutFlag { get; set; }
+        int MonsterArrangement { get; set; }
         int Monsters { get; set; }
-        int SpecialItem { get; set; }
+        int RoarType { get; set; }
+        UnderworldRoomScript Script { get; set; }
     }
 }
