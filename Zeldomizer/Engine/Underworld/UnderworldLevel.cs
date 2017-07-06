@@ -15,8 +15,10 @@ namespace Zeldomizer.Engine.Underworld
 
         public PaletteList RoomPalette =>
             new PaletteList(new SourceBlock(_source, 0x00), 4);
+        public Palette LinkPalette =>
+            new Palette(new SourceBlock(_source, 0x10));
         public PaletteList EnemyPalette =>
-            new PaletteList(new SourceBlock(_source, 0x10), 4);
+            new PaletteList(new SourceBlock(_source, 0x14), 3);
 
         public IList<int> ItemTiles =>
             new ByteList(new SourceBlock(_source, 0x26), 4);

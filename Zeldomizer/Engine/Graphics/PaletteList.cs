@@ -29,5 +29,10 @@ namespace Zeldomizer.Engine.Graphics
 
         public Palette this[int index] => 
             new Palette(new SourceBlock(_source, index << 2));
+
+        public override string ToString()
+        {
+            return $"[{string.Join(", ", this.Select(i => i.ToString()))}]";
+        }
     }
 }

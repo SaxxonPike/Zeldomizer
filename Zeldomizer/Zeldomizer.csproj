@@ -43,6 +43,9 @@
     <Compile Include="Engine\DecompiledMap.cs" />
     <Compile Include="Engine\Graphics\Palette.cs" />
     <Compile Include="Engine\Graphics\PaletteList.cs" />
+    <Compile Include="Engine\Scenes\Interfaces\IScene.cs" />
+    <Compile Include="Engine\Scenes\Scene.cs" />
+    <Compile Include="Engine\Scenes\SceneRow.cs" />
     <Compile Include="Engine\Interfaces\IDecompiledMap.cs" />
     <Compile Include="Engine\Interfaces\IMapCompiler.cs" />
     <Compile Include="Engine\Interfaces\IMapDecompiler.cs" />

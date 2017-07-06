@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Zeldomizer.Engine.Graphics;
-using Zeldomizer.Engine.Underworld;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Overworld
@@ -16,8 +15,10 @@ namespace Zeldomizer.Engine.Overworld
 
         public PaletteList RoomPalette =>
             new PaletteList(new SourceBlock(_source, 0x00), 4);
+        public Palette LinkPalette =>
+            new Palette(new SourceBlock(_source, 0x10));
         public PaletteList EnemyPalette =>
-            new PaletteList(new SourceBlock(_source, 0x10), 4);
+            new PaletteList(new SourceBlock(_source, 0x14), 3);
 
         public IList<ICoordinate> PushSecretRoomCoordinates =>
             new CoordinateList(new SourceBlock(_source, 0x26), 4, 16, 8);

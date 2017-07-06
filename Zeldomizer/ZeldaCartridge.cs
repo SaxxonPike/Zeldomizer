@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Zeldomizer.Engine.Graphics;
 using Zeldomizer.Engine.Overworld;
 using Zeldomizer.Engine.Overworld.Interfaces;
+using Zeldomizer.Engine.Scenes;
+using Zeldomizer.Engine.Scenes.Interfaces;
 using Zeldomizer.Engine.Shops;
 using Zeldomizer.Engine.Shops.Interfaces;
 using Zeldomizer.Engine.Text;
@@ -128,6 +130,16 @@ namespace Zeldomizer
                 new SourceBlock(source, 0x045A2),
                 new SourceBlock(source, 0x06E6F), 
                 20));
+
+            // Intro scene
+            _introScene = new Lazy<IScene>(() => new Scene(
+                new SourceBlock(source, 0x1A3FE),
+                conversionTable.Value));
+
+            // Title scene
+            _titleScene = new Lazy<IScene>(() => new Scene(
+                new SourceBlock(source, 0x1A869),
+                conversionTable.Value));
         }
 
         private readonly Lazy<IList<string>> _characterText;
@@ -136,6 +148,8 @@ namespace Zeldomizer
         private readonly Lazy<IUnderworld> _underworld;
         private readonly Lazy<IMenuText> _menuText;
         private readonly Lazy<IReadOnlyList<IShop>> _shops;
+        private readonly Lazy<IScene> _introScene;
+        private readonly Lazy<IScene> _titleScene;
 
         public IList<string> CharacterText => _characterText.Value;
         public IEndingText EndingText => _endingText.Value;
@@ -143,5 +157,7 @@ namespace Zeldomizer
         public IUnderworld Underworld => _underworld.Value;
         public IMenuText MenuText => _menuText.Value;
         public IReadOnlyList<IShop> Shops => _shops.Value;
+        public IScene IntroScene => _introScene.Value;
+        public IScene TitleScene => _titleScene.Value;
     }
 }
