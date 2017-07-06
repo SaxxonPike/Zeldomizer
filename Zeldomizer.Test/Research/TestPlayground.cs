@@ -18,6 +18,9 @@ namespace Zeldomizer.Research
         {
             var cart = new ZeldaCartridge(Source);
             var levels = cart.Underworld.Levels.ToArray();
+            var start = cart.Overworld.Start;
+            start.X = 0;
+            start.Y = 1;
             WriteToDesktop(ExportHeaderedRom(), "zelda-test.nes");
         }
 

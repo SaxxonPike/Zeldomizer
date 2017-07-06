@@ -1,6 +1,5 @@
 ﻿using Zeldomizer.Engine.Graphics;
 using Zeldomizer.Engine.Overworld.Interfaces;
-using Zeldomizer.Engine.Underworld;
 
 namespace Zeldomizer.Engine.Overworld
 {
@@ -13,5 +12,6 @@ namespace Zeldomizer.Engine.Overworld
         public OverworldDetailTileList DetailTiles { get; set; }
         public OverworldSpriteList Sprites { get; set; }
         public OverworldLevel Level { get; set; }
+        public OverworldStart Start { get; set; }
     }
 }
