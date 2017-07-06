@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using Zeldomizer.Engine.AI;
 using Zeldomizer.Engine.Graphics;
 using Zeldomizer.Engine.Overworld;
 using Zeldomizer.Metal;
@@ -18,12 +19,10 @@ namespace Zeldomizer.Research
         {
             var cart = new ZeldaCartridge(Source);
 
-            var intro = cart.IntroScene;
-            var title = cart.TitleScene;
+            var pathfinder = new Pathfinder(cart.Overworld, cart.Underworld);
+            pathfinder.Start();
 
-            title[2].Write(4, "Testing lol");
-
-            WriteToDesktop(ExportHeaderedRom(), "zelda-test.nes");
+            //WriteToDesktop(ExportHeaderedRom(), "zelda-test.nes");
         }
 
         [Test]

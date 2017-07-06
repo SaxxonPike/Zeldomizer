@@ -24,5 +24,10 @@ namespace Zeldomizer.Engine.Scenes
                     _source[ix++] = unchecked((byte)(b ?? _textConversionTable.SpaceCharacter));
             }
         }
+
+        public override string ToString()
+        {
+            return new string(this.Select(b => _textConversionTable.Decode(b) ?? ' ').ToArray());
+        }
     }
 }
