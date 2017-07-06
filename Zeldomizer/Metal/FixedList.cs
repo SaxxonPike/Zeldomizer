@@ -117,5 +117,13 @@ namespace Zeldomizer.Metal
         /// Get or set the element at the specified index within the list.
         /// </summary>
         public abstract T this[int index] { get; set; }
+
+        /// <summary>
+        /// Get a string representation of the list.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"[{string.Join(", ", this.Select(i => i.ToString()))}]";
+        }
     }
 }

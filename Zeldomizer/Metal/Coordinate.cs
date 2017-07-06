@@ -1,12 +1,12 @@
 ﻿namespace Zeldomizer.Metal
 {
-    public class CoordinateSource : ICoordinate
+    public class Coordinate : ICoordinate
     {
         private readonly ISource _source;
         private readonly int _width;
         private readonly int _height;
 
-        public CoordinateSource(ISource source, int width, int height)
+        public Coordinate(ISource source, int width, int height)
         {
             _source = source;
             _width = width;
@@ -29,6 +29,11 @@
         {
             get => _source[0];
             set => _source[0] = unchecked((byte)value);
+        }
+
+        public override string ToString()
+        {
+            return $"({X}, {Y})";
         }
     }
 }

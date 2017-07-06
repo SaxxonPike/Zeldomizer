@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Zeldomizer.Engine.Graphics;
 using Zeldomizer.Metal;
 
-namespace Zeldomizer.Engine.Underworld
+namespace Zeldomizer.Engine.Graphics
 {
-    public class UnderworldFadePaletteList : IReadOnlyList<Palette>
+    public class FadePaletteList : IReadOnlyList<Palette>
     {
         private readonly ISource _source;
 
-        public UnderworldFadePaletteList(ISource source, int count)
+        public FadePaletteList(ISource source, int count)
         {
             _source = source;
             Count = count;

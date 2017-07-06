@@ -71,8 +71,8 @@
     <Compile Include="Engine\Underworld\UnderworldColumnLibrary.cs" />
     <Compile Include="Engine\Underworld\UnderworldColumnLibraryList.cs" />
     <Compile Include="Engine\Underworld\UnderworldExitType.cs" />
-    <Compile Include="Engine\Underworld\UnderworldFadePaletteList.cs" />
-    <Compile Include="Engine\Underworld\UnderworldFade.cs" />
+    <Compile Include="Engine\Graphics\FadePaletteList.cs" />
+    <Compile Include="Engine\Graphics\Fade.cs" />
     <Compile Include="Engine\Underworld\UnderworldLevel.cs" />
     <Compile Include="Engine\Underworld\UnderworldLevelList.cs" />
     <Compile Include="Engine\Underworld\UnderworldRoomDecompiler.cs" />
@@ -96,7 +96,8 @@
     <Compile Include="Engine\Overworld\OverworldRoomLayoutList.cs" />
     <Compile Include="Engine\Overworld\OverworldTileList.cs" />
     <Compile Include="Metal\BankPointerTable.cs" />
-    <Compile Include="Metal\CoordinateSource.cs" />
+    <Compile Include="Metal\Coordinate.cs" />
+    <Compile Include="Metal\CoordinateList.cs" />
     <Compile Include="Metal\DebugPrettyPrint.cs" />
     <Compile Include="Metal\EnumerableExtensions.cs" />
     <Compile Include="Metal\ICoordinate.cs" />

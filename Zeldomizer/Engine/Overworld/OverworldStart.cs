@@ -10,7 +10,7 @@ namespace Zeldomizer.Engine.Overworld
         public OverworldStart(ISource source)
         {
             _source = source;
-            _coordinate = new CoordinateSource(new SourceBlock(source, 0x07), 16, 8);
+            _coordinate = new Coordinate(new SourceBlock(source, 0x07), 16, 8);
         }
 
         public int X
