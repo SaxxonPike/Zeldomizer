@@ -5,22 +5,42 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
+using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Underworld
 {
     public class UnderworldLevelTests : ZeldomizerBaseTestFixture<UnderworldLevel>
     {
+        private ISource _source;
+        
         protected override UnderworldLevel GetTestSubject()
         {
-            var cart = new ZeldaCartridge(Source);
-            return cart.Underworld.Levels[2];
+            _source = new Source(0xFC);
+            return new UnderworldLevel(_source);
         }
 
         [Test]
-        public void Test1()
+        public void LevelNumber_CanBeRead()
         {
-            var room = new ZeldaCartridge(Source).Underworld.Grids[0][0x00];
-            Subject.LevelNumber.Should().Be(9);
+            // Arrange.
+            var value = Random<byte>();
+            _source[0x30] = value;
+            
+            // Assert.
+            Subject.LevelNumber.Should().Be(value);
+        }
+
+        [Test]
+        public void LevelNumber_CanBeWritten()
+        {
+            // Arrange.
+            var value = Random<byte>();
+            
+            // Act.
+            Subject.LevelNumber = value;
+
+            // Assert.
+            _source[0x30].Should().Be(value);
         }
     }
 }

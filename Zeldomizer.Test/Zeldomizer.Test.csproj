@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Engine\Overworld\OverworldRoomCompilerTests.cs" />
     <Compile Include="Engine\Shops\ShopListTests.cs" />
+    <Compile Include="Engine\Underworld\UnderworldLevelListTests.cs" />
     <Compile Include="Engine\Underworld\UnderworldLevelTests.cs" />
     <Compile Include="Engine\Underworld\UnderworldRoomDecompilerTests.cs" />
     <Compile Include="Engine\Overworld\OverworldDecompilerTests.cs" />
