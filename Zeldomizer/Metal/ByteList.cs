@@ -1,27 +1,33 @@
-﻿using System.Linq;
-
-namespace Zeldomizer.Metal
+﻿namespace Zeldomizer.Metal
 {
+    /// <summary>
+    /// A fixed length list of bytes.
+    /// </summary>
     public class ByteList : FixedList<int>
     {
-        private readonly IRom _source;
-        private readonly int _offset;
+        private readonly ISource _source;
 
-        public ByteList(IRom source, int offset, int capacity) : base(capacity)
+        /// <summary>
+        /// Initialize a fixed length list of bytes.
+        /// </summary>
+        public ByteList(ISource source, int capacity) : base(capacity)
         {
             _source = source;
-            _offset = offset;
         }
 
+        /// <summary>
+        /// Get or set the element at the specified index.
+        /// </summary>
         public override int this[int index]
         {
-            get { return _source[index + _offset]; }
-            set { _source[index + _offset] = unchecked((byte)value); }
+            get => _source[index];
+            set => _source[index] = unchecked((byte)value);
         }
 
-        public override string ToString()
-        {
-            return string.Join(" ", this.Select(i => $"{i:x2}"));
-        }
+        /// <summary>
+        /// Get a string representation of this list.
+        /// </summary>
+        public override string ToString() => 
+            DebugPrettyPrint.GetByteArray(this);
     }
 }

@@ -5,9 +5,8 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    [TestFixture]
-    [Parallelizable(ParallelScope.Self)]
-    public class CompareTests : ExecutionBaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class CompareTests : BreadboxBaseTestFixture
     {
         private void CompareFlags(int register, int data)
         {
@@ -28,7 +27,7 @@ namespace Breadbox
             var data = lowData + (highData << 4);
             Cpu.SetA(a);
             Cpu.SetOpcode(0xC9);
-            MemoryMock.Setup(m => m.Read(It.IsAny<int>())).Returns(data);
+            System.Setup(m => m.Read(It.IsAny<int>())).Returns(data);
 
             // Act
             Cpu.ClockStep();
@@ -47,7 +46,7 @@ namespace Breadbox
             var data = lowData + (highData << 4);
             Cpu.SetX(x);
             Cpu.SetOpcode(0xE0);
-            MemoryMock.Setup(m => m.Read(It.IsAny<int>())).Returns(data);
+            System.Setup(m => m.Read(It.IsAny<int>())).Returns(data);
 
             // Act
             Cpu.ClockStep();
@@ -66,7 +65,7 @@ namespace Breadbox
             var data = lowData + (highData << 4);
             Cpu.SetY(y);
             Cpu.SetOpcode(0xC0);
-            MemoryMock.Setup(m => m.Read(It.IsAny<int>())).Returns(data);
+            System.Setup(m => m.Read(It.IsAny<int>())).Returns(data);
 
             // Act
             Cpu.ClockStep();

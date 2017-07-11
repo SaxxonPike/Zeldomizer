@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mimic.Interfaces;
+﻿using Mimic.Interfaces;
 
 namespace Mimic.Devices
 {

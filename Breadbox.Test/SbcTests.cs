@@ -4,8 +4,7 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    [TestFixture]
-    [Parallelizable(ParallelScope.Self)]
+    [Parallelizable(ParallelScope.Fixtures)]
     public class SbcTests : OpcodeBaseTestFixture
     {
         public SbcTests() : base(0xE9)
@@ -27,7 +26,7 @@ namespace Breadbox
             Cpu.SetD(false);
             Cpu.SetC(carry);
             Cpu.SetA(a);
-            MemoryMock.SetupSequence(m => m.Read(It.IsAny<int>()))
+            System.SetupSequence(m => m.Read(It.IsAny<int>()))
                 .Returns(operand);
 
             // Act
@@ -65,7 +64,7 @@ namespace Breadbox
             Cpu.SetD(true);
             Cpu.SetC(carry);
             Cpu.SetA(a);
-            MemoryMock.SetupSequence(m => m.Read(It.IsAny<int>()))
+            System.SetupSequence(m => m.Read(It.IsAny<int>()))
                 .Returns(operand);
 
             // Act

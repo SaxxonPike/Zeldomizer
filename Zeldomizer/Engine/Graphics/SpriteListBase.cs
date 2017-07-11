@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Zeldomizer.Engine.Graphics.Interfaces;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Graphics
 {
     public abstract class SpriteListBase : IEnumerable<ISprite>
     {
-        private readonly IRom _rom;
+        private readonly ISource _source;
         private readonly int _listOffset;
 
-        protected SpriteListBase(IRom rom, int offset)
+        protected SpriteListBase(ISource source, int offset)
         {
-            _rom = rom;
+            _source = source;
             _listOffset = offset;
         }
 
@@ -19,8 +20,8 @@ namespace Zeldomizer.Engine.Graphics
         {
             var spriteOffset = index << 4;
             if (width == 1 && height == 1)
-                return new Sprite(_rom, _listOffset + spriteOffset);
-            return new CompoundSprite(_rom, width, height, _listOffset + spriteOffset);
+                return new Sprite(_source, _listOffset + spriteOffset);
+            return new CompoundSprite(_source, width, height, _listOffset + spriteOffset);
         }
 
         protected abstract IEnumerable<ISprite> GetSprites();

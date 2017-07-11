@@ -5,16 +5,16 @@ namespace Zeldomizer.Metal
 {
     public class TextStringConverter : IStringConverter
     {
-        private readonly IConversionTable _conversionTable;
+        private readonly ITextConversionTable _textConversionTable;
 
-        public TextStringConverter(IConversionTable conversionTable)
+        public TextStringConverter(ITextConversionTable textConversionTable)
         {
-            _conversionTable = conversionTable;
+            _textConversionTable = textConversionTable;
         }
 
-        public int GetLength(IRom source, int offset)
+        public int GetLength(ISource source)
         {
-            var i = offset;
+            var i = 0;
             var result = 0;
             while (true)
             {
@@ -25,9 +25,9 @@ namespace Zeldomizer.Metal
             }
         }
 
-        public string Decode(IRom source, int offset)
+        public string Decode(ISource source)
         {
-            var i = offset;
+            var i = 0;
             var output = new StringBuilder();
 
             while (true)
@@ -41,7 +41,7 @@ namespace Zeldomizer.Metal
                         output.Append(' ');
                         break;
                     default:
-                        output.Append(_conversionTable.Decode(input & 0x3F));
+                        output.Append(_textConversionTable.Decode(input.Bits(5, 0)));
                         break;
                 }
 
@@ -52,8 +52,8 @@ namespace Zeldomizer.Metal
         public byte[] Encode(string text)
         {
             return (text ?? "")
-                .Select(_conversionTable.Encode)
-                .Select(c => unchecked((byte)(c ?? 0x24)))
+                .Select(_textConversionTable.Encode)
+                .Select(c => unchecked((byte)(c ?? _textConversionTable.SpaceCharacter)))
                 .Concat(new byte[]{ 0xFF })
                 .ToArray();
         }

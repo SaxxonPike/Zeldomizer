@@ -4,7 +4,8 @@ using NUnit.Framework;
 
 namespace Zeldomizer.Engine.Graphics
 {
-    public class CompoundSpriteTests : BaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class CompoundSpriteTests : ZeldomizerBaseTestFixture
     {
         [Test]
         public void CompoundSprite_ReadsCorrectData()
@@ -29,7 +30,7 @@ namespace Zeldomizer.Engine.Graphics
                 0, 3, 3, 3, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0
             };
 
-            var sprite = new CompoundSprite(Rom, 2, 2, 0x807F);
+            var sprite = new CompoundSprite(Source, 2, 2, 0x807F);
             sprite.ToArray().Should().Equal(expected);
         }
 
@@ -58,7 +59,7 @@ namespace Zeldomizer.Engine.Graphics
 
             expected[index] = pixelValue;
 
-            var sprite = new CompoundSprite(Rom, 2, 2, 0x807F) { [index] = pixelValue };
+            var sprite = new CompoundSprite(Source, 2, 2, 0x807F) { [index] = pixelValue };
             sprite.ToArray().Should().Equal(expected);
         }
     }

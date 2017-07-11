@@ -2,7 +2,8 @@
 {
     public interface IFixedStringConverter
     {
-        string Decode(IRom source, int offset, int length);
+        string Decode(ISource source, int length);
         byte[] Encode(string text, int length);
+        int SpaceCharacter { get; }
     }
 }

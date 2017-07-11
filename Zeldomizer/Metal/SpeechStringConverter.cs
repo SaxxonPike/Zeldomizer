@@ -6,30 +6,28 @@ namespace Zeldomizer.Metal
 {
     public class SpeechStringConverter : IStringConverter
     {
-        private readonly IConversionTable _conversionTable;
+        private readonly ITextConversionTable _textConversionTable;
 
-        public SpeechStringConverter(IConversionTable conversionTable)
+        public SpeechStringConverter(ITextConversionTable textConversionTable)
         {
-            _conversionTable = conversionTable;
+            _textConversionTable = textConversionTable;
         }
 
-        private const int FastSpace = 0x25;
-        private const int UnknownCharacter = 0x24;
         private const int EndCommand = 0xC0;
 
         private int Encode(char input)
         {
-            return _conversionTable.Encode(input) ?? UnknownCharacter;
+            return _textConversionTable.Encode(input) ?? _textConversionTable.SpaceCharacter;
         }
 
         private char Decode(int input)
         {
-            return _conversionTable.Decode(input) ?? ' ';
+            return _textConversionTable.Decode(input) ?? ' ';
         }
 
-        public int GetLength(IRom source, int offset)
+        public int GetLength(ISource source)
         {
-            var i = offset;
+            var i = 0;
             var result = 0;
 
             while (true)
@@ -48,9 +46,9 @@ namespace Zeldomizer.Metal
             return result;
         }
 
-        public string Decode(IRom source, int offset)
+        public string Decode(ISource source)
         {
-            var i = offset;
+            var i = 0;
             var currentLine = 0;
             var lines = Enumerable
                 .Range(0, 3)
@@ -61,8 +59,8 @@ namespace Zeldomizer.Metal
             while (true)
             {
                 var input = source[i];
-                var commandBits = input >> 6;
-                var character = input & 0x3F;
+                var commandBits = input.Bits(7, 6);
+                var character = input.Bits(5, 0);
                 var decoded = Decode(character);
 
                 lines[currentLine].Append(decoded);
@@ -107,13 +105,13 @@ namespace Zeldomizer.Metal
                 {
                     if (line[i] != encodedSpace)
                         break;
-                    line[i] = FastSpace;
+                    line[i] = _textConversionTable.PaddingCharacter;
                 }
                 for (var i = line.Length - 1; i >= 0; i--)
                 {
                     if (line[i] != encodedSpace)
                         break;
-                    line[i] = FastSpace;
+                    line[i] = _textConversionTable.PaddingCharacter;
                 }
             }
 

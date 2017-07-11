@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Zeldomizer</RootNamespace>
     <AssemblyName>Zeldomizer</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,29 +37,82 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
-    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\Dungeons\Dungeon.cs" />
-    <Compile Include="Engine\Dungeons\DungeonColumn.cs" />
-    <Compile Include="Engine\Dungeons\DungeonColumnLibrary.cs" />
-    <Compile Include="Engine\Dungeons\DungeonColumnLibraryList.cs" />
-    <Compile Include="Engine\Dungeons\DungeonList.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoom.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoomCompiler.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoomCompilerOutput.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoomLayoutMapper.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoomLayout.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoomLayoutList.cs" />
-    <Compile Include="Engine\Dungeons\DungeonRoomMapper.cs" />
+    <Compile Include="Engine\AI\Pathfinder.cs" />
+    <Compile Include="Engine\CompiledMap.cs" />
+    <Compile Include="Engine\DecompiledMap.cs" />
+    <Compile Include="Engine\Graphics\Palette.cs" />
+    <Compile Include="Engine\Graphics\PaletteList.cs" />
+    <Compile Include="Engine\Scenes\Interfaces\IScene.cs" />
+    <Compile Include="Engine\Scenes\Scene.cs" />
+    <Compile Include="Engine\Scenes\SceneRow.cs" />
+    <Compile Include="Engine\Interfaces\IDecompiledMap.cs" />
+    <Compile Include="Engine\Interfaces\IMapCompiler.cs" />
+    <Compile Include="Engine\Interfaces\IMapDecompiler.cs" />
+    <Compile Include="Engine\Interfaces\ICompiledMap.cs" />
+    <Compile Include="Engine\ItemKind.cs" />
+    <Compile Include="Engine\MapCompiler.cs" />
+    <Compile Include="Engine\MapDecompiler.cs" />
+    <Compile Include="Engine\Overworld\Interfaces\IOverworld.cs" />
+    <Compile Include="Engine\Overworld\Interfaces\IOverworldLevel.cs" />
+    <Compile Include="Engine\Overworld\Overworld.cs" />
+    <Compile Include="Engine\Overworld\OverworldLevel.cs" />
+    <Compile Include="Engine\Overworld\OverworldRoom.cs" />
+    <Compile Include="Engine\Overworld\OverworldRoomCompiler.cs" />
+    <Compile Include="Engine\Overworld\OverworldStart.cs" />
+    <Compile Include="Engine\Shops\Interfaces\IShop.cs" />
+    <Compile Include="Engine\Shops\Interfaces\IShopItem.cs" />
+    <Compile Include="Engine\Shops\Shop.cs" />
+    <Compile Include="Engine\Shops\ShopItem.cs" />
+    <Compile Include="Engine\Shops\ShopList.cs" />
+    <Compile Include="Engine\Text\Interfaces\IEndingText.cs" />
+    <Compile Include="Engine\Text\Interfaces\IMenuText.cs" />
+    <Compile Include="Engine\Underworld\Interfaces\IUnderworld.cs" />
+    <Compile Include="Engine\Underworld\Interfaces\IUnderworldRoom.cs" />
+    <Compile Include="Engine\Underworld\Underworld.cs" />
+    <Compile Include="Engine\Underworld\UnderworldColumn.cs" />
+    <Compile Include="Engine\Underworld\UnderworldColumnLibrary.cs" />
+    <Compile Include="Engine\Underworld\UnderworldColumnLibraryList.cs" />
+    <Compile Include="Engine\Underworld\UnderworldExitType.cs" />
+    <Compile Include="Engine\Graphics\FadePaletteList.cs" />
+    <Compile Include="Engine\Graphics\Fade.cs" />
+    <Compile Include="Engine\Underworld\UnderworldLevel.cs" />
+    <Compile Include="Engine\Underworld\UnderworldLevelList.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoomDecompiler.cs" />
+    <Compile Include="Engine\Underworld\UnderworldGrid.cs" />
+    <Compile Include="Engine\Underworld\UnderworldGridList.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoom.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoomCompiler.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoomLayout.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoomLayoutList.cs" />
+    <Compile Include="Engine\Underworld\UnderworldRoomScript.cs" />
+    <Compile Include="Engine\Underworld\UnderworldTileList.cs" />
+    <Compile Include="Engine\Graphics\OverworldSpriteList.cs" />
+    <Compile Include="Engine\Overworld\OverworldColumn.cs" />
+    <Compile Include="Engine\Overworld\OverworldColumnLibrary.cs" />
+    <Compile Include="Engine\Overworld\OverworldColumnLibraryList.cs" />
+    <Compile Include="Engine\Overworld\OverworldRoomDecompiler.cs" />
+    <Compile Include="Engine\Overworld\OverworldDetailTile.cs" />
+    <Compile Include="Engine\Overworld\OverworldDetailTileList.cs" />
+    <Compile Include="Engine\Overworld\OverworldGrid.cs" />
+    <Compile Include="Engine\Overworld\OverworldRoomLayout.cs" />
+    <Compile Include="Engine\Overworld\OverworldRoomLayoutList.cs" />
+    <Compile Include="Engine\Overworld\OverworldTileList.cs" />
+    <Compile Include="Metal\BankPointerTable.cs" />
+    <Compile Include="Metal\Coordinate.cs" />
+    <Compile Include="Metal\CoordinateList.cs" />
+    <Compile Include="Metal\DebugPrettyPrint.cs" />
+    <Compile Include="Metal\EnumerableExtensions.cs" />
+    <Compile Include="Metal\ICoordinate.cs" />
+    <Compile Include="Metal\IPointerTable.cs" />
+    <Compile Include="Metal\NullSource.cs" />
+    <Compile Include="Metal\OverlappingSourceReader.cs" />
+    <Compile Include="Metal\RangeSource.cs" />
+    <Compile Include="Metal\Source.cs" />
+    <Compile Include="Metal\WordPointerTable.cs" />
+    <Compile Include="Metal\SourceBlock.cs" />
+    <Compile Include="Metal\RomBlockType.cs" />
     <Compile Include="Engine\Graphics\DungeonSpriteDefinitions.cs" />
     <Compile Include="Engine\Graphics\DungeonSpriteList.cs" />
     <Compile Include="Engine\Graphics\Interfaces\ISprite.cs" />
@@ -71,19 +125,21 @@
     <Compile Include="Engine\Text\CharacterText.cs" />
     <Compile Include="Engine\Text\EndingText.cs" />
     <Compile Include="Engine\Text\MenuText.cs" />
-    <Compile Include="Metal\ConversionTable.cs" />
+    <Compile Include="Metal\IExportable.cs" />
+    <Compile Include="Metal\IRawExportable.cs" />
+    <Compile Include="Metal\TextConversionTable.cs" />
     <Compile Include="Metal\DirectBitmap.cs" />
     <Compile Include="Metal\FixedStringConverter.cs" />
     <Compile Include="Metal\FixedStringData.cs" />
-    <Compile Include="Metal\IConversionTable.cs" />
+    <Compile Include="Metal\ITextConversionTable.cs" />
     <Compile Include="Metal\IFixedStringConverter.cs" />
     <Compile Include="Metal\IntExtensions.cs" />
-    <Compile Include="Metal\IRom.cs" />
-    <Compile Include="Engine\Music\MusicPointers.cs" />
+    <Compile Include="Metal\ISource.cs" />
     <Compile Include="Metal\NtscNesPalette.cs" />
+    <Compile Include="Metal\RomExtensions.cs" />
     <Compile Include="Metal\TextStringConverter.cs" />
     <Compile Include="Metal\NullStringFormatter.cs" />
-    <Compile Include="Metal\Rom.cs" />
+    <Compile Include="Metal\RomSource.cs" />
     <Compile Include="Metal\ByteList.cs" />
     <Compile Include="Metal\FixedList.cs" />
     <Compile Include="Metal\IStringConverter.cs" />
@@ -93,7 +149,7 @@
     <Compile Include="Metal\StringFormatter.cs" />
     <Compile Include="Metal\StringList.cs" />
     <Compile Include="Metal\WordList.cs" />
-    <Compile Include="Metal\ZippedRom.cs" />
+    <Compile Include="Metal\ZippedRomSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Randomization\IRandomizerModule.cs" />
     <Compile Include="Randomization\IRandomizerParameter.cs" />
@@ -104,21 +160,11 @@
     <Compile Include="ZeldaCartridge.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Disaster\Disaster.csproj">
-      <Project>{2ee7a459-7ef4-4105-9fd6-4f8ef6689c1e}</Project>
-      <Name>Disaster</Name>
+    <ProjectReference Include="..\Breadbox\Breadbox.fsproj">
+      <Project>{AA8601C2-2F4E-4720-8868-297745913A14}</Project>
+      <Name>Breadbox</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
-  </Target>
 </Project>

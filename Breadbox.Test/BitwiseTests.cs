@@ -4,8 +4,8 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    [Parallelizable(ParallelScope.Self)]
-    public class BitwiseTests : ExecutionBaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class BitwiseTests : BreadboxBaseTestFixture
     {
         [Test]
         public void And([Range(0x0, 0xF, 0x5)] int lowA, [Range(0x0, 0xF, 0x5)] int highA, [Range(0x0, 0xF, 0x5)] int lowOperand, [Range(0x0, 0xF, 0x5)] int highOperand)
@@ -20,7 +20,7 @@ namespace Breadbox
             var expectedCarry = Cpu.C;
             Cpu.SetOpcode(0x29);
             Cpu.SetA(a);
-            MemoryMock.SetupSequence(m => m.Read(It.IsAny<int>()))
+            System.SetupSequence(m => m.Read(It.IsAny<int>()))
                 .Returns(operand);
 
             // Act
@@ -47,7 +47,7 @@ namespace Breadbox
             var expectedCarry = Cpu.C;
             Cpu.SetOpcode(0x49);
             Cpu.SetA(a);
-            MemoryMock.SetupSequence(m => m.Read(It.IsAny<int>()))
+            System.SetupSequence(m => m.Read(It.IsAny<int>()))
                 .Returns(operand);
 
             // Act
@@ -74,7 +74,7 @@ namespace Breadbox
             var expectedCarry = Cpu.C;
             Cpu.SetOpcode(0x09);
             Cpu.SetA(a);
-            MemoryMock.SetupSequence(m => m.Read(It.IsAny<int>()))
+            System.SetupSequence(m => m.Read(It.IsAny<int>()))
                 .Returns(operand);
 
             // Act

@@ -3,28 +3,25 @@ using System.Linq;
 
 namespace Zeldomizer.Metal
 {
-    public class FixedStringData
+    public class FixedStringData : IStringData
     {
-        private readonly IRom _source;
+        private readonly ISource _source;
         private readonly IFixedStringConverter _fixedStringConverter;
-        private readonly int _offset;
 
-        public FixedStringData(IRom source, IFixedStringConverter fixedStringConverter, int offset, int length)
+        public FixedStringData(ISource source, IFixedStringConverter fixedStringConverter, int length)
         {
             _source = source;
             _fixedStringConverter = fixedStringConverter;
-            _offset = offset;
             Length = length;
         }
 
         public int Length { get; }
 
+        int IStringData.MaxLength => Length;
+
         public string Text
         {
-            get
-            {
-                return _fixedStringConverter.Decode(_source, _offset, Length).Trim();
-            }
+            get => _fixedStringConverter.Decode(_source, Length).Trim();
             set
             {
                 // Sanity check.
@@ -39,11 +36,11 @@ namespace Zeldomizer.Metal
                 // Pad if less than the length.
                 if (encoded.Length < Length)
                     encoded = encoded
-                        .Concat(Enumerable.Repeat((byte) 0x24, Length - encoded.Length))
+                        .Concat(Enumerable.Repeat((byte) _fixedStringConverter.SpaceCharacter, Length - encoded.Length))
                         .ToArray();
 
                 // Plop the new string in.
-                _source.Write(encoded, _offset);
+                _source.Write(encoded, 0);
             }
         }
     }

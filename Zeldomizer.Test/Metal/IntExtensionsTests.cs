@@ -5,7 +5,8 @@ using NUnit.Framework;
 
 namespace Zeldomizer.Metal
 {
-    public class IntExtensionsTests : BaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class IntExtensionsTests : ZeldomizerBaseTestFixture
     {
         [Test]
         [TestCase(0xFE, 0, false)]

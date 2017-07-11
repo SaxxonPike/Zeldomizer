@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Zeldomizer.Engine.Graphics.Interfaces;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Graphics
 {
     public class ItemSpriteList : SpriteListBase
     {
-        public ItemSpriteList(IRom rom) : base(rom, 0x807F)
+        public ItemSpriteList(ISource source) : base(source, 0x807F)
         {
         }
 

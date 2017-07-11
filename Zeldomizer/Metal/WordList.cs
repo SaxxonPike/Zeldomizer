@@ -2,26 +2,21 @@
 {
     public class WordList : FixedList<int>
     {
-        private readonly IRom _source;
-        private readonly int _offset;
+        private readonly ISource _source;
 
-        public WordList(IRom source, int offset, int capacity) : base(capacity)
+        public WordList(ISource source, int capacity) : base(capacity)
         {
             _source = source;
-            _offset = offset;
         }
 
         public override int this[int index]
         {
-            get
-            {
-                return _source[(index << 1) + _offset] |
-                    (_source[(index << 1) + _offset + 1] << 8);
-            }
+            get => _source[index << 1] |
+                   (_source[(index << 1) + 1] << 8);
             set
             {
-                _source[(index << 1) + _offset] = unchecked((byte)value);
-                _source[(index << 1) + _offset + 1] = unchecked((byte)(value >> 8));
+                _source[index << 1] = unchecked((byte)value);
+                _source[(index << 1) + 1] = unchecked((byte)(value >> 8));
             }
         }
     }

@@ -25,8 +25,8 @@ namespace Zeldomizer.Metal
 
         public Color this[int index]
         {
-            get { return Color.FromArgb(Bits[index]); }
-            set { Bits[index] = value.ToArgb(); }
+            get => Color.FromArgb(Bits[index]);
+            set => Bits[index] = value.ToArgb();
         }
 
         public void Dispose()

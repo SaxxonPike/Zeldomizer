@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Breadbox</RootNamespace>
     <AssemblyName>Breadbox.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -42,8 +42,8 @@
     <Reference Include="FluentAssertions.Core, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.7.1.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.7.1\lib\net45\Moq.dll</HintPath>
+    <Reference Include="Moq, Version=4.7.8.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.7.8\lib\net45\Moq.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
@@ -51,9 +51,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -61,10 +58,12 @@
     <Compile Include="AddressingTests.cs" />
     <Compile Include="BitwiseTests.cs" />
     <Compile Include="DecTests.cs" />
-    <Compile Include="BaseTestFixture.cs" />
+    <Compile Include="BreadboxBaseTestFixture.cs" />
+    <Compile Include="ISystem.cs" />
+    <Compile Include="IncTests.cs" />
     <Compile Include="InterruptTests.cs" />
-    <Compile Include="ExecutionBaseTestFixture.cs" />
     <Compile Include="FlagOpcodeTests.cs" />
+    <Compile Include="PerformanceTests.cs" />
     <Compile Include="TransferTests.cs" />
     <Compile Include="ShiftTests.cs" />
     <Compile Include="BitTests.cs" />
@@ -86,6 +85,10 @@
     <ProjectReference Include="..\Breadbox\Breadbox.fsproj">
       <Project>{aa8601c2-2f4e-4720-8868-297745913a14}</Project>
       <Name>Breadbox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Testing\Testing.csproj">
+      <Project>{09529ad7-a804-4ac6-a2e0-7fb2c362af4e}</Project>
+      <Name>Testing</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

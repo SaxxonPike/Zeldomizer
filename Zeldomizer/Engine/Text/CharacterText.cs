@@ -6,8 +6,8 @@ namespace Zeldomizer.Engine.Text
     {
         private readonly IStringFormatter _stringFormatter;
 
-        public CharacterText(IRom source, IStringFormatter stringFormatter, IStringConverter stringConverter)
-            : base(source, stringConverter, 0x04000, -0x04000, 0x556, 0x26)
+        public CharacterText(IPointerTable pointerTable, IStringFormatter stringFormatter, IStringConverter stringConverter, int maxLength, int count)
+            : base(pointerTable, stringConverter, maxLength, count)
         {
             _stringFormatter = stringFormatter;
         }

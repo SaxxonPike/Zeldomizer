@@ -1,19 +1,15 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Text
 {
-    public class EndingTextTests : BaseTestFixture<EndingText>
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class EndingTextTests : ZeldomizerBaseTestFixture<EndingText>
     {
         protected override EndingText GetTestSubject()
         {
-            var conversionTable = new ConversionTable();
-            var speechStringConverter = new SpeechStringConverter(conversionTable);
-            var textStringConverter = new TextStringConverter(conversionTable);
-            var fixedStringConverter = new FixedStringConverter(conversionTable);
-
-            return new EndingText(Rom, speechStringConverter, textStringConverter, fixedStringConverter);
+            var cart = new ZeldaCartridge(Source);
+            return cart.EndingText as EndingText;
         }
 
         [Test]

@@ -1,16 +1,15 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Text
 {
-    public class MenuTextTests : BaseTestFixture<MenuText>
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class MenuTextTests : ZeldomizerBaseTestFixture<MenuText>
     {
         protected override MenuText GetTestSubject()
         {
-            var conversionTable = new ConversionTable();
-            var stringConverter = new FixedStringConverter(conversionTable);
-            return new MenuText(Rom, stringConverter);
+            var cart = new ZeldaCartridge(Source);
+            return cart.MenuText as MenuText;
         }
 
         [Test]

@@ -22,7 +22,32 @@ namespace Mimic.Systems
 
         public DeviceRouter Router { get; }
 
-        public void Clock() => Router.Clock();
+        public int CpuPc
+        {
+            get => _cpu6502Device.Pc;
+            set => _cpu6502Device.Pc = value;
+        }
+
+        public int CpuA
+        {
+            get => _cpu6502Device.A;
+            set => _cpu6502Device.A = value;
+        }
+
+        public int CpuX
+        {
+            get => _cpu6502Device.X;
+            set => _cpu6502Device.X = value;
+        }
+
+        public int CpuY
+        {
+            get => _cpu6502Device.Y;
+            set => _cpu6502Device.Y = value;
+        }
+
+        public void Clock() =>
+            Router.Clock();
 
         public void Clock(int count)
         {
@@ -34,7 +59,7 @@ namespace Mimic.Systems
 
         public void ClockToAddress(int address, int timeout)
         {
-            while (timeout-- > 0 && _cpu6502Device.CpuPc != address)
+            while (timeout-- > 0 && _cpu6502Device.Pc != address)
                 Router.Clock();
         }
     }

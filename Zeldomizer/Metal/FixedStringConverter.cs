@@ -6,20 +6,20 @@ namespace Zeldomizer.Metal
 {
     public class FixedStringConverter : IFixedStringConverter
     {
-        private readonly IConversionTable _conversionTable;
+        private readonly ITextConversionTable _textConversionTable;
 
-        public FixedStringConverter(IConversionTable conversionTable)
+        public FixedStringConverter(ITextConversionTable textConversionTable)
         {
-            _conversionTable = conversionTable;
+            _textConversionTable = textConversionTable;
         }
 
-        public string Decode(IRom source, int offset, int length)
+        public string Decode(ISource source, int length)
         {
             var output = new StringBuilder();
 
             for (var i = 0; i < length; i++)
             {
-                var input = source[i + offset];
+                var input = source[i];
                 switch (input)
                 {
                     case 0xFF:
@@ -28,7 +28,7 @@ namespace Zeldomizer.Metal
                         output.Append(' ');
                         break;
                     default:
-                        output.Append(_conversionTable.Decode(input & 0x3F));
+                        output.Append(_textConversionTable.Decode(input.Bits(5, 0)));
                         break;
                 }
             }
@@ -45,18 +45,19 @@ namespace Zeldomizer.Metal
 
             // Encode the string.
             var encoded = input
-                .Select(_conversionTable.Encode)
-                .Select(c => unchecked((byte)(c ?? 0x24)))
+                .Select(_textConversionTable.Encode)
+                .Select(c => unchecked((byte)(c ?? _textConversionTable.SpaceCharacter)))
                 .ToArray();
 
             // Pad the string with spaces.
             if (encoded.Length < length)
                 return encoded
-                    .Concat(Enumerable.Repeat((byte)0x25, length - encoded.Length))
+                    .Concat(Enumerable.Repeat((byte)_textConversionTable.PaddingCharacter, length - encoded.Length))
                     .ToArray();
 
             return encoded;
         }
 
+        public int SpaceCharacter => _textConversionTable.SpaceCharacter;
     }
 }

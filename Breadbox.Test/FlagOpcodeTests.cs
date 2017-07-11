@@ -3,7 +3,8 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    public class FlagOpcodeTests : ExecutionBaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class FlagOpcodeTests : BreadboxBaseTestFixture
     {
         [Test]
         public void Clc([Range(0, 1)] int c)

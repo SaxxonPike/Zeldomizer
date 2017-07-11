@@ -76,7 +76,7 @@ namespace Zeldomizer.Metal
 
         private Color GetColor(int index)
         {
-            var i = (index & 0x3F) * 3;
+            var i = index.Bits(5, 0) * 3;
             return Color.FromArgb(
                 _rawColorValues[i],
                 _rawColorValues[i + 1],

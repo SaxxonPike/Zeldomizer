@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Zeldomizer.Engine.Graphics.Interfaces;
 using Zeldomizer.Metal;
 
 namespace Zeldomizer.Engine.Graphics
@@ -19,7 +20,7 @@ namespace Zeldomizer.Engine.Graphics
 
             // Copy bitmap using the palette
             for (var i = 0; i < count; i++)
-                output[i] = Colors[sprite[i] & 0x3];
+                output[i] = Colors[sprite[i].Bits(1, 0)];
 
             return output.Bitmap;
         }

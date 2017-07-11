@@ -4,9 +4,8 @@ using NUnit.Framework;
 
 namespace Breadbox
 {
-    [TestFixture]
-    [Parallelizable(ParallelScope.Self)]
-    public class BranchTests : ExecutionBaseTestFixture
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class BranchTests : BreadboxBaseTestFixture
     {
         protected int CalculateBranch(int pc, int offset, bool taken)
         {
@@ -24,7 +23,7 @@ namespace Breadbox
             Cpu.SetOpcode(0x10);
             Cpu.SetN(sign != 0);
             Cpu.SetPC(pc);
-            MemoryMock.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
+            System.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
             var expectedPc = CalculateBranch(pc, offset, sign == 0);
 
             // Act
@@ -41,7 +40,7 @@ namespace Breadbox
             Cpu.SetOpcode(0x30);
             Cpu.SetN(sign != 0);
             Cpu.SetPC(pc);
-            MemoryMock.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
+            System.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
             var expectedPc = CalculateBranch(pc, offset, sign != 0);
 
             // Act
@@ -58,7 +57,7 @@ namespace Breadbox
             Cpu.SetOpcode(0x50);
             Cpu.SetV(overflow != 0);
             Cpu.SetPC(pc);
-            MemoryMock.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
+            System.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
             var expectedPc = CalculateBranch(pc, offset, overflow == 0);
 
             // Act
@@ -75,7 +74,7 @@ namespace Breadbox
             Cpu.SetOpcode(0x70);
             Cpu.SetV(overflow != 0);
             Cpu.SetPC(pc);
-            MemoryMock.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
+            System.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
             var expectedPc = CalculateBranch(pc, offset, overflow != 0);
 
             // Act
@@ -92,7 +91,7 @@ namespace Breadbox
             Cpu.SetOpcode(0x90);
             Cpu.SetC(carry != 0);
             Cpu.SetPC(pc);
-            MemoryMock.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
+            System.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
             var expectedPc = CalculateBranch(pc, offset, carry == 0);
 
             // Act
@@ -109,7 +108,7 @@ namespace Breadbox
             Cpu.SetOpcode(0xB0);
             Cpu.SetC(carry != 0);
             Cpu.SetPC(pc);
-            MemoryMock.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
+            System.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
             var expectedPc = CalculateBranch(pc, offset, carry != 0);
 
             // Act
@@ -126,7 +125,7 @@ namespace Breadbox
             Cpu.SetOpcode(0xD0);
             Cpu.SetZ(zero != 0);
             Cpu.SetPC(pc);
-            MemoryMock.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
+            System.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
             var expectedPc = CalculateBranch(pc, offset, zero == 0);
 
             // Act
@@ -143,7 +142,7 @@ namespace Breadbox
             Cpu.SetOpcode(0xF0);
             Cpu.SetZ(zero != 0);
             Cpu.SetPC(pc);
-            MemoryMock.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
+            System.Setup(m => m.Read(It.IsAny<int>())).Returns(offset);
             var expectedPc = CalculateBranch(pc, offset, zero != 0);
 
             // Act

@@ -2,8 +2,8 @@ namespace Zeldomizer.Metal
 {
     public interface IStringConverter
     {
-        int GetLength(IRom source, int offset);
-        string Decode(IRom source, int offset);
+        int GetLength(ISource source);
+        string Decode(ISource source);
         byte[] Encode(string text);
     }
 }
