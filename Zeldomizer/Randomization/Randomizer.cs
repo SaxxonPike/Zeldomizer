@@ -6,6 +6,17 @@ namespace Zeldomizer.Randomization
 {
     public class Randomizer : IRandomizer
     {
+        public Randomizer()
+        {
+            foreach (var module in Modules)
+            {
+                foreach (var parameter in module.Parameters)
+                {
+                    parameter.Value = parameter.DefaultValue;
+                }
+            }
+        }
+        
         public IReadOnlyList<IRandomizerModule> Modules { get; } = new IRandomizerModule[]
         {
             new EnemyHitpointsModule(),

@@ -59,5 +59,41 @@ namespace Zeldomizer.UI.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zeldomizer.
+        /// </summary>
+        internal static string MainTitle {
+            get {
+                return ResourceManager.GetString("MainTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (no description).
+        /// </summary>
+        internal static string MissingDescriptionNameText {
+            get {
+                return ResourceManager.GetString("MissingDescriptionNameText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (no name).
+        /// </summary>
+        internal static string MissingParameterNameText {
+            get {
+                return ResourceManager.GetString("MissingParameterNameText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modules.
+        /// </summary>
+        internal static string ModulesTitle {
+            get {
+                return ResourceManager.GetString("ModulesTitle", resourceCulture);
+            }
+        }
     }
 }

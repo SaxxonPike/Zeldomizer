@@ -114,4 +114,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MainTitle" xml:space="preserve">
+    <value>Zeldomizer</value>
+  </data>
+  <data name="ModulesTitle" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="MissingParameterNameText" xml:space="preserve">
+    <value>(no name)</value>
+  </data>
+  <data name="MissingDescriptionNameText" xml:space="preserve">
+    <value>(no description)</value>
+  </data>
 </root>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -6,40 +7,124 @@ using Zeldomizer.Randomization;
 using Zeldomizer.Randomization.Interfaces;
 using Zeldomizer.UI.Controllers;
 using Zeldomizer.UI.Models;
+using Zeldomizer.UI.Properties;
 
 namespace Zeldomizer.UI.Presenters
 {
-    public class MainPresenter
+    public class MainPresenter : IDisposable
     {
         private readonly MainController _controller;
         private readonly MainModel _model;
+        private readonly Font _defaultFont;
+        private readonly Font _boldFont;
 
         public MainPresenter(MainController controller, MainModel model)
         {
             _controller = controller;
             _model = model;
+            _defaultFont = new Font(SystemFonts.DefaultFont, FontStyle.Regular);
+            _boldFont = new Font(_defaultFont, FontStyle.Bold);
+            
             BuildForm();
 
             controller.ModuleSelected += (sender, module) => PopulateList(module);
+            controller.ParameterValueChanged += (sender, parameter) => UpdateList();
+            controller.ParameterEnableTypeChanged += (sender, parameter) => UpdateList();
         }
 
         protected FlowLayoutPanel List { get; private set; }
         protected Label ListLabel { get; private set; }
+        protected IEnumerable<Control> ListValueControls { get; private set; } = Enumerable.Empty<Control>();
         protected ListView Tree { get; private set; }
         protected Label TreeLabel { get; private set; }
 
         public Form Form { get; private set; }
 
-        private CheckState GetNextCheckState(CheckState currentCheckState)
+        private static CheckState GetNextCheckState(CheckState currentCheckState)
         {
             return (CheckState) (((int) currentCheckState + 1) % 3);
+        }
+
+        private static RandomizerParameterEnableType MapCheckStateToEnableType(CheckState checkState)
+        {
+            switch (checkState)
+            {
+                case CheckState.Checked:
+                    return RandomizerParameterEnableType.Enabled;
+                case CheckState.Unchecked:
+                    return RandomizerParameterEnableType.Disabled;
+                default:
+                    return RandomizerParameterEnableType.Randomized;
+            }
+        }
+
+        private static CheckState MapEnableTypeToCheckState(RandomizerParameterEnableType enableType)
+        {
+            switch (enableType)
+            {
+                case RandomizerParameterEnableType.Disabled:
+                    return CheckState.Unchecked;
+                case RandomizerParameterEnableType.Enabled:
+                    return CheckState.Checked;
+                default:
+                    return CheckState.Indeterminate;
+            }
+        }
+
+        private void SetParameterValueFromCheckState(IRandomizerParameter parameter, CheckState checkState)
+        {
+            switch (checkState)
+            {
+                case CheckState.Checked:
+                    _controller.SetParameterValue(parameter, true);
+                    break;
+                case CheckState.Unchecked:
+                    _controller.SetParameterValue(parameter, false);
+                    break;
+                default:
+                    _controller.SetParameterValue(parameter, parameter.GetDefaultValue<bool>());
+                    break;
+            }
+        }
+
+        private void UpdateList()
+        {
+            _controller.Suspend();
+
+            try
+            {
+                foreach (var control in ListValueControls)
+                {
+                    if (control.Tag is IRandomizerParameter p)
+                    {
+                        control.Enabled = p.EnableType != RandomizerParameterEnableType.Disabled;
+                        
+                        if (control is TextBox textBox)
+                        {
+                            textBox.Text = p.GetEffectiveValue<string>();
+                        }
+                        else if (control is NumericUpDown numeric)
+                        {
+                            numeric.Value = p.GetEffectiveValue<int>();
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                _controller.Resume();
+            }
         }
 
         private void PopulateList(IRandomizerModule module)
         {
             if (module == null)
                 return;
-            
+
+            ListValueControls = Enumerable.Empty<Control>();
+
+            var valueControlList = new List<Control>();
+
             List.SuspendLayout();
             List.Controls.Clear();
             List.Controls.AddRange(module.Parameters
@@ -73,7 +158,7 @@ namespace Zeldomizer.UI.Presenters
                         Dock = DockStyle.Top,
                         Margin = new Padding(0),
                         Padding = new Padding(0, 4, 0, 0),
-                        Text = p.Name ?? "(no name)"
+                        Text = p.Name ?? Resources.MissingParameterNameText
                     };
 
                     var enableCheckBox = new CheckBox
@@ -82,40 +167,16 @@ namespace Zeldomizer.UI.Presenters
                         AutoSize = true,
                         Padding = new Padding(0, 4, 0, 0),
                         Margin = new Padding(0),
-                        ThreeState = true
+                        ThreeState = true,
+                        CheckState = MapEnableTypeToCheckState(p.EnableType),
+                        Tag = p
                     };
-
-                    switch (p.EnableType)
-                    {
-                        case RandomizerParameterEnableType.Disabled:
-                            enableCheckBox.CheckState = CheckState.Unchecked;
-                            break;
-                        case RandomizerParameterEnableType.Enabled:
-                            enableCheckBox.CheckState = CheckState.Checked;
-                            break;
-                        default:
-                            enableCheckBox.CheckState = CheckState.Indeterminate;
-                            break;
-                    }
 
                     enableCheckBox.Click += (sender, args) =>
                         enableCheckBox.CheckState = GetNextCheckState(enableCheckBox.CheckState);
 
                     enableCheckBox.CheckStateChanged += (sender, args) =>
-                    {
-                        switch (enableCheckBox.CheckState)
-                        {
-                            case CheckState.Checked:
-                                _controller.SetParameterEnableType(p, RandomizerParameterEnableType.Enabled);
-                                break;
-                            case CheckState.Unchecked:
-                                _controller.SetParameterEnableType(p, RandomizerParameterEnableType.Disabled);
-                                break;
-                            default:
-                                _controller.SetParameterEnableType(p, RandomizerParameterEnableType.Randomized);
-                                break;
-                        }
-                    };
+                        _controller.SetParameterEnableType(p, MapCheckStateToEnableType(enableCheckBox.CheckState));
 
                     nameLabel.MouseDown += (sender, args) =>
                     {
@@ -127,44 +188,38 @@ namespace Zeldomizer.UI.Presenters
 
                     if (p.Type == typeof(int))
                     {
-                        nameValue = new NumericUpDown
+                        var numeric = new NumericUpDown
                         {
                             Maximum = int.MaxValue,
                             Minimum = int.MinValue,
                             Margin = new Padding(0),
                             Padding = new Padding(0),
-                            Value = p.GetValue<int>()
+                            Tag = p
                         };
+                        valueControlList.Add(numeric);
+                        numeric.TextChanged += (sender, args) => _controller.SetParameterValue(p, (int)numeric.Value);
+
+                        nameValue = numeric;
                     }
                     else if (p.Type == typeof(bool))
                     {
                         enableCheckBox.CheckStateChanged += (sender, args) =>
-                        {
-                            switch (enableCheckBox.CheckState)
-                            {
-                                case CheckState.Checked:
-                                    _controller.SetParameterValue(p, true);
-                                    break;
-                                case CheckState.Unchecked:
-                                    _controller.SetParameterValue(p, false);
-                                    break;
-                                default:
-                                    _controller.SetParameterValue(p, p.GetDefaultValue<bool>());
-                                    break;
-                            }
-                        };
+                            SetParameterValueFromCheckState(p, enableCheckBox.CheckState);
 
                         nameValue = new Panel {Visible = false};
                     }
                     else
                     {
-                        var c = new TextBox
+                        var text = new TextBox
                         {
                             Padding = new Padding(0, 0, 0, 0),
                             Margin = new Padding(0),
-                            Text = p.GetValue<string>()
+                            Tag = p
                         };
-                        nameValue = c;
+                        valueControlList.Add(text);
+                        text.TextChanged += (sender, args) => _controller.SetParameterValue(p, text.Text);
+                        
+                        nameValue = text;
                     }
 
                     var descriptionLabel = new Label
@@ -174,7 +229,7 @@ namespace Zeldomizer.UI.Presenters
                         ForeColor = SystemColors.ControlDarkDark,
                         Margin = new Padding(0),
                         Padding = new Padding(0),
-                        Text = p.Description ?? "(no description)"
+                        Text = p.Description ?? Resources.MissingDescriptionNameText
                     };
                     
                     panel.Controls.AddRange(new[]{ enableCheckBox, nameLabel, nameValue, descriptionLabel });
@@ -186,6 +241,10 @@ namespace Zeldomizer.UI.Presenters
 
             ListLabel.Text = module.Name;
             List.ResumeLayout();
+
+            ListValueControls = valueControlList;
+            
+            UpdateList();
         }
 
         private void BuildForm()
@@ -204,7 +263,7 @@ namespace Zeldomizer.UI.Presenters
             {
                 Height = 480,
                 Padding = new Padding(6),
-                Text = "Zeldomizer",
+                Text = Resources.MainTitle,
                 Width = 640
             };
 
@@ -237,7 +296,7 @@ namespace Zeldomizer.UI.Presenters
             {
                 AutoSize = true,
                 Dock = DockStyle.Fill,
-                Font = new Font(SystemFonts.DefaultFont, FontStyle.Bold),
+                Font = _boldFont,
                 Padding = new Padding(0, 5, 0, 3),
                 Text = string.Empty,
                 TextAlign = ContentAlignment.MiddleLeft
@@ -299,9 +358,9 @@ namespace Zeldomizer.UI.Presenters
             {
                 AutoSize = true,
                 Dock = DockStyle.Fill,
-                Font = new Font(SystemFonts.DefaultFont, FontStyle.Bold),
+                Font = _boldFont,
                 Padding = new Padding(0, 5, 0, 3),
-                Text = "Modules",
+                Text = Resources.ModulesTitle,
                 TextAlign = ContentAlignment.MiddleLeft
             };
 
@@ -324,6 +383,17 @@ namespace Zeldomizer.UI.Presenters
             treeContainer.Controls.AddRange(new Control[] {TreeLabel, Tree});
 
             return treeContainer;
+        }
+
+        public void Dispose()
+        {
+            _defaultFont?.Dispose();
+            _boldFont?.Dispose();
+            List?.Dispose();
+            ListLabel?.Dispose();
+            Tree?.Dispose();
+            TreeLabel?.Dispose();
+            Form?.Dispose();
         }
     }
 }

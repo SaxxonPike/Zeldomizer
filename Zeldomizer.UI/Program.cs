@@ -22,6 +22,7 @@ namespace Zeldomizer.UI
             var mainModel = new MainModel(randomizer);
             var mainController = new MainController(mainModel);
             var mainPresenter = new MainPresenter(mainController, mainModel);
+            
             Application.Run(mainPresenter.Form);
         }
     }

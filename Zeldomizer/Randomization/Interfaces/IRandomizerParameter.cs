@@ -8,6 +8,8 @@ namespace Zeldomizer.Randomization.Interfaces
         string Name { get; }
         string Description { get; }
         Type Type { get; }
+        object Value { get; set; }
+        object DefaultValue { get; set; }
 
         object GetEffectiveValue();
         TParameter GetEffectiveValue<TParameter>();
