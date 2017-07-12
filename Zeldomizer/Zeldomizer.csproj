@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engine\AI\Pathfinder.cs" />
+    <Compile Include="Engine\AI\UnderworldMapper.cs" />
     <Compile Include="Engine\CompiledMap.cs" />
     <Compile Include="Engine\DecompiledMap.cs" />
     <Compile Include="Engine\Graphics\Palette.cs" />
