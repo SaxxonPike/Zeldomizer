@@ -20,6 +20,9 @@ namespace Zeldomizer.Engine.Underworld
         public PaletteList EnemyPalette =>
             new PaletteList(new SourceBlock(_source, 0x14), 3);
 
+        public ByteList EnemyQuantities =>
+            new ByteList(new SourceBlock(_source, 0x21), 4);
+
         public IList<int> ItemTiles =>
             new ByteList(new SourceBlock(_source, 0x26), 4);
 

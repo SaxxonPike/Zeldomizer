@@ -1,4 +1,5 @@
 ﻿using System;
+using Zeldomizer.Randomization.Interfaces;
 
 namespace Zeldomizer.Randomization
 {
@@ -13,17 +14,39 @@ namespace Zeldomizer.Randomization
 
         public TParameter GetDefaultValue<TParameter>()
         {
-            return (TParameter)Convert.ChangeType(Value, typeof(TParameter));
+            if (typeof(TParameter).IsClass)
+                return (TParameter)Convert.ChangeType(DefaultValue, typeof(TParameter));
+            return (TParameter)Convert.ChangeType(DefaultValue ?? default(TParameter), typeof(TParameter));
         }
 
         public TParameter GetValue<TParameter>()
         {
-            return (TParameter)Convert.ChangeType(Value, typeof(TParameter));
+            if (typeof(TParameter).IsClass)
+                return (TParameter) Convert.ChangeType(Value, typeof(TParameter));
+            return (TParameter) Convert.ChangeType(Value ?? default(TParameter), typeof(TParameter));
+        }
+
+        public object GetEffectiveValue()
+        {
+            return EnableType == RandomizerParameterEnableType.Disabled
+                ? DefaultValue
+                : Value;
+        }
+
+        public TParameter GetEffectiveValue<TParameter>()
+        {
+            return EnableType == RandomizerParameterEnableType.Disabled
+                ? GetDefaultValue<TParameter>()
+                : GetValue<TParameter>();
         }
 
         public void SetValue<TParameter>(TParameter newValue)
         {
-            Value = Convert.ChangeType(typeof(TParameter), Type);
+            Value = typeof(TParameter) == Type 
+                ? newValue 
+                : Convert.ChangeType(typeof(TParameter), Type);
         }
+
+        public IRandomizerValidation Validation { get; set; }
     }
 }

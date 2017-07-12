@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Zeldomizer.Engine;
 using Zeldomizer.Engine.Graphics;
 using Zeldomizer.Engine.Overworld;
 using Zeldomizer.Engine.Overworld.Interfaces;
@@ -21,16 +22,13 @@ namespace Zeldomizer
     /// <remarks>
     /// You *really* don't want to change any of the hex offsets in here, trust me.
     /// </remarks>
-    public class ZeldaCartridge
+    public class ZeldaCartridge : IZeldaCartridge
     {
-        private readonly ISource _source;
-
         /// <summary>
         /// Create a data adapter.
         /// </summary>
         public ZeldaCartridge(ISource source)
         {
-            _source = source;
             var conversionTable = new Lazy<ITextConversionTable>(() => new TextConversionTable());
             var speechConverter = new Lazy<IStringConverter>(() => new SpeechStringConverter(conversionTable.Value));
             var textConverter = new Lazy<IStringConverter>(() => new TextStringConverter(conversionTable.Value));
@@ -140,6 +138,10 @@ namespace Zeldomizer
             _titleScene = new Lazy<IScene>(() => new Scene(
                 new SourceBlock(source, 0x1A869),
                 conversionTable.Value));
+            
+            // Hit points
+            _hitPointTable = new Lazy<HitPointTable>(() => new HitPointTable(
+                new SourceBlock(source, 0x1FB4E)));
         }
 
         private readonly Lazy<IList<string>> _characterText;
@@ -150,6 +152,7 @@ namespace Zeldomizer
         private readonly Lazy<IReadOnlyList<IShop>> _shops;
         private readonly Lazy<IScene> _introScene;
         private readonly Lazy<IScene> _titleScene;
+        private readonly Lazy<HitPointTable> _hitPointTable;
 
         public IList<string> CharacterText => _characterText.Value;
         public IEndingText EndingText => _endingText.Value;
@@ -159,5 +162,6 @@ namespace Zeldomizer
         public IReadOnlyList<IShop> Shops => _shops.Value;
         public IScene IntroScene => _introScene.Value;
         public IScene TitleScene => _titleScene.Value;
+        public HitPointTable HitPointTable => _hitPointTable.Value;
     }
 }

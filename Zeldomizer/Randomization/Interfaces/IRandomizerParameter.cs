@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Zeldomizer.Randomization
+namespace Zeldomizer.Randomization.Interfaces
 {
     public interface IRandomizerParameter
     {
@@ -9,8 +9,11 @@ namespace Zeldomizer.Randomization
         string Description { get; }
         Type Type { get; }
 
+        object GetEffectiveValue();
+        TParameter GetEffectiveValue<TParameter>();
         TParameter GetDefaultValue<TParameter>();
         TParameter GetValue<TParameter>();
+        
         void SetValue<TParameter>(TParameter newValue);
     }
 }

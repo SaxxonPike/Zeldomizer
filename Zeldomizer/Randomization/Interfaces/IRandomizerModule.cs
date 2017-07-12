@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Zeldomizer.Randomization
+namespace Zeldomizer.Randomization.Interfaces
 {
     public interface IRandomizerModule
     {
@@ -9,6 +9,7 @@ namespace Zeldomizer.Randomization
         string Description { get; }
         IReadOnlyList<IRandomizerParameter> Parameters { get; }
 
-        void Activate(ZeldaCartridge cartridge);
+        void Activate(ZeldaCartridge cartridge, ISeededRandom random);
+        void Validate();
     }
 }

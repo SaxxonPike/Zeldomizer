@@ -44,6 +44,7 @@
     <Compile Include="Engine\DecompiledMap.cs" />
     <Compile Include="Engine\Graphics\Palette.cs" />
     <Compile Include="Engine\Graphics\PaletteList.cs" />
+    <Compile Include="Engine\HitPointTable.cs" />
     <Compile Include="Engine\Scenes\Interfaces\IScene.cs" />
     <Compile Include="Engine\Scenes\Scene.cs" />
     <Compile Include="Engine\Scenes\SceneRow.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Engine\Overworld\OverworldRoomLayout.cs" />
     <Compile Include="Engine\Overworld\OverworldRoomLayoutList.cs" />
     <Compile Include="Engine\Overworld\OverworldTileList.cs" />
+    <Compile Include="IZeldaCartridge.cs" />
     <Compile Include="Metal\BankPointerTable.cs" />
     <Compile Include="Metal\Coordinate.cs" />
     <Compile Include="Metal\CoordinateList.cs" />
@@ -151,12 +153,21 @@
     <Compile Include="Metal\WordList.cs" />
     <Compile Include="Metal\ZippedRomSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Randomization\IRandomizerModule.cs" />
-    <Compile Include="Randomization\IRandomizerParameter.cs" />
+    <Compile Include="Randomization\Interfaces\IRandomizer.cs" />
+    <Compile Include="Randomization\Interfaces\IRandomizerModule.cs" />
+    <Compile Include="Randomization\Interfaces\IRandomizerParameter.cs" />
+    <Compile Include="Randomization\Interfaces\IRandomizerValidation.cs" />
+    <Compile Include="Randomization\Interfaces\ISeededRandom.cs" />
     <Compile Include="Randomization\Randomizer.cs" />
+    <Compile Include="Randomization\RandomizerModule.cs" />
+    <Compile Include="Randomization\RandomizerModules\EnemyQuantityModule.cs" />
+    <Compile Include="Randomization\RandomizerModuleValidationException.cs" />
     <Compile Include="Randomization\RandomizerParameterEnableType.cs" />
     <Compile Include="Randomization\RandomizerParameter.cs" />
     <Compile Include="Randomization\RandomizerModules\EnemyHitpointsModule.cs" />
+    <Compile Include="Randomization\RandomizerValidations\IntRandomizerValidation.cs" />
+    <Compile Include="Randomization\RandomizerValidations\RangeRandomizerValidation.cs" />
+    <Compile Include="Randomization\SeededRandom.cs" />
     <Compile Include="ZeldaCartridge.cs" />
   </ItemGroup>
   <ItemGroup>
