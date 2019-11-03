@@ -56,7 +56,7 @@ namespace Zeldomizer.Engine.Underworld
             // Read it out
             var library = new UnderworldColumnLibrary(mem, output.ColumnOffsets.Count());
             var columns = library.Select(dc => string.Join(string.Empty, dc.Select(t => $"{t:X1}")));
-            columns.ShouldAllBeEquivalentTo(expected);
+            columns.Should().BeEquivalentTo(expected);
         }
     }
 }

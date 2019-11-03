@@ -1,60 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{692E65B7-7960-4BD7-B75A-50993CD90214}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mimic</RootNamespace>
-    <AssemblyName>Mimic</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFrameworks>netstandard2.1</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <ProjectReference Include="..\Breadbox\Breadbox.fsproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Devices\ApuDevice.cs" />
-    <Compile Include="Devices\BusDevice.cs" />
-    <Compile Include="Devices\Cpu6502Device.cs" />
-    <Compile Include="Devices\GamepadsDevice.cs" />
-    <Compile Include="Interfaces\ITracer.cs" />
-    <Compile Include="Devices\RamDevice.cs" />
-    <Compile Include="Systems\NesSystem.cs" />
-    <Compile Include="Interfaces\IBusDevice.cs" />
-    <Compile Include="Devices\Mmc1CartridgeDevice.cs" />
-    <Compile Include="Devices\PpuDevice.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Devices\RomDevice.cs" />
-    <Compile Include="Devices\DeviceRouter.cs" />
-    <Compile Include="Devices\DeviceTracer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Breadbox\Breadbox.fsproj">
-      <Project>{aa8601c2-2f4e-4720-8868-297745913a14}</Project>
-      <Name>Breadbox</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

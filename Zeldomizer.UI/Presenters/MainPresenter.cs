@@ -7,7 +7,6 @@ using Zeldomizer.Randomization;
 using Zeldomizer.Randomization.Interfaces;
 using Zeldomizer.UI.Controllers;
 using Zeldomizer.UI.Models;
-using Zeldomizer.UI.Properties;
 
 namespace Zeldomizer.UI.Presenters
 {

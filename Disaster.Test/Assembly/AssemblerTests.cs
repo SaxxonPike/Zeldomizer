@@ -283,7 +283,7 @@ namespace Disaster.Assembly
 
             Action act = () => Subject.Assemble(new Instruction { AddressingMode = Random<AddressingMode>(), Opcode = opcode }, codeBlock, 0);
 
-            act.ShouldThrow<Exception>();
+            act.Should().Throw<Exception>();
         }
 
         [TestCase(0x123)]
@@ -294,7 +294,7 @@ namespace Disaster.Assembly
 
             Action act = () => Subject.Assemble(new Instruction { AddressingMode = addressingMode, Opcode = Random<Opcode>() }, codeBlock, 0);
 
-            act.ShouldThrow<Exception>();
+            act.Should().Throw<Exception>();
         }
 
     }

@@ -15,9 +15,6 @@ namespace Zeldomizer.UI
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
             var randomizer = new Randomizer();
             var mainModel = new MainModel(randomizer);
             var mainController = new MainController(mainModel);

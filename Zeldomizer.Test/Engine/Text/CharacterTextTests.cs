@@ -63,7 +63,7 @@ namespace Zeldomizer.Engine.Text
             Subject[0] = string.Empty;
             Subject[1] = randomString;
 
-            Subject.ToArray().ShouldAllBeEquivalentTo(expected);
+            Subject.ToArray().Should().BeEquivalentTo(expected);
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace Zeldomizer.Engine.Text
                 "EYES OF SKULL HAS A SECRET."
             };
 
-            Subject.ToArray().ShouldAllBeEquivalentTo(expected);
+            Subject.ToArray().Should().BeEquivalentTo(expected);
         }
     }
 }

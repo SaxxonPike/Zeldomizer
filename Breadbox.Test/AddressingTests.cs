@@ -31,7 +31,7 @@ namespace Breadbox
             Cpu.ForceOpcodeSync();
             foreach (var access in accesses)
             {
-                System.ResetCalls();
+                System.Invocations.Clear();
                 var address = access.Address;
                 Cpu.Clock();
                 switch (access.AccessType)
